@@ -85,18 +85,35 @@ class PCDModel with HiveObject {
     this.observacoes,
   });
 
-  String getReferenceCode() => _buildReferenceCode(this);
-
-  String _buildReferenceCode(PCDModel child) {
-    if (child.parentId == 0) {
-      Box settingsBox = Hive.box(HiveDatabase.settingsBox);
-      String codearq = settingsBox.get('codearq') ?? 'ElPCD';
-      return '$codearq ${child.codigo}';
-    }
-    Box pcdBox = Hive.box<PCDModel>(HiveDatabase.pcdBox);
-    var pcd = pcdBox.values.firstWhere(
-      (i) => i.legacyId == child.parentId,
-    );
-    return '${_buildReferenceCode(pcd)}-${child.codigo}';
+  Future<List<PCDModel>> get children async {
+    return await HiveDatabase.getChildren(parent: this);
   }
+
+  bool get hasChildren => HiveDatabase.hasChildren(this);
+
+  String get identifier => HiveDatabase.buildIdentifier(this);
+
+  @override
+  String toString() => '''\n
+  ➜ ${this.identifier}
+      legacyId ➜ ${this.legacyId}
+      parentId ➜ ${this.parentId}
+      Nome ➜ ${this.nome}
+      Código ➜ ${this.codigo}
+      Subordinação ➜ ${this.subordinacao}
+      Abertura ➜ ${this.registroAbertura}
+      Desativação ➜ ${this.registroDesativacao}
+      Reativação ➜ ${this.registroReativacao}
+      Mudança de Nome ➜ ${this.registroMudancaNome}
+      Deslocameno ➜ ${this.registroDeslocamento}
+      Extinção ➜ ${this.registroExtincao}
+      Indicador ➜ ${this.indicador}
+      Corrente ➜ ${this.prazoCorrente}
+      Evento Corrente ➜ ${this.eventoCorrente}
+      Intermediária ➜ ${this.prazoIntermediaria}
+      Evento Intermediária ➜ ${this.eventoIntermediaria}
+      Destinação ➜ ${this.destinacaoFinal}
+      Alteração ➜ ${this.registroAlteracao}
+      Observações ➜ ${this.observacoes}
+''';
 }
