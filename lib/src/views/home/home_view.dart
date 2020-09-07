@@ -21,76 +21,88 @@ class HomeView extends StatelessWidget {
       key: homeManager.scaffoldKey,
       appBar: AppBar(
         title: const Text('ElPCD'),
-        leading: IconButton(
-          splashRadius: 24,
-          icon: const Icon(Icons.segment),
-          onPressed: () {
-            // TODO: implement drawer
-          },
-        ),
-        actions: [
-          // TODO: move actions to drawer to clean UI
-          darkModeSwitch(context),
-          _ChangeCodearqButton(),
-        ],
+        leading: this._buildDrawerButton(context),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        hoverColor: Colors.white10,
-        label: const Text('NOVA CLASSE'),
-        icon: const Icon(Icons.post_add),
-        onPressed: () {
-          homeManager.openDescription(context, DescriptionManager.newClass());
-        },
-      ),
+      floatingActionButton: this._buildFAB(context),
+      drawer: this._buildDrawer(context),
       body: TreeViewWidget(),
     );
   }
 
-  Widget darkModeSwitch(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Text('Modo Escuro ➜', textAlign: TextAlign.center),
-        Switch(
-          activeColor: context.accentColor,
-          value: this.settingsBox.get('darkMode', defaultValue: true),
-          onChanged: (value) => this.settingsBox.put('darkMode', value),
-        ),
-      ],
+  Widget _buildDrawerButton(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.segment),
+      tooltip: 'Configurações',
+      splashRadius: 24,
+      onPressed: () {
+        var homeManager = context.read<HomeManager>();
+        homeManager.scaffoldKey.currentState.openDrawer();
+      },
     );
   }
-}
 
-class _ChangeCodearqButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
+  Widget _buildFAB(BuildContext context) {
+    return FloatingActionButton.extended(
       hoverColor: Colors.white10,
-      child: Row(
-        children: [
-          const Text('CODEARQ ➜ ', style: const TextStyle(color: Colors.white)),
-          ValueListenableBuilder(
-            valueListenable: HiveDatabase.settingsBox.listenable(),
-            builder: (_, box, __) {
-              String codearq = box.get('codearq', defaultValue: 'ElPCD');
-              return Text(
-                codearq,
-                style: TextStyle(
-                  color: context.accentColor,
-                  fontStyle: FontStyle.italic,
-                  fontSize: 20,
-                ),
+      label: const Text('NOVA CLASSE'),
+      icon: const Icon(Icons.post_add),
+      onPressed: () {
+        var homeManager = context.read<HomeManager>();
+        homeManager.openDescription(context, DescriptionManager.newClass());
+      },
+    );
+  }
+
+  Widget _buildDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          const DrawerHeader(
+            child: const SizedBox.shrink(),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              image: const DecorationImage(
+                image: const AssetImage('assets/gedalogo_270x270.png'),
+              ),
+            ),
+          ),
+          ListTile(
+            title: const Text('Editar CODEARQ'),
+            trailing: Chip(
+              label: ValueListenableBuilder(
+                valueListenable: HiveDatabase.settingsBox.listenable(),
+                builder: (_, box, __) {
+                  String codearq = box.get('codearq', defaultValue: 'ElPCD');
+                  if (codearq.length > 10) {
+                    codearq = codearq.substring(0, 10) + '...';
+                  }
+                  return Text(
+                    codearq,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                },
+              ),
+            ),
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (_) => CodearqEditor(),
               );
             },
           ),
+          SwitchListTile(
+            title: const Text('Modo Noturno'),
+            activeColor: context.accentColor,
+            value: this.settingsBox.get('darkMode', defaultValue: true),
+            onChanged: (value) => this.settingsBox.put('darkMode', value),
+          ),
         ],
       ),
-      onPressed: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (_) => CodearqEditor(),
-        );
-      },
     );
   }
 }
