@@ -1,3 +1,4 @@
+import 'package:elpcd_dart/src/views/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
@@ -68,13 +69,24 @@ class HomeView extends StatelessWidget {
             ),
           ),
           ListTile(
+            title: const Text('Exportar CSV'),
+            trailing: const Icon(Icons.launch),
+            onTap: () {
+              ConvertModel();
+              ShowToast.info(
+                context,
+                'Aguarde enquanto preparamos o seu arquivo!',
+              );
+            },
+          ),
+          ListTile(
             title: const Text('Editar CODEARQ'),
             trailing: Chip(
               label: ValueListenableBuilder(
                 valueListenable: HiveDatabase.settingsBox.listenable(),
                 builder: (_, box, __) {
                   String codearq = box.get('codearq', defaultValue: 'ElPCD');
-                  if (codearq.length > 10) {
+                  if (codearq.length > 9) {
                     codearq = codearq.substring(0, 10) + '...';
                   }
                   return Text(
