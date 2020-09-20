@@ -69,14 +69,15 @@ class HomeView extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: const Text('Exportar CSV'),
+            title: const Text('Download CSV'),
             trailing: const Icon(Icons.launch),
             onTap: () {
-              ConvertModel();
+              context.pop(); // Close drawer
               ShowToast.info(
                 context,
                 'Aguarde enquanto preparamos o seu arquivo!',
               );
+              CsvExport().downloadCsvFile();
             },
           ),
           ListTile(

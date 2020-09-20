@@ -116,4 +116,39 @@ class PCDModel with HiveObject {
       Alteração ➜ ${this.registroAlteracao}
       Observações ➜ ${this.observacoes}
 ''';
+
+  List<String> toCsv() {
+    var scopeAndContent = """
+Registro de abertura: $registroAbertura\n
+Registro de desativação: $registroDesativacao\n
+Indicador de classe ativa/inativa: $indicador\n
+""";
+
+    var arrangement = """
+Reativação de classe: $registroReativacao\n
+Registro de mudança de nome de classe: $registroMudancaNome\n
+Registro de deslocamento de classe: $registroDeslocamento\n
+Registro de extinção: $registroExtincao\n
+""";
+    var appraisal = """
+Prazo de guarda na fase corrente: $prazoCorrente\n
+Evento que determina a contagem do prazo de guarda na fase corrente: $eventoCorrente\n
+Prazo de guarda na fase intermediária: $prazoIntermediaria\n
+Evento que determina a contagem do prazo de guarda na fase intermediária: $eventoIntermediaria\n
+Destinação final: $destinacaoFinal\n
+Registro de alteração: $registroAlteracao\n
+Observações: $observacoes\n
+""";
+    return <String>[
+      identifier,
+      '',
+      legacyId.toString(),
+      parentId.toString(),
+      codigo,
+      nome,
+      scopeAndContent,
+      arrangement,
+      appraisal,
+    ];
+  }
 }
