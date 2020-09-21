@@ -123,7 +123,7 @@ class DescriptionView extends StatelessWidget {
           context.pop();
           ShowSnackBar.info(
             context.read<HomeManager>().scaffold,
-            'Classe foi salva com sucesso',
+            'Classe salva com sucesso',
             duration: 2,
           );
         } else {
