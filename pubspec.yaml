@@ -1,5 +1,5 @@
 name: elpcd_dart
-description: 'Elaborador de PCD e TTD.'
+description: 'Ferramenta para criação de PCDs e TTDs'
 
 publish_to: 'none'
 

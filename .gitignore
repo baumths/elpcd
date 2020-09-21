@@ -32,9 +32,6 @@
 # Linux related
 **/linux/**
 
-# Web related
-**/web/**
-
 # Android related
 **/android/**/gradle-wrapper.jar
 **/android/.gradle

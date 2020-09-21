@@ -1,11 +1,11 @@
 {
-    "name": "elpcd_dart",
-    "short_name": "elpcd_dart",
+    "name": "Elaborador de PCD e TTD",
+    "short_name": "ElPCD",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Elaborador de PCD & TTD",
+    "description": "Ferramenta para criação de PCDs e TTDs",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
