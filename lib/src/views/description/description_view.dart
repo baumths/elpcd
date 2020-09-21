@@ -37,6 +37,16 @@ class DescriptionView extends StatelessWidget {
                   },
                 ),
               ),
+              floatingActionButton: this.descriptionManager.isSaving
+                  ? const FloatingActionButton(
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                      child: const CircularProgressIndicator(),
+                      onPressed: null,
+                    )
+                  : null,
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
               body: DescriptionForm(),
             );
           },

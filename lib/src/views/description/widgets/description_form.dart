@@ -25,7 +25,6 @@ class DescriptionForm extends StatelessWidget {
               shrinkWrap: true,
               controller: manager.scrollController,
               children: [
-                if (manager.isSaving) const LinearProgressIndicator(),
                 const ListTile(title: const Text('Campos Obrigatórios')),
                 CustomFormField(
                   labelText: 'Nome da Classe',
