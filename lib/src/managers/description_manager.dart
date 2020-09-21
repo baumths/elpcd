@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:elpcd_dart/src/managers/managers.dart';
 import 'package:elpcd_dart/src/database/hive_database.dart';
 import 'package:elpcd_dart/src/models/pcd_model.dart';
 import 'package:elpcd_dart/src/utils/utils.dart';
@@ -27,6 +29,9 @@ class DescriptionManager with ChangeNotifier {
 
   final formKey = GlobalKey<FormState>();
   final scrollController = ScrollController();
+
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+  ScaffoldState get scaffold => scaffoldKey.currentState;
 
   DescriptionMode mode;
   bool isEditing;
@@ -83,9 +88,9 @@ class DescriptionManager with ChangeNotifier {
     if (delete ?? false) {
       await this.pcd.delete();
       context.pop();
-      ShowToast.info(
-        context,
-        'A classe ${this.pcd.identifier} foi apagada',
+      ShowSnackBar.info(
+        context.read<HomeManager>().scaffold,
+        'A classe "${this.pcd.identifier}" foi apagada',
       );
     }
   }

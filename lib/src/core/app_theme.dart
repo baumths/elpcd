@@ -1,10 +1,13 @@
 part of 'app.dart';
 
 abstract class AppTheme {
+  static final primaryColor = Colors.indigo;
+  static final accentColor = Colors.orange;
+
   static ThemeData themeData(bool darkMode) {
     return ThemeData(
-      primarySwatch: Colors.indigo,
-      accentColor: Colors.orange,
+      primarySwatch: AppTheme.primaryColor,
+      accentColor: AppTheme.accentColor,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       brightness: darkMode ? Brightness.dark : Brightness.light,
       inputDecorationTheme: InputDecorationTheme(

@@ -37,7 +37,7 @@ class HomeView extends StatelessWidget {
       splashRadius: 24,
       onPressed: () {
         var homeManager = context.read<HomeManager>();
-        homeManager.scaffoldKey.currentState.openDrawer();
+        homeManager.scaffold.openDrawer();
       },
     );
   }
@@ -73,8 +73,8 @@ class HomeView extends StatelessWidget {
             trailing: const Icon(Icons.file_download),
             onTap: () {
               context.pop(); // Close drawer
-              ShowToast.info(
-                context,
+              ShowSnackBar.info(
+                context.read<HomeManager>().scaffold,
                 'Aguarde enquanto preparamos o seu arquivo!',
               );
               CsvExport().downloadCsvFile();
@@ -102,6 +102,7 @@ class HomeView extends StatelessWidget {
               ),
             ),
             onTap: () {
+              context.pop(); // Close drawer
               showModalBottomSheet(
                 context: context,
                 builder: (_) => CodearqEditor(),

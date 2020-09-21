@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:elpcd_dart/src/managers/description_manager.dart';
+import 'package:elpcd_dart/src/views/shared/shared.dart';
+import 'package:elpcd_dart/src/managers/managers.dart';
 import 'package:elpcd_dart/src/utils/utils.dart';
-import 'package:elpcd_dart/src/views/views.dart';
 import 'widgets/description_form.dart';
 
 class DescriptionView extends StatelessWidget {
@@ -22,6 +23,7 @@ class DescriptionView extends StatelessWidget {
         return Consumer<DescriptionManager>(
           builder: (_, manager, __) {
             return Scaffold(
+              key: manager.scaffoldKey,
               appBar: AppBar(
                 title: const Text('Descrição'),
                 actions: getActions(context),
@@ -84,7 +86,11 @@ class DescriptionView extends StatelessWidget {
       icon: const Icon(Icons.edit),
       onPressed: () {
         this.descriptionManager.toggleEditing(true);
-        ShowToast.info(context, 'Você entrou no modo de edição');
+        ShowSnackBar.info(
+          context.read<DescriptionManager>().scaffold,
+          'Você entrou no modo de edição',
+          duration: 2,
+        );
       },
     );
   }
@@ -104,15 +110,27 @@ class DescriptionView extends StatelessWidget {
 
   Widget saveButton(BuildContext context) {
     return FlatButton.icon(
-      label: Text('SALVAR', style: context.theme().textTheme.headline6),
+      label: Text(
+        'SALVAR',
+        style: context.theme().textTheme.headline6.copyWith(
+              color: Colors.white,
+            ),
+      ),
       icon: const Icon(Icons.check, color: Colors.white),
       onPressed: () async {
         var valid = await this.descriptionManager.validateForm();
         if (valid) {
           context.pop();
-          ShowToast.info(context, 'Classe salva com sucesso');
+          ShowSnackBar.info(
+            context.read<HomeManager>().scaffold,
+            'Classe foi salva com sucesso',
+            duration: 2,
+          );
         } else {
-          ShowToast.error(context, 'Não foi possível salvar a classe');
+          ShowSnackBar.error(
+            context.read<DescriptionManager>().scaffold,
+            'Não foi possível salvar a classe',
+          );
         }
       },
     );

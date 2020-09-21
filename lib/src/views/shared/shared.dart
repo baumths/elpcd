@@ -1,3 +1,3 @@
 export 'app_dialogs.dart';
 
-export 'show_toast.dart';
+export 'show_snackbar.dart';
