@@ -49,10 +49,6 @@ class DescriptionView extends StatelessWidget {
     switch (this.descriptionManager.mode) {
       case DescriptionMode.editClass:
         return [
-          this.descriptionManager.mode == DescriptionMode.newClass
-              ? const SizedBox()
-              : this.cancelEditingButton(context),
-          const SizedBox(width: 8),
           this.saveButton(context),
         ];
       case DescriptionMode.viewClass:
@@ -98,8 +94,8 @@ class DescriptionView extends StatelessWidget {
 
   Widget saveButton(BuildContext context) {
     return FlatButton.icon(
-      label: const Text('SALVAR', style: const TextStyle(color: Colors.white)),
-      icon: const Icon(Icons.save, color: Colors.white),
+      label: Text('SALVAR', style: context.theme().textTheme.headline6),
+      icon: const Icon(Icons.check, color: Colors.white),
       onPressed: () async {
         var valid = await this.descriptionManager.validateForm();
         if (valid) {
@@ -108,20 +104,6 @@ class DescriptionView extends StatelessWidget {
         } else {
           ShowToast.error(context, 'Não foi possível salvar a classe');
         }
-      },
-    );
-  }
-
-  Widget cancelEditingButton(BuildContext context) {
-    return IconButton(
-      splashRadius: 24,
-      tooltip: 'Cancelar',
-      icon: const Icon(Icons.close),
-      onPressed: () async {
-        await this.descriptionManager.showDiscardDialog(
-              context: context,
-              shouldPop: false,
-            );
       },
     );
   }

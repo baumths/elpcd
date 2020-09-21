@@ -71,25 +71,20 @@ class _TreeNodeState extends State<TreeNode>
     var leftOffset = widget.level == 0
         ? const EdgeInsets.symmetric(horizontal: 8)
         : EdgeInsets.only(left: widget.level * 24.0, right: 8);
-    return Hero(
-      tag: '${pcd.legacyId}',
-      child: Material(
-        child: ListTile(
-          onTap: () => widget.onTap(this.pcd),
-          title: Text(this.pcd.nome),
-          leading: Tooltip(
-            message: this.pcd.identifier,
-            child: Chip(
-              label: Text(this.pcd.codigo),
-              backgroundColor: context.isDarkMode()
-                  ? Colors.white.withOpacity(0.15)
-                  : Colors.grey.withOpacity(0.5),
-            ),
-          ),
-          contentPadding: leftOffset,
-          trailing: _buildActions(context),
+    return ListTile(
+      onTap: () => widget.onTap(this.pcd),
+      title: Text(this.pcd.nome),
+      leading: Tooltip(
+        message: this.pcd.identifier,
+        child: Chip(
+          label: Text(this.pcd.codigo),
+          backgroundColor: context.isDarkMode()
+              ? Colors.white.withOpacity(0.15)
+              : Colors.grey.withOpacity(0.5),
         ),
       ),
+      contentPadding: leftOffset,
+      trailing: _buildActions(context),
     );
   }
 

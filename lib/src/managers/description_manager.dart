@@ -46,6 +46,10 @@ class DescriptionManager with ChangeNotifier {
     notifyListeners();
   }
 
+  String validator(String value) {
+    return value.trim().isEmpty ? 'Campo Obrigatório' : null;
+  }
+
   Future<bool> validateForm() async {
     if (this.formKey.currentState.validate()) {
       this.toggleSaving(true); // Shows progress indicator

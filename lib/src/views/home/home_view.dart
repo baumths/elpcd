@@ -70,7 +70,7 @@ class HomeView extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Download CSV'),
-            trailing: const Icon(Icons.launch),
+            trailing: const Icon(Icons.file_download),
             onTap: () {
               context.pop(); // Close drawer
               ShowToast.info(

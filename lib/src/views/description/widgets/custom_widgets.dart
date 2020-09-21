@@ -1,4 +1,4 @@
-part of '../description_form.dart';
+part of 'description_form.dart';
 
 class DropdownField extends StatelessWidget {
   const DropdownField({
@@ -48,7 +48,7 @@ class DropdownField extends StatelessWidget {
   }
 }
 
-class CustomFormField extends StatelessWidget {
+class CustomFormField extends StatefulWidget {
   CustomFormField({
     Key key,
     this.labelText,
@@ -56,11 +56,8 @@ class CustomFormField extends StatelessWidget {
     this.initialValue = '',
     this.onSaved,
     this.validator,
-  }) : super(key: key) {
-    this._txtCtrl.text = initialValue;
-  }
+  }) : super(key: key);
 
-  final _txtCtrl = TextEditingController();
   final String labelText;
   final bool readOnly;
   final String initialValue;
@@ -68,28 +65,41 @@ class CustomFormField extends StatelessWidget {
   final Function(String) validator;
 
   @override
+  _CustomFormFieldState createState() => _CustomFormFieldState();
+}
+
+class _CustomFormFieldState extends State<CustomFormField> {
+  final _txtCtrl = TextEditingController();
+
+  @override
+  void dispose() {
+    _txtCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this._txtCtrl.text = widget.initialValue;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      readOnly: readOnly,
+      readOnly: widget.readOnly,
       controller: _txtCtrl,
-      onSaved: onSaved,
-      validator: validator,
+      onSaved: widget.onSaved,
+      validator: widget.validator,
       minLines: 1,
       maxLines: 3,
       decoration: InputDecoration(
-        labelText: labelText,
-        suffixIcon: Padding(
-          padding: const EdgeInsets.only(right: 5),
-          child: readOnly
-              ? const Icon(Icons.lock_outline)
-              : IconButton(
-                  splashRadius: 20,
-                  tooltip: 'Limpar Campo',
-                  iconSize: 16,
-                  icon: const Icon(Icons.close),
-                  onPressed: _txtCtrl.clear,
-                ),
-        ),
+        labelText: widget.labelText,
+        suffixIcon: widget.readOnly
+            ? const Padding(
+                padding: const EdgeInsets.only(right: 5),
+                child: const Icon(Icons.lock_outline),
+              )
+            : null,
       ),
     );
   }
