@@ -16,7 +16,7 @@ class HomeManager with ChangeNotifier {
   }
 
   Future<void> saveCodearq(BuildContext context, String value) async {
-    String codearq = value.isEmpty ? 'ElPCD' : value;
+    String codearq = value.trim().isEmpty ? 'ElPCD' : value.trim();
     await HiveDatabase.settingsBox.put('codearq', codearq);
     context.pop();
     ShowSnackBar.info(
