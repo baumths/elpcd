@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:elpcd_dart/src/views/description/description_view.dart';
 import 'package:elpcd_dart/src/database/hive_database.dart';
@@ -19,9 +18,6 @@ class HomeManager with ChangeNotifier {
     String codearq = value.trim().isEmpty ? 'ElPCD' : value.trim();
     await HiveDatabase.settingsBox.put('codearq', codearq);
     context.pop();
-    ShowSnackBar.info(
-      context.read<HomeManager>().scaffold,
-      'CODEARQ alterado para ➜ $codearq',
-    );
+    ShowSnackBar.info(context, 'CODEARQ alterado para ➜ $codearq');
   }
 }

@@ -87,7 +87,7 @@ class DescriptionView extends StatelessWidget {
       onPressed: () {
         this.descriptionManager.toggleEditing(true);
         ShowSnackBar.info(
-          context.read<DescriptionManager>().scaffold,
+          context,
           'Você entrou no modo de edição',
           duration: 2,
         );
@@ -121,16 +121,9 @@ class DescriptionView extends StatelessWidget {
         var valid = await this.descriptionManager.validateForm();
         if (valid) {
           context.pop();
-          ShowSnackBar.info(
-            context.read<HomeManager>().scaffold,
-            'Classe salva com sucesso',
-            duration: 2,
-          );
+          ShowSnackBar.info(context, 'Classe salva com sucesso', duration: 2);
         } else {
-          ShowSnackBar.error(
-            context.read<DescriptionManager>().scaffold,
-            'Não foi possível salvar a classe',
-          );
+          ShowSnackBar.error(context, 'Não foi possível salvar a classe');
         }
       },
     );
