@@ -12,7 +12,8 @@ import 'package:elpcd_dart/src/utils/utils.dart';
 import '../views.dart';
 
 part 'widgets/codearq_bottom_sheet.dart';
-part 'widgets/tree_view_widget.dart';
+part 'widgets/tree_node_widget.dart';
+part 'widgets/treeview_widget.dart';
 
 class HomeView extends StatelessWidget {
   final settingsBox = HiveDatabase.settingsBox;
@@ -23,11 +24,26 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('ElPCD'),
         leading: this._buildDrawerButton(context),
+        actions: _buildActions(context),
       ),
       floatingActionButton: this._buildFAB(context),
       drawer: this._buildDrawer(context),
-      body: TreeViewWidget(),
+      body: TreeviewWidget(),
     );
+  }
+
+  List<Widget> _buildActions(BuildContext context) {
+    final manager = context.watch<TreeManager>();
+    final expanded = manager.allNodesExpanded;
+    return [
+      IconButton(
+        splashRadius: 20,
+        icon: Icon(expanded ? Icons.unfold_less : Icons.unfold_more),
+        tooltip: expanded ? 'Recolher Classes' : 'Expandir Classes',
+        onPressed: expanded ? manager.collapseAll : manager.expandAll,
+      ),
+      const SizedBox(width: 8),
+    ];
   }
 
   Widget _buildDrawerButton(BuildContext context) {
