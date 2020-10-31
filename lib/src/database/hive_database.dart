@@ -36,7 +36,7 @@ class HiveDatabase {
   }
 
   /// Returns children of `parent`, if `parent` is null, returns roots.
-  static Future<List<PCDModel>> getChildren({PCDModel parent}) async {
+  static List<PCDModel> getChildren({PCDModel parent}) {
     if (HiveDatabase.pcdBox.isEmpty) return [];
     final int parentId = parent?.legacyId ?? -1;
     List<PCDModel> entries = HiveDatabase.pcdBox.values

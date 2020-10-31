@@ -1,19 +1,7 @@
 part of '../home_view.dart';
 
-class CodearqEditor extends StatefulWidget {
-  @override
-  _CodearqEditorState createState() => _CodearqEditorState();
-}
-
-class _CodearqEditorState extends State<CodearqEditor> {
+class CodearqEditor extends StatelessWidget {
   final double bottomSheetHeight = 60;
-  final _textController = TextEditingController();
-
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +23,10 @@ class _CodearqEditorState extends State<CodearqEditor> {
             const SizedBox(width: 8),
             Expanded(
               child: TextField(
-                controller: _textController,
+                onChanged: homeManager.changeCodearq,
                 autofocus: true,
-                onSubmitted: (value) async {
-                  await homeManager.saveCodearq(context, value);
+                onSubmitted: (_) async {
+                  await homeManager.saveCodearq(context);
                 },
                 style: context.theme().textTheme.headline5,
                 decoration: const InputDecoration(
@@ -57,7 +45,7 @@ class _CodearqEditorState extends State<CodearqEditor> {
                   style: context.theme().textTheme.headline6,
                 ),
                 onPressed: () async {
-                  await homeManager.saveCodearq(context, _textController.text);
+                  await homeManager.saveCodearq(context);
                 },
               ),
             ),

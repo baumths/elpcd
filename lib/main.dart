@@ -11,6 +11,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeManager()),
+        ChangeNotifierProvider(create: (_) => TreeManager()),
       ],
       child: ElPCDApp(),
     ),

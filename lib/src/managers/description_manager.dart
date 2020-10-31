@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'package:elpcd_dart/src/managers/managers.dart';
 import 'package:elpcd_dart/src/database/hive_database.dart';
 import 'package:elpcd_dart/src/models/pcd_model.dart';
 import 'package:elpcd_dart/src/utils/utils.dart';
@@ -89,7 +87,7 @@ class DescriptionManager with ChangeNotifier {
       await this.pcd.delete();
       context.pop();
       ShowSnackBar.info(
-        context.read<HomeManager>().scaffold,
+        context,
         'A classe "${this.pcd.identifier}" foi apagada',
       );
     }

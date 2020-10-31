@@ -85,9 +85,7 @@ class PCDModel with HiveObject {
     this.observacoes,
   });
 
-  Future<List<PCDModel>> get children async {
-    return await HiveDatabase.getChildren(parent: this);
-  }
+  List<PCDModel> get children => HiveDatabase.getChildren(parent: this);
 
   bool get hasChildren => HiveDatabase.hasChildren(this);
 
