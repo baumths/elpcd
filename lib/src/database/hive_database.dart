@@ -29,41 +29,41 @@ class HiveDatabase {
     HiveDatabase.pcdBox = await Hive.openBox<PCDModel>(HiveDatabase.pcdBoxName);
   }
 
-  static Future<void> insertPCD(PCDModel pcd) async {
+  /// Inserts a class and assigns an auto-incremented `legacyId` to it
+  static Future<void> insertClass(PCDModel pcd) async {
     int id = await HiveDatabase.pcdBox.add(pcd);
     pcd.legacyId = id;
     await pcd.save();
   }
 
-  /// Returns children of `parent`, if `parent` is null, returns roots.
-  static List<PCDModel> getChildren({PCDModel parent}) {
+  /// Returns children of `legacyId`, if `legacyId` is null, returns roots.
+  static List<PCDModel> getClasses({int legacyId = -1}) {
     if (HiveDatabase.pcdBox.isEmpty) return [];
-    final int parentId = parent?.legacyId ?? -1;
     List<PCDModel> entries = HiveDatabase.pcdBox.values
-        .where((pcd) => pcd.parentId == parentId)
+        .where((pcd) => pcd.parentId == legacyId)
         .toList();
     entries.sort((a, b) => a.codigo.compareTo(b.codigo));
     return entries ?? [];
   }
 
-  static bool hasChildren(PCDModel parent) {
+  /// Verifies if given `legacyId` has children classes
+  static bool hasChildren(int legacyId) {
     if (HiveDatabase.pcdBox.isEmpty) return false;
-    final Box<PCDModel> pcdBox = HiveDatabase.pcdBox;
-    final child = pcdBox.values.firstWhere(
-      (pcd) => pcd.parentId == parent.legacyId,
+    final child = HiveDatabase.pcdBox.values.firstWhere(
+      (pcd) => pcd.parentId == legacyId,
       orElse: () => null,
     );
     return child == null ? false : true;
   }
 
+  /// Recursively build Classes' identifiers
   static String buildIdentifier(PCDModel pcd) {
     if (pcd.parentId == -1) {
       final Box settingsBox = HiveDatabase.settingsBox;
       final String codearq = settingsBox.get('codearq', defaultValue: 'ElPCD');
       return '$codearq ${pcd.codigo}';
     }
-    final Box<PCDModel> pcdBox = HiveDatabase.pcdBox;
-    final parent = pcdBox.values.firstWhere(
+    final parent = HiveDatabase.pcdBox.values.firstWhere(
       (i) => i.legacyId == pcd.parentId,
       orElse: () => null,
     );

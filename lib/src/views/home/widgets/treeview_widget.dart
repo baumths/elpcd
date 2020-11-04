@@ -7,11 +7,8 @@ class TreeviewWidget extends StatelessWidget {
       valueListenable: HiveDatabase.pcdBox.listenable(),
       builder: (_, box, __) {
         if (box.isEmpty) return _TreeViewPlaceholder();
-        final rootNodes = box.values.where((pcd) => pcd.parentId == -1);
-        final smallDisplay = context.isSmallDisplay;
-
         return FutureBuilder(
-          future: _buildNodes(rootNodes),
+          future: _buildNodes(HiveDatabase.getClasses()),
           builder: (_, AsyncSnapshot<List<TreeNode>> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
@@ -24,7 +21,7 @@ class TreeviewWidget extends StatelessWidget {
                       child: SingleChildScrollView(
                         padding: const EdgeInsets.only(bottom: 72),
                         child: TreeView(
-                          indent: smallDisplay ? 8 : 16,
+                          indent: context.isSmallDisplay ? 8 : 24,
                           treeController: manager.treeController,
                           nodes: snapshot.data,
                         ),

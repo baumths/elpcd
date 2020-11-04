@@ -68,7 +68,7 @@ class DescriptionManager with ChangeNotifier {
 
   Future<void> saveClass() async {
     if (this.mode == DescriptionMode.newClass) {
-      await HiveDatabase.insertPCD(this.pcd);
+      await HiveDatabase.insertClass(this.pcd);
     } else {
       await this.pcd.save();
     }

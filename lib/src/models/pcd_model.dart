@@ -85,9 +85,11 @@ class PCDModel with HiveObject {
     this.observacoes,
   });
 
-  List<PCDModel> get children => HiveDatabase.getChildren(parent: this);
+  List<PCDModel> get children {
+    return HiveDatabase.getClasses(legacyId: this.legacyId);
+  }
 
-  bool get hasChildren => HiveDatabase.hasChildren(this);
+  bool get hasChildren => HiveDatabase.hasChildren(this.legacyId);
 
   String get identifier => HiveDatabase.buildIdentifier(this);
 
