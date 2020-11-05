@@ -16,8 +16,17 @@
 
   <title>El PCD</title>
   <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Show Loading animation while the app is building -->
+  <div id="wrapper">
+    <div class="loading-dots">
+      <div class="bounce"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
