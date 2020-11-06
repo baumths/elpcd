@@ -117,38 +117,50 @@ class PCDModel with HiveObject {
       Observações ➜ ${this.observacoes}
 ''';
 
-  List<String> toCsv() {
-    var scopeAndContent = """
-Registro de abertura: $registroAbertura\n
-Registro de desativação: $registroDesativacao\n
-Indicador de classe ativa/inativa: $indicador\n
-""";
+  List<String> toCsv() => <String>[
+        identifier,
+        '',
+        legacyId.toString(),
+        parentId.toString(),
+        codigo,
+        nome,
+        _builScopeAndContent(),
+        _buildArrangement(),
+        _buildAppraisal(),
+      ];
 
-    var arrangement = """
-Reativação de classe: $registroReativacao\n
-Registro de mudança de nome de classe: $registroMudancaNome\n
-Registro de deslocamento de classe: $registroDeslocamento\n
-Registro de extinção: $registroExtincao\n
-""";
-    var appraisal = """
-Prazo de guarda na fase corrente: $prazoCorrente\n
-Evento que determina a contagem do prazo de guarda na fase corrente: $eventoCorrente\n
-Prazo de guarda na fase intermediária: $prazoIntermediaria\n
-Evento que determina a contagem do prazo de guarda na fase intermediária: $eventoIntermediaria\n
-Destinação final: $destinacaoFinal\n
-Registro de alteração: $registroAlteracao\n
-Observações: $observacoes\n
-""";
-    return <String>[
-      identifier,
-      '',
-      legacyId.toString(),
-      parentId.toString(),
-      codigo,
-      nome,
-      scopeAndContent,
-      arrangement,
-      appraisal,
-    ];
-  }
+  String _builScopeAndContent() => <String>[
+        if (registroAbertura.isNotEmpty)
+          'Registro de abertura: $registroAbertura',
+        if (registroDesativacao.isNotEmpty)
+          'Registro de desativação: $registroDesativacao',
+        if (indicador.isNotEmpty)
+          'Indicador de classe ativa/inativa: $indicador',
+      ].join('\n\n');
+
+  String _buildArrangement() => <String>[
+        if (registroReativacao.isNotEmpty)
+          'Reativação de classe: $registroReativacao',
+        if (registroMudancaNome.isNotEmpty)
+          'Registro de mudança de nome de classe: $registroMudancaNome',
+        if (registroDeslocamento.isNotEmpty)
+          'Registro de deslocamento de classe: $registroDeslocamento',
+        if (registroExtincao.isNotEmpty)
+          'Registro de extinção: $registroExtincao',
+      ].join('\n\n');
+
+  String _buildAppraisal() => <String>[
+        if (prazoCorrente.isNotEmpty)
+          'Prazo de guarda na fase corrente: $prazoCorrente',
+        if (eventoCorrente.isNotEmpty)
+          'Evento que determina a contagem do prazo de guarda na fase corrente: $eventoCorrente',
+        if (prazoIntermediaria.isNotEmpty)
+          'Prazo de guarda na fase intermediária: $prazoIntermediaria',
+        if (eventoIntermediaria.isNotEmpty)
+          'Evento que determina a contagem do prazo de guarda na fase intermediária: $eventoIntermediaria',
+        if (destinacaoFinal.isNotEmpty) 'Destinação final: $destinacaoFinal',
+        if (registroAlteracao.isNotEmpty)
+          'Registro de alteração: $registroAlteracao',
+        if (observacoes.isNotEmpty) 'Observações: $observacoes',
+      ].join('\n\n');
 }
