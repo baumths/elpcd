@@ -130,37 +130,38 @@ class PCDModel with HiveObject {
       ];
 
   String _builScopeAndContent() => <String>[
-        if (registroAbertura.isNotEmpty)
+        if (registroAbertura?.isNotEmpty ?? false)
           'Registro de abertura: $registroAbertura',
-        if (registroDesativacao.isNotEmpty)
+        if (registroDesativacao?.isNotEmpty ?? false)
           'Registro de desativação: $registroDesativacao',
-        if (indicador.isNotEmpty)
+        if (indicador?.isNotEmpty ?? false)
           'Indicador de classe ativa/inativa: $indicador',
       ].join('\n\n');
 
   String _buildArrangement() => <String>[
-        if (registroReativacao.isNotEmpty)
+        if (registroReativacao?.isNotEmpty ?? false)
           'Reativação de classe: $registroReativacao',
-        if (registroMudancaNome.isNotEmpty)
+        if (registroMudancaNome?.isNotEmpty ?? false)
           'Registro de mudança de nome de classe: $registroMudancaNome',
-        if (registroDeslocamento.isNotEmpty)
+        if (registroDeslocamento?.isNotEmpty ?? false)
           'Registro de deslocamento de classe: $registroDeslocamento',
-        if (registroExtincao.isNotEmpty)
+        if (registroExtincao?.isNotEmpty ?? false)
           'Registro de extinção: $registroExtincao',
       ].join('\n\n');
 
   String _buildAppraisal() => <String>[
-        if (prazoCorrente.isNotEmpty)
+        if (prazoCorrente?.isNotEmpty ?? false)
           'Prazo de guarda na fase corrente: $prazoCorrente',
-        if (eventoCorrente.isNotEmpty)
+        if (eventoCorrente?.isNotEmpty ?? false)
           'Evento que determina a contagem do prazo de guarda na fase corrente: $eventoCorrente',
-        if (prazoIntermediaria.isNotEmpty)
+        if (prazoIntermediaria?.isNotEmpty ?? false)
           'Prazo de guarda na fase intermediária: $prazoIntermediaria',
-        if (eventoIntermediaria.isNotEmpty)
+        if (eventoIntermediaria?.isNotEmpty ?? false)
           'Evento que determina a contagem do prazo de guarda na fase intermediária: $eventoIntermediaria',
-        if (destinacaoFinal.isNotEmpty) 'Destinação final: $destinacaoFinal',
-        if (registroAlteracao.isNotEmpty)
+        if (destinacaoFinal?.isNotEmpty ?? false)
+          'Destinação final: $destinacaoFinal',
+        if (registroAlteracao?.isNotEmpty ?? false)
           'Registro de alteração: $registroAlteracao',
-        if (observacoes.isNotEmpty) 'Observações: $observacoes',
+        if (observacoes?.isNotEmpty ?? false) 'Observações: $observacoes',
       ].join('\n\n');
 }
