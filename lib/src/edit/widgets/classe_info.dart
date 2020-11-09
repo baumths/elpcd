@@ -42,10 +42,9 @@ class _ClasseEntry extends StatelessWidget {
           padding: const EdgeInsets.only(left: 12),
           child: Text(
             'Nome da Classe',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.orange,
               fontWeight: FontWeight.bold,
-              fontSize: 14,
             ),
           ),
         ),
@@ -53,7 +52,7 @@ class _ClasseEntry extends StatelessWidget {
         ListTile(
           dense: true,
           contentPadding: const EdgeInsets.fromLTRB(12, 0, 4, 0),
-          title: Text(lorem, style: TextStyle(fontSize: 14)),
+          title: Text(lorem, style: const TextStyle(fontSize: 14)),
         ),
       ],
     );

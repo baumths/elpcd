@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../shared/shared.dart';
 
-import 'components/classe_info.dart';
+import 'widgets/widgets.dart';
 
 class EditView extends StatelessWidget {
   static const routeName = '/edit';

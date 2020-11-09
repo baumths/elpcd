@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'components/components.dart';
+import 'widgets/widgets.dart';
 import 'home.dart';
 
 import '../description/description.dart';

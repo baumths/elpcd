@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../database/hive_database.dart';
 import '../../shared/shared.dart';
-import 'components.dart';
+import 'widgets.dart';
 
 class HomeDrawer extends StatelessWidget {
   @override
