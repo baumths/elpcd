@@ -50,7 +50,7 @@ class DropdownField extends StatelessWidget {
   }
 }
 
-class CustomFormField extends StatefulWidget {
+class CustomFormField extends StatelessWidget {
   CustomFormField({
     Key key,
     this.labelText,
@@ -67,36 +67,17 @@ class CustomFormField extends StatefulWidget {
   final Function(String) validator;
 
   @override
-  _CustomFormFieldState createState() => _CustomFormFieldState();
-}
-
-class _CustomFormFieldState extends State<CustomFormField> {
-  final _txtCtrl = TextEditingController();
-
-  @override
-  void dispose() {
-    _txtCtrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    this._txtCtrl.text = widget.initialValue;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      readOnly: widget.readOnly,
-      controller: _txtCtrl,
-      onSaved: widget.onSaved,
-      validator: widget.validator,
+      readOnly: readOnly,
+      onSaved: onSaved,
+      initialValue: initialValue,
+      validator: validator,
       minLines: 1,
       maxLines: 3,
       decoration: InputDecoration(
-        labelText: widget.labelText,
-        suffixIcon: widget.readOnly
+        labelText: labelText,
+        suffixIcon: readOnly
             ? const Padding(
                 padding: const EdgeInsets.only(right: 5),
                 child: const Icon(Icons.lock_outline),

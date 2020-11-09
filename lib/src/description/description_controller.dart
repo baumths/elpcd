@@ -72,7 +72,6 @@ class DescriptionController with ChangeNotifier {
     } else {
       await this.pcd.save();
     }
-    print(this.pcd);
   }
 
   Future<void> showDeleteDialog(BuildContext context) async {

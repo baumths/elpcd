@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../shared/shared.dart';
 
 import 'description_controller.dart';
-import 'components/components.dart';
+import 'widgets/widgets.dart';
 
 class DescriptionView extends StatelessWidget {
   DescriptionView(this.controller, {Key key})
