@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../shared/shared.dart';
-
 import 'widgets/widgets.dart';
 
 class EditView extends StatelessWidget {

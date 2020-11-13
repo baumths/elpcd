@@ -1,5 +1,6 @@
-import 'package:elpcd_dart/src/database/hive_database.dart';
 import 'package:hive/hive.dart';
+
+import '../database/hive_database.dart';
 
 part 'pcd_model.g.dart';
 
