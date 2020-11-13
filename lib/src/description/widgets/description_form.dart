@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../shared/shared.dart';
 import '../description.dart';
-
 import 'widgets.dart';
 
 //! TODO: REFACTOR THE ENTIRE FORM

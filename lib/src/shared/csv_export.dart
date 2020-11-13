@@ -1,9 +1,9 @@
-import 'package:universal_html/html.dart' as html;
 import 'dart:convert' as convert;
 
 import 'package:csv/csv.dart';
+import 'package:universal_html/html.dart' as html;
 
-import 'package:elpcd_dart/src/database/hive_database.dart';
+import '../database/hive_database.dart';
 
 /// Export classes as csv to be imported into the software
 /// AtoM - AccessToMemory [https://accesstomemory.org]

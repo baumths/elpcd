@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../database/hive_database.dart';
-import '../home/home.dart';
 import '../edit/edit.dart';
-
+import '../home/home.dart';
 import 'components/components.dart';
 
 class ElPCDApp extends StatelessWidget {

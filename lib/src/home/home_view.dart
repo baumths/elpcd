@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'widgets/widgets.dart';
-import 'home.dart';
-
 import '../description/description.dart';
 import '../edit/edit.dart';
+import 'home.dart';
+import 'widgets/widgets.dart';
 
 class HomeView extends StatelessWidget {
   static const routeName = '/home';

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../database/hive_database.dart';
-import '../shared/shared.dart';
-
 import '../description/description.dart';
+import '../shared/shared.dart';
 
 class HomeController with ChangeNotifier {
   final scaffoldKey = GlobalKey<ScaffoldState>();
