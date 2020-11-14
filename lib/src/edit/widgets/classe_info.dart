@@ -7,25 +7,23 @@ class ClasseInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scrollbar(
-      child: Padding(
+      child: ListView(
         padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
-        child: ListView(
-          children: [
-            const Divider(),
-            _ClasseEntry(),
-            const Divider(),
-            _ClasseEntry(),
-            const Divider(),
-            _ClasseEntry(),
-            const Divider(),
-            _ClasseEntry(),
-            const Divider(),
-            _ClasseEntry(),
-            const Divider(),
-            _ClasseEntry(),
-            const Divider(),
-          ],
-        ),
+        children: [
+          const Divider(),
+          _ClasseEntry(),
+          const Divider(),
+          _ClasseEntry(),
+          const Divider(),
+          _ClasseEntry(),
+          const Divider(),
+          _ClasseEntry(),
+          const Divider(),
+          _ClasseEntry(),
+          const Divider(),
+          _ClasseEntry(),
+          const Divider(),
+        ],
       ),
     );
   }
