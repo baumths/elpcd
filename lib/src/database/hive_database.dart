@@ -23,10 +23,10 @@ class HiveDatabase {
     Hive.registerAdapter<PCDModel>(PCDModelAdapter());
 
     // Opening settings box
-    HiveDatabase.settingsBox = await Hive.openBox(HiveDatabase.settingsBoxName);
+    settingsBox = await Hive.openBox<dynamic>(HiveDatabase.settingsBoxName);
 
     // Opening PCD box
-    HiveDatabase.pcdBox = await Hive.openBox<PCDModel>(HiveDatabase.pcdBoxName);
+    pcdBox = await Hive.openBox<PCDModel>(HiveDatabase.pcdBoxName);
   }
 
   /// Inserts a class and assigns an auto-incremented `legacyId` to it
