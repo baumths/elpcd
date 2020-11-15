@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../shared/shared.dart';
+import '../../shared/shared.dart';
 import 'description_controller.dart';
 import 'widgets/widgets.dart';
 
 class DescriptionView extends StatelessWidget {
-  DescriptionView(this.controller, {Key key})
+  const DescriptionView(this.controller, {Key key})
       : assert(controller != null),
         super(key: key);
 
@@ -35,11 +35,11 @@ class DescriptionView extends StatelessWidget {
               },
             ),
           ),
-          floatingActionButton: this.controller.isSaving
+          floatingActionButton: controller.isSaving
               ? const FloatingActionButton(
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  child: const CircularProgressIndicator(),
+                  child: CircularProgressIndicator(),
                   onPressed: null,
                 )
               : null,
@@ -52,21 +52,21 @@ class DescriptionView extends StatelessWidget {
   }
 
   List<Widget> getActions(BuildContext context) {
-    switch (this.controller.mode) {
+    switch (controller.mode) {
       case DescriptionMode.editClass:
         return [
-          this.saveButton(context),
+          saveButton(context),
         ];
       case DescriptionMode.viewClass:
         return [
-          this.editButton(context),
+          editButton(context),
           const SizedBox(width: 8),
-          this.deleteButton(context),
+          deleteButton(context),
           const SizedBox(width: 8),
         ];
       case DescriptionMode.newClass:
         return [
-          this.saveButton(context),
+          saveButton(context),
         ];
       default:
         return [];
@@ -79,7 +79,7 @@ class DescriptionView extends StatelessWidget {
       tooltip: 'Editar',
       icon: const Icon(Icons.edit),
       onPressed: () {
-        this.controller.toggleEditing(true);
+        controller.toggleEditing(true);
         ShowSnackBar.info(
           context,
           'Você entrou no modo de edição',
@@ -92,26 +92,24 @@ class DescriptionView extends StatelessWidget {
   Widget deleteButton(BuildContext context) {
     return IconButton(
       splashRadius: 24,
-      tooltip:
-          this.controller.pcd.hasChildren ? 'Não é possível apagar' : 'Apagar',
+      tooltip: controller.pcd.hasChildren ? 'Não é possível apagar' : 'Apagar',
       icon: const Icon(Icons.delete),
-      onPressed: this.controller.pcd.hasChildren
+      onPressed: controller.pcd.hasChildren
           ? null
-          : () async => await this.controller.showDeleteDialog(context),
+          : () => controller.showDeleteDialog(context),
     );
   }
 
   Widget saveButton(BuildContext context) {
     return FlatButton.icon(
+      textColor: Colors.white,
       label: Text(
         'SALVAR',
-        style: context.theme().textTheme.headline6.copyWith(
-              color: Colors.white,
-            ),
+        style: context.theme.textTheme.headline6.copyWith(color: Colors.white),
       ),
       icon: const Icon(Icons.check, color: Colors.white),
       onPressed: () async {
-        var valid = await this.controller.validateForm();
+        final valid = await controller.validateForm();
         if (valid) {
           context.pop();
           ShowSnackBar.info(context, 'Classe salva com sucesso', duration: 2);

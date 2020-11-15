@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../database/hive_database.dart';
-import '../edit/edit.dart';
-import '../home/home.dart';
+import '../../database/hive_database.dart';
+import '../views.dart';
 
 class ElPCDApp extends StatelessWidget {
   @override
@@ -11,16 +10,19 @@ class ElPCDApp extends StatelessWidget {
     return ValueListenableBuilder(
       valueListenable: HiveDatabase.settingsBox.listenable(keys: ['darkMode']),
       builder: (_, settingsBox, __) {
-        var darkMode = settingsBox.get('darkMode', defaultValue: true);
+        final darkMode =
+            settingsBox.get('darkMode', defaultValue: true) as bool;
         return MaterialApp(
           title: 'ElPCD',
           debugShowCheckedModeBanner: false,
           themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
-          theme: AppTheme.themeData(darkMode),
-          initialRoute: HomeView.routeName,
+          theme: AppTheme.themeData(darkMode: darkMode),
+          // initialRoute: HomeView.routeName,
+          initialRoute: ComposeView.routeName,
           routes: {
             HomeView.routeName: (_) => HomeView(),
-            EditView.routeName: (_) => EditView(),
+            BrowseView.routeName: (_) => BrowseView(),
+            ComposeView.routeName: (_) => ComposeView(),
           },
         );
       },
@@ -29,7 +31,7 @@ class ElPCDApp extends StatelessWidget {
 }
 
 abstract class AppTheme {
-  static ThemeData themeData(bool darkMode) {
+  static ThemeData themeData({bool darkMode = true}) {
     return ThemeData(
       primarySwatch: Colors.blue,
       primaryColor: Colors.blue.shade900,
@@ -39,7 +41,7 @@ abstract class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(width: 2),
+          borderSide: const BorderSide(width: 2),
         ),
       ),
       hoverColor: darkMode

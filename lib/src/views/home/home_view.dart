@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../description/description.dart';
-import '../edit/edit.dart';
-import 'home.dart';
+import '../../shared/shared.dart';
+import '../views.dart';
 import 'widgets/widgets.dart';
 
 class HomeView extends StatelessWidget {
-  static const routeName = '/home';
+  static const routeName = '/';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: context.watch<HomeController>().scaffoldKey,
       appBar: AppBar(
         title: const Text('ElPCD'),
-        leading: this._buildDrawerButton(context),
-        actions: this._buildActions(context),
+        leading: _buildDrawerButton(context),
+        actions: _buildActions(context),
       ),
-      floatingActionButton: this._buildFAB(context),
+      floatingActionButton: _buildFAB(context),
       drawer: HomeDrawer(),
       body: Treeview(),
     );
@@ -27,14 +26,12 @@ class HomeView extends StatelessWidget {
     final controller = context.watch<TreeviewController>();
     final expanded = controller.allNodesExpanded;
     return [
-      IconButton(
-        icon: const Icon(Icons.open_in_browser),
+      const IconButton(
+        icon: Icon(Icons.search),
+        tooltip: 'Encontrar Classe',
         splashRadius: 20,
-        onPressed: () {
-          Navigator.of(context).pushNamed(EditView.routeName);
-        },
+        onPressed: null,
       ),
-      const SizedBox(width: 8),
       IconButton(
         splashRadius: 20,
         icon: Icon(expanded ? Icons.unfold_less : Icons.unfold_more),
@@ -62,8 +59,8 @@ class HomeView extends StatelessWidget {
       label: const Text('NOVA CLASSE'),
       icon: const Icon(Icons.post_add),
       onPressed: () {
-        var controller = context.read<HomeController>();
-        controller.openDescription(context, DescriptionController.newClass());
+        // TODO: push to create class route
+        context.display(DescriptionView(DescriptionController.newClass()));
       },
     );
   }

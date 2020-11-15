@@ -17,7 +17,7 @@ class HiveDatabase {
 
   Future<void> initDatabase() async {
     // Initializing Hive
-    await Hive.initFlutter(this.hiveBoxesDirectoryName);
+    await Hive.initFlutter(hiveBoxesDirectoryName);
 
     // Registering adapters
     Hive.registerAdapter<PCDModel>(PCDModelAdapter());
@@ -31,7 +31,7 @@ class HiveDatabase {
 
   /// Inserts a class and assigns an auto-incremented `legacyId` to it
   static Future<void> insertClass(PCDModel pcd) async {
-    int id = await HiveDatabase.pcdBox.add(pcd);
+    final int id = await HiveDatabase.pcdBox.add(pcd);
     pcd.legacyId = id;
     await pcd.save();
   }
@@ -39,7 +39,7 @@ class HiveDatabase {
   /// Returns children of `legacyId`, if `legacyId` is null, returns roots.
   static List<PCDModel> getClasses({int legacyId = -1}) {
     if (HiveDatabase.pcdBox.isEmpty) return [];
-    List<PCDModel> entries = HiveDatabase.pcdBox.values
+    final List<PCDModel> entries = HiveDatabase.pcdBox.values
         .where((pcd) => pcd.parentId == legacyId)
         .toList();
     entries.sort((a, b) => a.codigo.compareTo(b.codigo));
@@ -53,14 +53,18 @@ class HiveDatabase {
       (pcd) => pcd.parentId == legacyId,
       orElse: () => null,
     );
-    return child == null ? false : true;
+    if (child == null) return false;
+    return true;
   }
 
   /// Recursively build Classes' identifiers
   static String buildIdentifier(PCDModel pcd) {
     if (pcd.parentId == -1) {
       final Box settingsBox = HiveDatabase.settingsBox;
-      final String codearq = settingsBox.get('codearq', defaultValue: 'ElPCD');
+      final String codearq = settingsBox.get(
+        'codearq',
+        defaultValue: 'ElPCD',
+      ) as String;
       return '$codearq ${pcd.codigo}';
     }
     final parent = HiveDatabase.pcdBox.values.firstWhere(

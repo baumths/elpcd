@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/shared.dart';
+import '../../../shared/shared.dart';
 
 class DropdownField extends StatelessWidget {
   const DropdownField({
     Key key,
-    this.prefixText,
-    this.selected,
-    this.readOnly = false,
+    @required this.prefixText,
     @required this.values,
     @required this.onSaved,
+    this.selected,
+    this.readOnly = false,
   }) : super(key: key);
 
   final List<String> values;
@@ -20,12 +20,12 @@ class DropdownField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _selected = this.selected ?? values[0];
-    var _prefixText = this.prefixText != null ? this.prefixText + ' ➜ ' : '';
+    var _selected = selected ?? values[0];
+    final _prefixText = '$prefixText ➜ ';
     return DropdownButtonFormField(
       onSaved: onSaved,
       value: _selected,
-      onChanged: (newValue) => _selected = newValue,
+      onChanged: (String newValue) => _selected = newValue,
       decoration: InputDecoration(prefixText: _prefixText),
       icon: _buildIcon(context),
       items: values
@@ -43,7 +43,7 @@ class DropdownField extends StatelessWidget {
   }
 
   Widget _buildIcon(BuildContext context) {
-    var icon = readOnly ? Icons.lock_outline : Icons.expand_more;
+    final icon = readOnly ? Icons.lock_outline : Icons.expand_more;
     return context.isDarkMode()
         ? Icon(icon)
         : Icon(icon, color: Colors.black.withOpacity(0.4));
@@ -51,7 +51,7 @@ class DropdownField extends StatelessWidget {
 }
 
 class CustomFormField extends StatelessWidget {
-  CustomFormField({
+  const CustomFormField({
     Key key,
     this.labelText,
     this.readOnly = false,
@@ -64,7 +64,7 @@ class CustomFormField extends StatelessWidget {
   final bool readOnly;
   final String initialValue;
   final Function(String) onSaved;
-  final Function(String) validator;
+  final String Function(String) validator;
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +79,8 @@ class CustomFormField extends StatelessWidget {
         labelText: labelText,
         suffixIcon: readOnly
             ? const Padding(
-                padding: const EdgeInsets.only(right: 5),
-                child: const Icon(Icons.lock_outline),
+                padding: EdgeInsets.only(right: 5),
+                child: Icon(Icons.lock_outline),
               )
             : null,
       ),

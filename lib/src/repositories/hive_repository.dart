@@ -2,16 +2,15 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 
 import '../entities/entities.dart';
-import 'i_database_repository.dart';
 
-class HiveRepository implements IDatabaseRepository {
+class HiveDb {
   final boxesDirectoryName = '.elpcd_database';
   final settingsBoxName = 'settings';
   final classesBoxName = 'classes';
 
   // Singleton
-  HiveRepository._privateConstructor();
-  static HiveRepository instance = HiveRepository._privateConstructor();
+  HiveDb._privateConstructor();
+  static HiveDb instance = HiveDb._privateConstructor();
 
   Future<void> initDatabase() async {
     await Hive.initFlutter(boxesDirectoryName);
@@ -25,13 +24,18 @@ class HiveRepository implements IDatabaseRepository {
   Box<Classe> get classesBox => Hive.box(classesBoxName);
   Box<dynamic> get settingsBox => Hive.box(settingsBoxName);
 
-  bool get isDarkMode => settingsBox.get('darkMode', defaultValue: true);
-  String get codearq => settingsBox.get('codearq', defaultValue: 'ElPCD');
+  bool get isDarkMode =>
+      settingsBox.get('darkMode', defaultValue: true) as bool;
+  String get codearq =>
+      settingsBox.get('codearq', defaultValue: 'ElPCD') as String;
 
   bool hasChildren(int parent) {
-    final child = classesBox.values
-        .firstWhere((classe) => classe.parentId == parent, orElse: () => null);
-    return child == null ? false : true;
+    final child = classesBox.values.firstWhere(
+      (classe) => classe.parentId == parent,
+      orElse: () => null,
+    );
+    if (child == null) return false;
+    return true;
   }
 
   List<Classe> getChildren(int parent) {
@@ -42,23 +46,20 @@ class HiveRepository implements IDatabaseRepository {
     return children;
   }
 
-  @override
   List<Classe> getAllEntries() => classesBox.values.toList();
 
-  @override
   Classe getEntryById(int id) => classesBox.get(id);
 
-  @override
   Future<void> insert(Classe classe) async {
-    bool isNewClasse = !classesBox.containsKey(classe.id);
+    final bool isNewClasse = !classesBox.containsKey(classe.id);
     if (isNewClasse) {
-      int id = await classesBox.add(classe);
+      final int id = await classesBox.add(classe);
       classe.id = id;
     }
     await classe.save();
   }
 
-  Future<void> delete(Classe classe) async => await classe.delete();
+  Future<void> delete(Classe classe) async => classe.delete();
 
   /// Recursively build Reference Code for [classe]
   String buildReferenceCode(Classe classe) {
@@ -69,6 +70,6 @@ class HiveRepository implements IDatabaseRepository {
 }
 
 extension ClasseX on Classe {
-  bool get hasChildren => HiveRepository.instance.hasChildren(this.id);
-  String get referenceCode => HiveRepository.instance.buildReferenceCode(this);
+  bool get hasChildren => HiveDb.instance.hasChildren(id);
+  String get referenceCode => HiveDb.instance.buildReferenceCode(this);
 }

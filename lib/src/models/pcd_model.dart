@@ -87,35 +87,35 @@ class PCDModel with HiveObject {
   });
 
   List<PCDModel> get children {
-    return HiveDatabase.getClasses(legacyId: this.legacyId);
+    return HiveDatabase.getClasses(legacyId: legacyId);
   }
 
-  bool get hasChildren => HiveDatabase.hasChildren(this.legacyId);
+  bool get hasChildren => HiveDatabase.hasChildren(legacyId);
 
   String get identifier => HiveDatabase.buildIdentifier(this);
 
   @override
-  String toString() => '''\n
-  ➜ ${this.identifier}
-      legacyId ➜ ${this.legacyId}
-      parentId ➜ ${this.parentId}
-      Nome ➜ ${this.nome}
-      Código ➜ ${this.codigo}
-      Subordinação ➜ ${this.subordinacao}
-      Abertura ➜ ${this.registroAbertura}
-      Desativação ➜ ${this.registroDesativacao}
-      Reativação ➜ ${this.registroReativacao}
-      Mudança de Nome ➜ ${this.registroMudancaNome}
-      Deslocameno ➜ ${this.registroDeslocamento}
-      Extinção ➜ ${this.registroExtincao}
-      Indicador ➜ ${this.indicador}
-      Corrente ➜ ${this.prazoCorrente}
-      Evento Corrente ➜ ${this.eventoCorrente}
-      Intermediária ➜ ${this.prazoIntermediaria}
-      Evento Intermediária ➜ ${this.eventoIntermediaria}
-      Destinação ➜ ${this.destinacaoFinal}
-      Alteração ➜ ${this.registroAlteracao}
-      Observações ➜ ${this.observacoes}
+  String toString() => '''
+  ➜ $identifier
+      legacyId ➜ $legacyId
+      parentId ➜ $parentId
+      Nome ➜ $nome
+      Código ➜ $codigo
+      Subordinação ➜ $subordinacao
+      Abertura ➜ $registroAbertura
+      Desativação ➜ $registroDesativacao
+      Reativação ➜ $registroReativacao
+      Mudança de Nome ➜ $registroMudancaNome
+      Deslocameno ➜ $registroDeslocamento
+      Extinção ➜ $registroExtincao
+      Indicador ➜ $indicador
+      Corrente ➜ $prazoCorrente
+      Evento Corrente ➜ $eventoCorrente
+      Intermediária ➜ $prazoIntermediaria
+      Evento Intermediária ➜ $eventoIntermediaria
+      Destinação ➜ $destinacaoFinal
+      Alteração ➜ $registroAlteracao
+      Observações ➜ $observacoes
 ''';
 
   List<String> toCsv() => <String>[

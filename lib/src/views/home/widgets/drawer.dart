@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../database/hive_database.dart';
-import '../../shared/shared.dart';
+import '../../../database/hive_database.dart';
+import '../../../shared/shared.dart';
 import 'widgets.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -12,12 +12,13 @@ class HomeDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
+          // TODO: Make the Logo an CircleAvatar and add social media buttons
           const DrawerHeader(
-            child: const SizedBox.shrink(),
-            decoration: const BoxDecoration(
+            child: SizedBox.shrink(),
+            decoration: BoxDecoration(
               color: Colors.white,
-              image: const DecorationImage(
-                image: const AssetImage('assets/gedalogo_270x270.png'),
+              image: DecorationImage(
+                image: AssetImage('assets/gedalogo_270x270.png'),
               ),
             ),
           ),
@@ -39,9 +40,10 @@ class HomeDrawer extends StatelessWidget {
               label: ValueListenableBuilder(
                 valueListenable: HiveDatabase.settingsBox.listenable(),
                 builder: (_, box, __) {
-                  String codearq = box.get('codearq', defaultValue: 'ElPCD');
+                  String codearq =
+                      box.get('codearq', defaultValue: 'ElPCD') as String;
                   if (codearq.length > 9) {
-                    codearq = codearq.substring(0, 10) + '...';
+                    codearq = '${codearq.substring(0, 10)}...';
                   }
                   return Text(
                     codearq,
@@ -65,7 +67,10 @@ class HomeDrawer extends StatelessWidget {
           SwitchListTile(
             title: const Text('Modo Noturno'),
             activeColor: context.accentColor,
-            value: HiveDatabase.settingsBox.get('darkMode', defaultValue: true),
+            value: HiveDatabase.settingsBox.get(
+              'darkMode',
+              defaultValue: true,
+            ) as bool,
             onChanged: (value) =>
                 HiveDatabase.settingsBox.put('darkMode', value),
           ),

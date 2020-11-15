@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../shared/shared.dart';
-import '../description.dart';
+import '../../../shared/shared.dart';
+import '../description_controller.dart';
 import 'widgets.dart';
-
-//! TODO: REFACTOR THE ENTIRE FORM
 
 class DescriptionForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DescriptionController>(
       builder: (_, controller, __) {
-        var readOnly = !controller.isEditing;
-        var pcd = controller.pcd;
+        final readOnly = !controller.isEditing;
+        final pcd = controller.pcd;
         return Form(
           key: controller.formKey,
           child: Scrollbar(
@@ -22,12 +20,12 @@ class DescriptionForm extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const ListTile(title: const Text('Campos Obrigatórios')),
+                  const ListTile(title: Text('Campos Obrigatórios')),
                   CustomFormField(
                     labelText: 'Nome da Classe',
                     readOnly: readOnly,
                     initialValue: pcd.nome ?? '',
-                    onSaved: (val) => pcd.nome = val.trim() ?? '' ?? '',
+                    onSaved: (val) => pcd.nome = val.trim() ?? '',
                     validator: controller.validator,
                   ),
                   const SizedBox(height: 8),
@@ -38,7 +36,7 @@ class DescriptionForm extends StatelessWidget {
                     onSaved: (val) => pcd.codigo = val.trim() ?? '',
                     validator: controller.validator,
                   ),
-                  const ListTile(title: const Text('Informações Adicionais')),
+                  const ListTile(title: Text('Informações Adicionais')),
                   CustomFormField(
                     labelText: 'Registro de Abertura',
                     readOnly: readOnly,
@@ -89,12 +87,12 @@ class DescriptionForm extends StatelessWidget {
                     child: DropdownField(
                       readOnly: readOnly,
                       selected: pcd.indicador,
-                      values: ['Ativa', 'Inativa'],
+                      values: const ['Ativa', 'Inativa'],
                       prefixText: 'Indicador de Classe',
                       onSaved: (val) => pcd.indicador = val,
                     ),
                   ),
-                  const ListTile(title: const Text('Temporalidade Documental')),
+                  const ListTile(title: Text('Temporalidade Documental')),
                   CustomFormField(
                     labelText: 'Prazo de Guarda na Fase Corrente',
                     readOnly: readOnly,
@@ -129,7 +127,7 @@ class DescriptionForm extends StatelessWidget {
                     child: DropdownField(
                       readOnly: readOnly,
                       selected: pcd.destinacaoFinal,
-                      values: ['Preservar', 'Eliminar'],
+                      values: const ['Preservar', 'Eliminar'],
                       prefixText: 'Destinação Final',
                       onSaved: (val) => pcd.destinacaoFinal = val,
                     ),
