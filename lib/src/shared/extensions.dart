@@ -22,20 +22,20 @@ extension BuildContextExtensions on BuildContext {
   }
 
   Future<T> display<T>(Widget widget, {bool replaceRoute = false}) {
-    var route = MaterialPageRoute<T>(builder: (context) => widget);
+    final route = MaterialPageRoute<T>(builder: (context) => widget);
     if (replaceRoute) return this.replaceRoute(route);
-    return this.putRoute(route);
+    return putRoute(route);
   }
 
-  ThemeData theme() => Theme.of(this);
+  ThemeData get theme => Theme.of(this);
 
-  bool isDarkMode() => this.theme().brightness == Brightness.dark;
+  bool isDarkMode() => theme.brightness == Brightness.dark;
 
-  Color get primaryColor => this.theme().primaryColor;
+  Color get primaryColor => theme.primaryColor;
 
-  Color get accentColor => this.theme().accentColor;
+  Color get accentColor => theme.accentColor;
 
   Size get mediaQuerySize => MediaQuery.of(this).size;
 
-  bool get isSmallDisplay => this.mediaQuerySize.width < 600;
+  bool isSmallDisplay() => mediaQuerySize.width < 600;
 }

@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 
-import '../database/hive_database.dart';
-import '../models/pcd_model.dart';
-import '../shared/shared.dart';
+import '../../database/hive_database.dart';
+import '../../models/pcd_model.dart';
+import '../../shared/shared.dart';
 
 enum DescriptionMode { viewClass, editClass, newClass }
 
 class DescriptionController with ChangeNotifier {
   DescriptionController.viewClass({@required this.pcd})
       : mode = DescriptionMode.viewClass {
-    this.isEditing = false;
+    isEditing = false;
   }
 
   DescriptionController.editClass({@required this.pcd})
       : mode = DescriptionMode.editClass {
-    this.isEditing = true;
+    isEditing = true;
   }
 
   DescriptionController.newClass({this.parent})
       : mode = DescriptionMode.newClass {
-    this.isEditing = true;
-    this.pcd = PCDModel()
-      ..subordinacao = this.parent == null ? null : this.parent.codigo
-      ..parentId = this.parent == null ? -1 : this.parent.legacyId;
+    isEditing = true;
+    pcd = PCDModel()
+      ..subordinacao = parent?.codigo
+      ..parentId = parent == null ? -1 : parent.legacyId;
   }
 
   final formKey = GlobalKey<FormState>();
@@ -38,14 +38,16 @@ class DescriptionController with ChangeNotifier {
   PCDModel pcd;
   PCDModel parent;
 
+  // ignore: avoid_positional_boolean_parameters
   void toggleEditing(bool value) {
-    this.isEditing = value;
-    this.mode = value ? DescriptionMode.editClass : DescriptionMode.viewClass;
+    isEditing = value;
+    mode = value ? DescriptionMode.editClass : DescriptionMode.viewClass;
     notifyListeners();
   }
 
+  // ignore: avoid_positional_boolean_parameters
   void toggleSaving(bool value) {
-    this.isSaving = value;
+    isSaving = value;
     notifyListeners();
   }
 
@@ -54,28 +56,28 @@ class DescriptionController with ChangeNotifier {
   }
 
   Future<bool> validateForm() async {
-    if (this.formKey.currentState.validate()) {
-      this.toggleSaving(true); // Shows progress indicator
+    if (formKey.currentState.validate()) {
+      toggleSaving(true); // Shows progress indicator
 
-      this.formKey.currentState.save();
-      await this.saveClass();
+      formKey.currentState.save();
+      await saveClass();
 
-      this.toggleSaving(false); // Hides progress indicator
+      toggleSaving(false); // Hides progress indicator
       return true;
     }
     return false;
   }
 
   Future<void> saveClass() async {
-    if (this.mode == DescriptionMode.newClass) {
-      await HiveDatabase.insertClass(this.pcd);
+    if (mode == DescriptionMode.newClass) {
+      await HiveDatabase.insertClass(pcd);
     } else {
-      await this.pcd.save();
+      await pcd.save();
     }
   }
 
   Future<void> showDeleteDialog(BuildContext context) async {
-    bool delete = await showDialog(
+    final bool delete = await showDialog(
       context: context,
       builder: (_) => AppDialogs.warning(
         context: context,
@@ -84,18 +86,18 @@ class DescriptionController with ChangeNotifier {
       ),
     );
     if (delete ?? false) {
-      await this.pcd.delete();
+      await pcd.delete();
       context.pop();
       ShowSnackBar.info(
         context,
-        'A classe "${this.pcd.identifier}" foi apagada',
+        'A classe "${pcd.identifier}" foi apagada',
       );
     }
   }
 
   Future<void> showDiscardDialog({BuildContext context, bool shouldPop}) async {
-    if (this.isEditing) {
-      bool discard = await showDialog(
+    if (isEditing) {
+      final bool discard = await showDialog(
         context: context,
         builder: (_) => AppDialogs.warning(
           context: context,
@@ -104,7 +106,7 @@ class DescriptionController with ChangeNotifier {
         ),
       );
       if (discard ?? false) {
-        shouldPop ? context.pop() : this.toggleEditing(false);
+        shouldPop ? context.pop() : toggleEditing(false);
       }
     } else {
       context.pop();
@@ -113,7 +115,7 @@ class DescriptionController with ChangeNotifier {
 
   @override
   void dispose() {
-    this.scrollController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 }

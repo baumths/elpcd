@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../shared/shared.dart';
+import '../../shared/shared.dart';
+
 import 'widgets/widgets.dart';
 
-class EditView extends StatelessWidget {
-  static const routeName = '/edit';
+class BrowseView extends StatelessWidget {
+  static const routeName = '/browse';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.isDarkMode() ? null : Colors.grey[300],
       appBar: AppBar(
-        title: const Text('Editando Classe'),
+        title: const Text('Visualizando Classe'),
         leading: IconButton(
           splashRadius: 20,
           tooltip: 'Voltar',
@@ -23,12 +24,7 @@ class EditView extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (MediaQuery.of(context).size.width < 600) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        child: ClasseInfo(),
-      );
-    }
+    if (MediaQuery.of(context).size.width < 600) return ClasseInfo();
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       width: 512,

@@ -35,6 +35,9 @@ android/
 # iOS/XCode related
 ios/
 
+# Linux related
+linux/
+
 # Web related
 lib/generated_plugin_registrant.dart
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../shared/shared.dart';
 
 abstract class ShowSnackBar {
-  static error(BuildContext context, String msg, {int duration = 3}) {
+  static void error(BuildContext context, String msg, {int duration = 3}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: Duration(seconds: duration),
@@ -19,7 +19,7 @@ abstract class ShowSnackBar {
     );
   }
 
-  static info(BuildContext context, String msg, {int duration = 3}) {
+  static void info(BuildContext context, String msg, {int duration = 3}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: Duration(seconds: duration),

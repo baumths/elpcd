@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 part 'metadado.dart';
-// part 'classe.g.dart';
+part 'classe.g.dart';
+
+// Todo: RUN BUILD_RUNNER
 
 @HiveType(typeId: 0)
 class Classe with HiveObject {
@@ -30,10 +32,10 @@ class Classe with HiveObject {
 
   @override
   String toString() {
-    String metadadosStr = metadados.map((m) => m.toCsv()).join('');
-    return 'id ➜ { $id }'
-        'parentId ➜ { $parentId }'
-        'Nome ➜ { $name }'
+    final String metadadosStr = metadados.map((m) => m.toCsv()).join('');
+    return 'id ➜ { $id } '
+        'parentId ➜ { $parentId } '
+        'Nome ➜ { $name } '
         'Código ➜ { $code }'
         '\n $metadadosStr';
   }

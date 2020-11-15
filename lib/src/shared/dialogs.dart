@@ -8,27 +8,28 @@ abstract class AppDialogs {
     String title,
     String btnText,
   }) {
-    var btnPadding = const EdgeInsets.symmetric(vertical: 16, horizontal: 24);
     return AlertDialog(
       elevation: 12,
       title: Text(title, textAlign: TextAlign.center).center(),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      contentPadding: const EdgeInsets.fromLTRB(24, 12, 24, 8),
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      contentPadding: const EdgeInsets.fromLTRB(24, 12, 24, 4),
+      content: ButtonBar(
+        alignment: MainAxisAlignment.spaceBetween,
         children: [
           OutlineButton(
-            padding: btnPadding,
+            borderSide: BorderSide.none,
             child: const Text('Cancelar'),
             onPressed: () => context.pop<bool>(false),
           ),
-          const SizedBox(),
           Tooltip(
             message: 'Impossível desfazer',
             child: RaisedButton(
-              color: Colors.red[700],
-              padding: btnPadding,
-              child: Text(btnText, style: const TextStyle(color: Colors.white)),
+              color: Colors.redAccent.shade700,
+              textTheme: ButtonTextTheme.primary,
+              child: Text(
+                btnText.toUpperCase(),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
               onPressed: () => context.pop<bool>(true),
             ),
           ),
