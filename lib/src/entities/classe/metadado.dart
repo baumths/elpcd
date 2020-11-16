@@ -18,13 +18,13 @@ enum Metadados {
 }
 
 class Metadado {
-  Metadado({@required this.metadado, this.content = ''});
+  Metadado({@required this.type, this.content = ''});
 
-  final Metadados metadado;
+  final Metadados type;
 
   String content;
 
-  String get label => metadado.asString();
+  String get label => type.asString();
 
   String toCsv() => '$label: $content\n\n';
 }
