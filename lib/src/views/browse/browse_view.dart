@@ -24,7 +24,7 @@ class BrowseView extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    if (MediaQuery.of(context).size.width < 600) return ClasseInfo();
+    if (context.isSmallDisplay()) return ClasseInfo();
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       width: 512,

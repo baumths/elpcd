@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
+import '../../repositories/hive_repository.dart';
+
 part 'metadado.dart';
-part 'classe.g.dart';
+// part 'classe.g.dart';
 
 // Todo: RUN BUILD_RUNNER
 
@@ -13,7 +15,7 @@ class Classe with HiveObject {
     @required this.code,
     this.parentId = -1,
     this.metadados = const [],
-  });
+  }) : children = HiveList<Classe>(HiveDb.classesBox);
 
   @HiveField(0)
   int id;
@@ -29,6 +31,9 @@ class Classe with HiveObject {
 
   @HiveField(4)
   List<Metadado> metadados;
+
+  @HiveField(5)
+  HiveList<Classe> children;
 
   @override
   String toString() {
