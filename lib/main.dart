@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'src/database/hive_database.dart';
-import 'src/views/views.dart';
+import 'src/features/features.dart';
 
 Future<void> main() async {
   await HiveDatabase.instance.initDatabase();

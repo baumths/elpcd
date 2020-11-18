@@ -13,9 +13,16 @@ class Classe with HiveObject {
   Classe({
     @required this.name,
     @required this.code,
-    this.parentId = -1,
-    this.metadados = const [],
-  }) : children = HiveList<Classe>(HiveDb.classesBox);
+    @required this.parentId,
+    @required this.metadados,
+  }) : children = HiveList<Classe>(HiveRepository.classesBox);
+
+  factory Classe.root() => Classe(
+        name: '',
+        code: '',
+        parentId: -1,
+        metadados: <Metadado>[],
+      );
 
   @HiveField(0)
   int id;

@@ -6,17 +6,17 @@ import '../entities/entities.dart';
 extension ClasseX on Classe {
   bool get hasChildren => children.isNotEmpty;
   void addChild(Classe child) => children.add(child);
-  String get referenceCode => HiveDb.instance.buildReferenceCode(this);
+  String get referenceCode => HiveRepository.instance.buildReferenceCode(this);
 }
 
-class HiveDb {
+class HiveRepository {
   final boxesDirectoryName = '.elpcd_database';
   final settingsBoxName = 'settings';
   final classesBoxName = 'classes';
 
   // Singleton
-  HiveDb._privateConstructor();
-  static HiveDb instance = HiveDb._privateConstructor();
+  HiveRepository._privateConstructor();
+  static HiveRepository instance = HiveRepository._privateConstructor();
 
   Future<void> initDatabase() async {
     await Hive.initFlutter(boxesDirectoryName);
