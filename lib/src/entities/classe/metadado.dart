@@ -24,6 +24,9 @@ class Metadado {
 
   String content;
 
+  bool get isEmpty => content.trim().isEmpty;
+  bool get isNotEmpty => content.trim().isNotEmpty;
+
   String get label => type.asString();
 
   String toCsv() => '$label: $content\n\n';
