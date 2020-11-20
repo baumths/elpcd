@@ -1,38 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../entities/entities.dart';
 
-extension FormMetadadosX on BuildContext {
-  FormMetadados get formMetadados {
-    return Provider.of<FormMetadados>(this, listen: false);
-  }
-}
+// TODO: Maybe use a Cubit instead
 
 class FormMetadados extends ChangeNotifier {
-  FormMetadados({List<Metadado> metadados})
-      : _metadados = metadados ?? <Metadado>[] {
-    if (metadados.isNotEmpty) {
-      metadados.forEach((m) => _isPresent[m.type] = true);
-    }
-  }
   static const int max = 14;
 
-  final List<Metadado> _metadados;
-  List<Metadado> get metadados => _metadados;
+  List<Metadado> metadados = const [];
 
-  bool get canAddMetadados => _metadados.length < max;
+  bool get canAddMetadados => metadados.length < max;
+
+  void setInitialMetadados(List<Metadado> initialMetadados) {
+    if (initialMetadados.isEmpty) return;
+    metadados = initialMetadados;
+    for (final m in initialMetadados) {
+      _isPresent[m.type] = true;
+    }
+    // Only notify when all metadados have been added,
+    // instead of calling `addMetadado` for each metadado
+    notifyListeners();
+  }
 
   void addMetadado(Metadado value) {
     if (isPresent(value.type)) return;
-    _metadados.add(value);
+    metadados.add(value);
     _isPresent[value.type] = true;
     notifyListeners();
   }
 
   void removeMetadado(Metadado value) {
     if (isPresent(value.type)) {
-      _metadados.remove(value);
+      metadados.remove(value);
       _isPresent[value.type] = false;
       notifyListeners();
     }
