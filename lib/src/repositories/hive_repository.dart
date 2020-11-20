@@ -1,11 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 
 import '../entities/entities.dart';
-
-extension ClasseX on Classe {
-  bool get hasChildren => children.isNotEmpty;
-}
 
 class HiveRepository {
   final boxesDirectoryName = '.elpcd_database';
@@ -15,7 +12,7 @@ class HiveRepository {
   Future<void> initDatabase() async {
     await Hive.initFlutter(boxesDirectoryName);
 
-    // Hive.registerAdapter<Classe>(ClasseAdapter());
+    Hive.registerAdapter<Classe>(ClasseAdapter());
 
     settingsBox = await Hive.openBox<dynamic>(settingsBoxName);
     classesBox = await Hive.openBox<Classe>(classesBoxName);
@@ -23,6 +20,11 @@ class HiveRepository {
 
   static Box<Classe> classesBox;
   static Box<dynamic> settingsBox;
+
+  ValueListenable<Box<Classe>> listenToClasses() => classesBox.listenable();
+  ValueListenable<Box<dynamic>> listenToSettings({List<dynamic> keys}) {
+    return settingsBox.listenable(keys: keys);
+  }
 
   bool get isDarkMode =>
       settingsBox.get('darkMode', defaultValue: true) as bool;

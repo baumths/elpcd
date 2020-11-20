@@ -7,7 +7,7 @@ import '../../../entities/entities.dart';
 class FormMetadados extends ChangeNotifier {
   static const int max = 14;
 
-  List<Metadado> metadados = const [];
+  List<Metadado> metadados = <Metadado>[];
 
   bool get canAddMetadados => metadados.length < max;
 

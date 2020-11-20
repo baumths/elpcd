@@ -13,6 +13,8 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
 
   final HiveRepository _repository;
 
+  //! BLOC exiting with null error
+
   @override
   Stream<ComposeState> mapEventToState(ComposeEvent event) async* {
     if (event is ComposeStarted) {
@@ -53,6 +55,7 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
     final classe = state.classe
       ..name = state.name
       ..code = state.code
+      ..referenceCode = _repository.buildReferenceCode(state.classe)
       ..metadados = clearEmptyMetadados(state.metadados);
 
     state.isEditing

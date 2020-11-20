@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 import '../../repositories/hive_repository.dart';
 
 part 'metadado.dart';
-// part 'classe.g.dart';
+part 'classe.g.dart';
 
 // Todo: RUN BUILD_RUNNER
 
@@ -15,12 +15,22 @@ class Classe with HiveObject {
     @required this.code,
     @required this.parentId,
     @required this.metadados,
+    @required this.referenceCode,
   }) : children = HiveList<Classe>(HiveRepository.classesBox);
 
   factory Classe.root() => Classe(
         name: '',
         code: '',
         parentId: -1,
+        referenceCode: '',
+        metadados: <Metadado>[],
+      );
+
+  factory Classe.fromParent(int parentId) => Classe(
+        name: '',
+        code: '',
+        parentId: parentId,
+        referenceCode: '',
         metadados: <Metadado>[],
       );
 
@@ -37,10 +47,15 @@ class Classe with HiveObject {
   String code;
 
   @HiveField(4)
-  List<Metadado> metadados;
+  String referenceCode;
 
   @HiveField(5)
+  List<Metadado> metadados;
+
+  @HiveField(6)
   HiveList<Classe> children;
+
+  bool get hasChildren => children.isNotEmpty;
 
   @override
   String toString() {
@@ -48,7 +63,8 @@ class Classe with HiveObject {
     return 'id ➜ { $id } '
         'parentId ➜ { $parentId } '
         'Nome ➜ { $name } '
-        'Código ➜ { $code }'
+        'Código ➜ { $code } '
+        'Código de Referência ➜ { $referenceCode }'
         '\n $metadadosStr';
   }
 }

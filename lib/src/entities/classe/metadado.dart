@@ -29,7 +29,7 @@ class Metadado {
 
   String get label => type.asString();
 
-  String toCsv() => '$label: $content\n\n';
+  String toCsv() => '$label: $content';
 }
 
 extension MetadadosX on Metadados {
