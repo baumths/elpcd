@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../shared/shared.dart';
+import '../../../entities/entities.dart';
 import '../../features.dart';
 import 'widgets/widgets.dart';
 
 class HomeView extends StatelessWidget {
   static const routeName = '/';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: context.watch<HomeController>().scaffoldKey,
       appBar: AppBar(
         title: const Text('ElPCD'),
-        leading: _buildDrawerButton(context),
+        leading: _buildDrawerButton(),
         actions: _buildActions(context),
       ),
       floatingActionButton: _buildFAB(context),
@@ -42,14 +42,14 @@ class HomeView extends StatelessWidget {
     ];
   }
 
-  Widget _buildDrawerButton(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.segment),
-      tooltip: 'Configurações',
-      splashRadius: 24,
-      onPressed: () {
-        context.read<HomeController>().scaffold.openDrawer();
-      },
+  Widget _buildDrawerButton() {
+    return Builder(
+      builder: (BuildContext context) => IconButton(
+        icon: const Icon(Icons.segment),
+        tooltip: 'Configurações',
+        splashRadius: 24,
+        onPressed: Scaffold.of(context).openDrawer,
+      ),
     );
   }
 
@@ -59,8 +59,11 @@ class HomeView extends StatelessWidget {
       label: const Text('NOVA CLASSE'),
       icon: const Icon(Icons.post_add),
       onPressed: () {
-        // TODO: push to create class route
-        context.display(DescriptionView(DescriptionController.newClass()));
+        //! For using the new `ComposeView`, a class must be passed as args
+        Navigator.of(context).pushNamed(
+          ElPCDRouter.compose,
+          arguments: Classe.root(),
+        );
       },
     );
   }

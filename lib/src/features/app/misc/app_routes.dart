@@ -4,6 +4,9 @@ import '../../../entities/entities.dart';
 import '../../features.dart';
 
 abstract class ElPCDRouter {
+  static const home = HomeView.routeName;
+  static const compose = ComposeView.routeName;
+
   static MaterialPageRoute onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case ComposeView.routeName:

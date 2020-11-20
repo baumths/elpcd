@@ -36,7 +36,12 @@ class ComposeView extends StatelessWidget {
           }
         },
         buildWhen: (p, c) => p.isSaving != c.isSaving,
-        builder: (_, state) => _ComposeViewScaffold(isSaving: state.isSaving),
+        builder: (_, state) {
+          return ChangeNotifierProvider(
+            create: (_) => FormMetadados(),
+            child: _ComposeViewScaffold(isSaving: state.isSaving),
+          );
+        },
       ),
     );
   }
@@ -52,42 +57,49 @@ class _ComposeViewScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => FormMetadados(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: BlocBuilder<ComposeBloc, ComposeState>(
-            buildWhen: (p, c) => p.isEditing != c.isEditing,
-            builder: (_, state) {
-              return Text(state.isEditing ? 'Editando Classe' : 'Nova Classe');
-            },
-          ),
-          actions: [
-            IconButton(
-              tooltip: 'Salvar',
-              icon: const Icon(Icons.check),
-              onPressed: () => context.read<ComposeBloc>().add(SavePressed(
-                  metadados: context.read<FormMetadados>().metadados)),
-            )
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        title: BlocBuilder<ComposeBloc, ComposeState>(
+          buildWhen: (p, c) => p.isEditing != c.isEditing,
+          builder: (_, state) {
+            return Text(state.isEditing ? 'Editando Classe' : 'Nova Classe');
+          },
         ),
-        body: Form(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          child: IgnorePointer(
-            ignoring: isSaving,
-            child: Scrollbar(
-              radius: const Radius.circular(8),
-              child: CustomScrollView(
-                slivers: [
-                  if (isSaving) const LinearProgressIndicator(),
-                  SliverToBoxAdapter(child: RequiredFields()),
-                  SliverToBoxAdapter(child: MetadadosList()),
-                  SliverToBoxAdapter(child: AddMetadados()),
-                ],
+        actions: [
+          IconButton(
+            tooltip: 'Salvar',
+            icon: const Icon(Icons.check),
+            onPressed: () => context.read<ComposeBloc>().add(SavePressed(
+                metadados: context.read<FormMetadados>().metadados)),
+          )
+        ],
+      ),
+      body: BlocBuilder<ComposeBloc, ComposeState>(
+        builder: (_, state) {
+          return Form(
+            autovalidateMode:
+                state.successOrFailure == ComposeSuccessOrFailure.none
+                    ? AutovalidateMode.always
+                    : AutovalidateMode.disabled,
+            child: IgnorePointer(
+              ignoring: isSaving,
+              child: Scrollbar(
+                radius: const Radius.circular(8),
+                child: CustomScrollView(
+                  slivers: [
+                    if (isSaving)
+                      const SliverToBoxAdapter(
+                        child: LinearProgressIndicator(),
+                      ),
+                    SliverToBoxAdapter(child: RequiredFields()),
+                    SliverToBoxAdapter(child: MetadadosList()),
+                    SliverToBoxAdapter(child: AddMetadados()),
+                  ],
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

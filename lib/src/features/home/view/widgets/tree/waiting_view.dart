@@ -1,6 +1,7 @@
 part of 'treeview.dart';
 
 class _WaitingView extends StatelessWidget {
+  const _WaitingView({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Center(

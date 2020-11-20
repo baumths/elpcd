@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../database/hive_database.dart';
+import '../../../repositories/hive_repository.dart';
 import '../../../shared/shared.dart';
 
 //! TODO: CONVERT TO BLOC
 
 class HomeController with ChangeNotifier {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  ScaffoldState get scaffold => scaffoldKey.currentState;
-
   String _newCodearq = 'ElPCD';
 
   void changeCodearq(String value) {
@@ -20,8 +17,8 @@ class HomeController with ChangeNotifier {
   }
 
   Future<void> saveCodearq(BuildContext context) async {
-    await HiveDatabase.settingsBox.put('codearq', _newCodearq);
-    context.pop();
+    await HiveRepository.settingsBox.put('codearq', _newCodearq);
+    Navigator.of(context).pop();
     ShowSnackBar.info(context, 'CODEARQ alterado para ➜ $_newCodearq');
   }
 }

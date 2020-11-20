@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../database/hive_database.dart';
+import '../../../../repositories/hive_repository.dart';
 import '../../../../shared/shared.dart';
 import 'widgets.dart';
 
 class HomeDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _repository = context.watch<HiveRepository>();
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -31,23 +32,25 @@ class HomeDrawer extends StatelessWidget {
                 context,
                 'Aguarde enquanto preparamos o seu arquivo!',
               );
-              CsvExport().downloadCsvFile();
+
+              //! Convert CsvExport into a bloc to show progress in UI
+              CsvExport(_repository).downloadCsvFile();
             },
           ),
           ListTile(
             title: const Text('Editar CODEARQ'),
             trailing: Chip(
               label: ValueListenableBuilder(
-                valueListenable: HiveDatabase.settingsBox.listenable(),
-                builder: (_, box, __) {
-                  String codearq =
-                      box.get('codearq', defaultValue: 'ElPCD') as String;
+                valueListenable: _repository.listenToSettings(
+                  keys: ['codearq'],
+                ),
+                builder: (_, __, ___) {
+                  String codearq = _repository.codearq;
                   if (codearq.length > 9) {
                     codearq = '${codearq.substring(0, 10)}...';
                   }
                   return Text(
                     codearq,
-                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
@@ -67,12 +70,8 @@ class HomeDrawer extends StatelessWidget {
           SwitchListTile(
             title: const Text('Modo Noturno'),
             activeColor: context.accentColor,
-            value: HiveDatabase.settingsBox.get(
-              'darkMode',
-              defaultValue: true,
-            ) as bool,
-            onChanged: (value) =>
-                HiveDatabase.settingsBox.put('darkMode', value),
+            value: _repository.isDarkMode,
+            onChanged: (_) => HiveRepository.settingsBox.put('darkMode', _),
           ),
         ],
       ),
