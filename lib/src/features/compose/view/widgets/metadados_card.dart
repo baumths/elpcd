@@ -1,9 +1,9 @@
-import 'package:elpcd_dart/src/features/compose/misc/form_metadados.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../entities/entities.dart';
 import '../../../../shared/shared.dart';
+import '../../misc/form_metadados.dart';
 
 class MetadadosCard extends StatelessWidget {
   const MetadadosCard({Key key, @required this.metadado}) : super(key: key);
@@ -36,11 +36,12 @@ class MetadadosCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
             child: TextFormField(
+              minLines: 1,
               maxLines: null,
               autofocus: true,
               initialValue: metadado.content,
-              onChanged: (value) => metadado.content = value,
               decoration: InputDecoration(hintText: metadado.label),
+              onChanged: (value) => metadado.content = value.trim(),
             ),
           ),
         ],

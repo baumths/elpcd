@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../database/hive_database.dart';
 import '../../../shared/shared.dart';
 
+//! TODO: CONVERT TO BLOC
+
 class HomeController with ChangeNotifier {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   ScaffoldState get scaffold => scaffoldKey.currentState;

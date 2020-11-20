@@ -5,18 +5,12 @@ import '../entities/entities.dart';
 
 extension ClasseX on Classe {
   bool get hasChildren => children.isNotEmpty;
-  void addChild(Classe child) => children.add(child);
-  String get referenceCode => HiveRepository.instance.buildReferenceCode(this);
 }
 
 class HiveRepository {
   final boxesDirectoryName = '.elpcd_database';
   final settingsBoxName = 'settings';
   final classesBoxName = 'classes';
-
-  // Singleton
-  HiveRepository._privateConstructor();
-  static HiveRepository instance = HiveRepository._privateConstructor();
 
   Future<void> initDatabase() async {
     await Hive.initFlutter(boxesDirectoryName);
@@ -35,28 +29,28 @@ class HiveRepository {
   String get codearq =>
       settingsBox.get('codearq', defaultValue: 'ElPCD') as String;
 
-  List<Classe> getAllClasses() => classesBox.values.toList();
-
   Classe getClasseById(int id) => classesBox.get(id);
 
   Future<void> insert(Classe classe) async {
-    final bool isNewClasse = !classesBox.containsKey(classe.id);
-    if (isNewClasse) {
-      final int id = await classesBox.add(classe);
-      classe.id = id;
-    }
+    final int id = await classesBox.add(classe);
+    classe.id = id;
     await classe.save();
+
     if (classe.parentId != -1) {
       addChildToParentsChildren(classe);
     }
   }
 
-  void addChildToParentsChildren(Classe child) {
-    final parent = getClasseById(child.parentId);
-    parent.addChild(child);
-  }
+  List<Classe> fetch() => classesBox.values.toList();
+
+  Future<void> update(Classe classe) async => classe.save();
 
   Future<void> delete(Classe classe) async => classe.delete();
+
+  void addChildToParentsChildren(Classe child) {
+    final parent = getClasseById(child.parentId);
+    parent.children.add(child);
+  }
 
   /// Recursively build Reference Code for [classe]
   String buildReferenceCode(Classe classe) {
