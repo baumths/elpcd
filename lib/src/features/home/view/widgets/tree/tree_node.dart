@@ -7,6 +7,7 @@ class TreeNodeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _repository = context.watch<HiveRepository>();
     return Expanded(
       child: InkWell(
         onTap: () {
@@ -19,7 +20,7 @@ class TreeNodeWidget extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Tooltip(
-              message: classe.referenceCode,
+              message: _repository.buildReferenceCode(classe),
               child: Chip(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24)),
@@ -40,16 +41,7 @@ class TreeNodeWidget extends StatelessWidget {
               tooltip: 'Apagar',
               color: Colors.redAccent.shade700,
               icon: const Icon(Icons.delete),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  child: AppDialogs.warning(
-                    context: context,
-                    btnText: 'APAGAR',
-                    title: 'Deseja realmente apagar?',
-                  ),
-                );
-              },
+              onPressed: () {},
             ),
             IconButton(
               splashRadius: 20,

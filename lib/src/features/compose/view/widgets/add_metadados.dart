@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../entities/entities.dart';
 import '../../misc/form_metadados.dart';
+import '../../misc/metadata_viewmodel.dart';
 
 class AddMetadados extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: make user select from `Metadados`, only one of each can be added
+    // TODO: make user select from `MetadataType`, only one of each can be added
     return Selector<FormMetadados, bool>(
       selector: (_, value) => value.canAddMetadados,
-      builder: (context, canAddMetadados, child) {
+      builder: (_, canAddMetadados, child) {
         return ListTile(
           enabled: canAddMetadados,
           contentPadding: const EdgeInsets.only(left: 24),
@@ -19,11 +19,11 @@ class AddMetadados extends StatelessWidget {
           onTap: () async {
             // TODO: show dialog to choose metadado
             if (canAddMetadados) {
-              final Metadados selected = await _metadadosSelector(context);
+              final String selected = await _metadadosSelector(context);
               if (selected != null) {
                 context
                     .read<FormMetadados>()
-                    .addMetadado(Metadado(type: selected));
+                    .addMetadado(MetadataViewModel(type: selected));
               }
             }
             // TODO: Notify bloc
@@ -37,22 +37,21 @@ class AddMetadados extends StatelessWidget {
     );
   }
 
-  Future<Metadados> _metadadosSelector(BuildContext context) async {
+  Future<String> _metadadosSelector(BuildContext context) async {
     final formMetadados = context.read<FormMetadados>();
-    return showDialog<Metadados>(
+    return showDialog<String>(
       context: context,
       builder: (context) {
         return SimpleDialog(
-          title: const Text('Selecione um Metadado'),
+          title: const Text('Selecione um Metadata'),
           children: [
-            // Only show Metadados that are not present yet
-            for (Metadados type in Metadados.values)
+            for (String type in kMetadadosEArqBrasil)
               if (!formMetadados.isPresent(type))
                 SimpleDialogOption(
                   onPressed: () {
-                    Navigator.pop<Metadados>(context, type);
+                    Navigator.pop<String>(context, type);
                   },
-                  child: Text(type.asString()),
+                  child: Text(type),
                 )
           ],
         );

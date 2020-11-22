@@ -20,17 +20,14 @@ class ClasseAdapter extends TypeAdapter<Classe> {
       name: fields[2] as String,
       code: fields[3] as String,
       parentId: fields[1] as int,
-      metadados: (fields[5] as List)?.cast<Metadado>(),
-      referenceCode: fields[4] as String,
-    )
-      ..id = fields[0] as int
-      ..children = (fields[6] as HiveList)?.castHiveList();
+      metadata: (fields[5] as Map)?.cast<String, String>(),
+    )..id = fields[0] as int;
   }
 
   @override
   void write(BinaryWriter writer, Classe obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -39,12 +36,8 @@ class ClasseAdapter extends TypeAdapter<Classe> {
       ..write(obj.name)
       ..writeByte(3)
       ..write(obj.code)
-      ..writeByte(4)
-      ..write(obj.referenceCode)
       ..writeByte(5)
-      ..write(obj.metadados)
-      ..writeByte(6)
-      ..write(obj.children);
+      ..write(obj.metadata);
   }
 
   @override

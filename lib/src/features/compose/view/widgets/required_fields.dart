@@ -17,7 +17,7 @@ class RequiredFields extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Metadados Obrigatórios',
+              'MetadataType Obrigatórios',
               style: TextStyle(
                 color: context.theme.accentColor,
                 fontSize: 18,
@@ -43,7 +43,7 @@ class _CodeFormField extends StatefulWidget {
 }
 
 class __CodeFormFieldState extends State<_CodeFormField> {
-  final _textController = TextEditingController();
+  final _textController = TextEditingController(text: '');
 
   @override
   void dispose() {
@@ -56,16 +56,17 @@ class __CodeFormFieldState extends State<_CodeFormField> {
     return BlocConsumer<ComposeBloc, ComposeState>(
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (_, state) => _textController.text = state.code,
-      buildWhen: (p, c) => p.code != c.code,
+      buildWhen: (p, c) =>
+          p.code != c.code || p.shouldValidate != c.shouldValidate,
       builder: (_, state) {
         return TextFormField(
           controller: _textController,
-          decoration: const InputDecoration(labelText: 'Código da Classe'),
+          decoration: InputDecoration(
+            labelText: 'Código da Classe',
+            errorText: state.codeInvalid ? 'Campo obrigatório' : null,
+          ),
           onChanged: (value) {
             context.read<ComposeBloc>().add(CodeChanged(code: value.trim()));
-          },
-          validator: (_) {
-            return context.read<ComposeBloc>().state.codeError;
           },
         );
       },
@@ -81,7 +82,7 @@ class _NameFormField extends StatefulWidget {
 }
 
 class __NameFormFieldState extends State<_NameFormField> {
-  final _textController = TextEditingController();
+  final _textController = TextEditingController(text: '');
 
   @override
   void dispose() {
@@ -94,18 +95,19 @@ class __NameFormFieldState extends State<_NameFormField> {
     return BlocConsumer<ComposeBloc, ComposeState>(
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (_, state) => _textController.text = state.name,
-      buildWhen: (p, c) => p.name != c.name,
-      builder: (context, state) {
+      buildWhen: (p, c) =>
+          p.name != c.name || p.shouldValidate != c.shouldValidate,
+      builder: (_, state) {
         return TextFormField(
           minLines: 1,
           maxLines: null,
           controller: _textController,
-          decoration: const InputDecoration(labelText: 'Nome da Classe'),
+          decoration: InputDecoration(
+            labelText: 'Nome da Classe',
+            errorText: state.nameInvalid ? 'Campo obrigatório' : null,
+          ),
           onChanged: (value) {
             context.read<ComposeBloc>().add(NameChanged(name: value.trim()));
-          },
-          validator: (_) {
-            return context.read<ComposeBloc>().state.nameError;
           },
         );
       },

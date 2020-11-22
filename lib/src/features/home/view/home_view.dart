@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../entities/entities.dart';
 import '../../features.dart';
 import 'widgets/widgets.dart';
 
@@ -60,10 +59,7 @@ class HomeView extends StatelessWidget {
       icon: const Icon(Icons.post_add),
       onPressed: () {
         //! For using the new `ComposeView`, a class must be passed as args
-        Navigator.of(context).pushNamed(
-          ElPCDRouter.compose,
-          arguments: Classe.root(),
-        );
+        Navigator.of(context).pushNamed(ElPCDRouter.compose);
       },
     );
   }

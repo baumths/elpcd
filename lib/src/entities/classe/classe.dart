@@ -1,9 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
-import '../../repositories/hive_repository.dart';
-
-part 'metadado.dart';
 part 'classe.g.dart';
 
 // Todo: RUN BUILD_RUNNER
@@ -14,24 +11,21 @@ class Classe with HiveObject {
     @required this.name,
     @required this.code,
     @required this.parentId,
-    @required this.metadados,
-    @required this.referenceCode,
-  }) : children = HiveList<Classe>(HiveRepository.classesBox);
+    @required this.metadata,
+  });
 
   factory Classe.root() => Classe(
         name: '',
         code: '',
         parentId: -1,
-        referenceCode: '',
-        metadados: <Metadado>[],
+        metadata: <String, String>{},
       );
 
   factory Classe.fromParent(int parentId) => Classe(
         name: '',
         code: '',
         parentId: parentId,
-        referenceCode: '',
-        metadados: <Metadado>[],
+        metadata: <String, String>{},
       );
 
   @HiveField(0)
@@ -46,25 +40,19 @@ class Classe with HiveObject {
   @HiveField(3)
   String code;
 
-  @HiveField(4)
-  String referenceCode;
-
   @HiveField(5)
-  List<Metadado> metadados;
-
-  @HiveField(6)
-  HiveList<Classe> children;
-
-  bool get hasChildren => children.isNotEmpty;
+  Map<String, String> metadata;
 
   @override
   String toString() {
-    final String metadadosStr = metadados.map((m) => m.toCsv()).join('');
+    final String metadadosStr = metadata.entries
+        .map<String>((md) => '${md.key}: ${md.value}')
+        .toList()
+        .join('\n');
     return 'id ➜ { $id } '
         'parentId ➜ { $parentId } '
         'Nome ➜ { $name } '
         'Código ➜ { $code } '
-        'Código de Referência ➜ { $referenceCode }'
-        '\n $metadadosStr';
+        '\n⮦ MetadataType\n$metadadosStr';
   }
 }

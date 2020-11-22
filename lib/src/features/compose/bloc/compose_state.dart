@@ -1,6 +1,6 @@
 part of 'compose_bloc.dart';
 
-enum ComposeSuccessOrFailure { none, success, failure }
+enum ComposeStatus { none, success, failure }
 
 @immutable
 class ComposeState extends Equatable {
@@ -8,47 +8,51 @@ class ComposeState extends Equatable {
     @required this.classe,
     @required this.name,
     @required this.code,
-    @required this.metadados,
+    @required this.metadata,
     @required this.isEditing,
     @required this.isSaving,
-    @required this.successOrFailure,
+    @required this.shouldValidate,
+    @required this.status,
   });
   final Classe classe;
   final String name;
   final String code;
-  final List<Metadado> metadados;
+  final List<MetadataViewModel> metadata;
   final bool isEditing;
   final bool isSaving;
-  final ComposeSuccessOrFailure successOrFailure;
+  final bool shouldValidate;
+  final ComposeStatus status;
 
   factory ComposeState.initial() {
     return const ComposeState(
       classe: null,
       name: '',
       code: '',
-      metadados: <Metadado>[],
+      metadata: <MetadataViewModel>[],
       isEditing: false,
       isSaving: false,
-      successOrFailure: ComposeSuccessOrFailure.none,
+      shouldValidate: false,
+      status: ComposeStatus.none,
     );
   }
 
-  String get nameError => name.isEmpty ? 'Campo Obrigatório' : null;
-  String get codeError => code.isEmpty ? 'Campo Obrigatório' : null;
+  bool get nameInvalid => shouldValidate && name.isEmpty;
+  bool get codeInvalid => shouldValidate && code.isEmpty;
   bool get isFormValid {
     return name != null && name.isNotEmpty && code != null && code.isNotEmpty;
   }
 
   @override
   List<Object> get props {
-    // Classe not added because it won't be changing
     return [
+      classe,
       name,
       code,
-      metadados,
+      metadata,
       isSaving,
       isEditing,
-      successOrFailure,
+      shouldValidate,
+      status,
     ];
   }
 
@@ -56,19 +60,21 @@ class ComposeState extends Equatable {
     Classe classe,
     String name,
     String code,
-    List<Metadado> metadados,
+    List<MetadataViewModel> metadata,
     bool isEditing,
     bool isSaving,
-    ComposeSuccessOrFailure successOrFailure,
+    bool shouldValidate,
+    ComposeStatus status,
   }) {
     return ComposeState(
       classe: classe ?? this.classe,
       name: name ?? this.name,
       code: code ?? this.code,
-      metadados: metadados ?? this.metadados,
+      metadata: metadata ?? this.metadata,
       isEditing: isEditing ?? this.isEditing,
       isSaving: isSaving ?? this.isSaving,
-      successOrFailure: successOrFailure ?? this.successOrFailure,
+      shouldValidate: shouldValidate ?? this.shouldValidate,
+      status: status ?? this.status,
     );
   }
 }

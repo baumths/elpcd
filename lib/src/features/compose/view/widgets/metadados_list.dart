@@ -12,7 +12,7 @@ class MetadadosList extends StatelessWidget {
     return BlocListener<ComposeBloc, ComposeState>(
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (_, state) {
-        context.read<FormMetadados>().setInitialMetadados(state.metadados);
+        context.read<FormMetadados>().setInitialMetadados(state.metadata);
       },
       child: Consumer<FormMetadados>(
         builder: (_, formMetadados, __) {

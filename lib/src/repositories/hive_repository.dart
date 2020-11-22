@@ -1,8 +1,12 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 
 import '../entities/entities.dart';
+
+extension ClasseX on Classe {
+  bool get hasChildren => HiveRepository.hasChildren(id);
+  List<Classe> get children => HiveRepository.getChildrenOf(id);
+}
 
 class HiveRepository {
   final boxesDirectoryName = '.elpcd_database';
@@ -21,11 +25,6 @@ class HiveRepository {
   static Box<Classe> classesBox;
   static Box<dynamic> settingsBox;
 
-  ValueListenable<Box<Classe>> listenToClasses() => classesBox.listenable();
-  ValueListenable<Box<dynamic>> listenToSettings({List<dynamic> keys}) {
-    return settingsBox.listenable(keys: keys);
-  }
-
   bool get isDarkMode =>
       settingsBox.get('darkMode', defaultValue: true) as bool;
   String get codearq =>
@@ -43,9 +42,30 @@ class HiveRepository {
     }
   }
 
-  List<Classe> fetch() => classesBox.values.toList();
+  static List<Classe> getChildrenOf(int id) {
+    return classesBox.values.where((c) => c.parentId == id).toList();
+  }
 
-  Future<void> update(Classe classe) async => classe.save();
+  static bool hasChildren(int id) {
+    final child = classesBox.values.firstWhere(
+      (c) => c.parentId == id,
+      orElse: () => null,
+    );
+    // ignore: avoid_bool_literals_in_conditional_expressions
+    return child == null ? false : true;
+  }
+
+  List<Classe> fetch({bool parents = false}) {
+    if (parents) {
+      return classesBox.values.where((p) => p.parentId == -1).toList();
+    }
+    return classesBox.values.toList();
+  }
+
+  Future<void> update(Classe classe) async {
+    if (getClasseById(classe.id) == null) return insert(classe);
+    return classe.save();
+  }
 
   Future<void> delete(Classe classe) async => classe.delete();
 
