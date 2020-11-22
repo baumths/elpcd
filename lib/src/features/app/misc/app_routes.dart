@@ -12,9 +12,11 @@ abstract class ElPCDRouter {
       case ComposeView.routeName:
         final classe = settings.arguments as Classe;
         return MaterialPageRoute(builder: (_) => ComposeView(classe: classe));
+        break;
       case HomeView.routeName:
       default:
         return MaterialPageRoute(builder: (_) => HomeView());
+        break;
     }
   }
 }

@@ -20,18 +20,18 @@ class ComposeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ComposeBloc>(
-      create: (context) => ComposeBloc(
+      create: (_) => ComposeBloc(
         RepositoryProvider.of<HiveRepository>(context),
       )..add(ComposeStarted(classe: classe)),
       child: BlocConsumer<ComposeBloc, ComposeState>(
-        listenWhen: (p, c) => p.successOrFailure != c.successOrFailure,
+        listenWhen: (p, c) => p.status != c.status,
         listener: (_, state) {
-          if (state.successOrFailure == ComposeSuccessOrFailure.success) {
+          if (state.status == ComposeStatus.success) {
             Navigator.of(context).popUntil(
-              (route) => route.settings.name == HomeView.routeName,
+              ModalRoute.withName(HomeView.routeName),
             );
           }
-          if (state.successOrFailure == ComposeSuccessOrFailure.failure) {
+          if (state.status == ComposeStatus.failure) {
             ShowSnackBar.error(context, 'Não foi possível salvar a Classe');
           }
         },
@@ -65,6 +65,12 @@ class _ComposeViewScaffold extends StatelessWidget {
             return Text(state.isEditing ? 'Editando Classe' : 'Nova Classe');
           },
         ),
+        leading: IconButton(
+          tooltip: 'Cancelar',
+          splashRadius: 20,
+          icon: const Icon(Icons.arrow_back),
+          onPressed: Navigator.of(context).pop,
+        ),
         actions: [
           IconButton(
             tooltip: 'Salvar',
@@ -76,26 +82,20 @@ class _ComposeViewScaffold extends StatelessWidget {
       ),
       body: BlocBuilder<ComposeBloc, ComposeState>(
         builder: (_, state) {
-          return Form(
-            autovalidateMode:
-                state.successOrFailure == ComposeSuccessOrFailure.none
-                    ? AutovalidateMode.always
-                    : AutovalidateMode.disabled,
-            child: IgnorePointer(
-              ignoring: isSaving,
-              child: Scrollbar(
-                radius: const Radius.circular(8),
-                child: CustomScrollView(
-                  slivers: [
-                    if (isSaving)
-                      const SliverToBoxAdapter(
-                        child: LinearProgressIndicator(),
-                      ),
-                    SliverToBoxAdapter(child: RequiredFields()),
-                    SliverToBoxAdapter(child: MetadadosList()),
-                    SliverToBoxAdapter(child: AddMetadados()),
-                  ],
-                ),
+          return IgnorePointer(
+            ignoring: isSaving,
+            child: Scrollbar(
+              radius: const Radius.circular(8),
+              child: CustomScrollView(
+                slivers: [
+                  if (isSaving)
+                    const SliverToBoxAdapter(
+                      child: LinearProgressIndicator(),
+                    ),
+                  SliverToBoxAdapter(child: RequiredFields()),
+                  SliverToBoxAdapter(child: MetadadosList()),
+                  SliverToBoxAdapter(child: AddMetadados()),
+                ],
               ),
             ),
           );

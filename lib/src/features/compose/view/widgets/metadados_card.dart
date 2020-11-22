@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../entities/entities.dart';
 import '../../../../shared/shared.dart';
 import '../../misc/form_metadados.dart';
+import '../../misc/metadata_viewmodel.dart';
 
 class MetadadosCard extends StatelessWidget {
   const MetadadosCard({Key key, @required this.metadado}) : super(key: key);
 
-  final Metadado metadado;
+  final MetadataViewModel metadado;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class MetadadosCard extends StatelessWidget {
           ListTile(
             // contentPadding: const EdgeInsets.symmetric(horizontal: 4),
             title: Text(
-              metadado.label,
+              metadado.type,
               style: TextStyle(
                 color: context.accentColor,
                 fontWeight: FontWeight.bold,
@@ -40,7 +40,7 @@ class MetadadosCard extends StatelessWidget {
               maxLines: null,
               autofocus: true,
               initialValue: metadado.content,
-              decoration: InputDecoration(hintText: metadado.label),
+              decoration: InputDecoration(hintText: metadado.type),
               onChanged: (value) => metadado.content = value.trim(),
             ),
           ),

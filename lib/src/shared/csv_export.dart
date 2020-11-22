@@ -6,7 +6,6 @@ import 'package:universal_html/html.dart' as html;
 import '../entities/entities.dart';
 import '../repositories/hive_repository.dart';
 
-
 /// Export classes as csv to be imported into the software
 /// AtoM - AccessToMemory [https://accesstomemory.org]
 class CsvExport {
@@ -39,12 +38,13 @@ class CsvExport {
   // Converts a single classe into a `List<String>` to be "joined" into csv
   List<String> toCsv(Classe classe) {
     final metadata = AccessToMemoryMetadata(classe);
-    return metadata.convert();
+    return metadata.convert(_repository);
   }
 
   /// Converts classes from the database
   /// into the csv format to be written to a file
   Future<String> _databaseToCsv() async {
+    //! FIXME: broken
     final List<List<String>> rows = [
       csvHeader,
       _accessToMemoryRepositoryRow,
@@ -92,10 +92,10 @@ class AccessToMemoryMetadata {
   List<String> arrangement;
   List<String> appraisal;
 
-  List<String> convert() {
+  List<String> convert(HiveRepository _repository) {
     mapMetadadosToMetadata();
     return <String>[
-      classe.referenceCode,
+      _repository.buildReferenceCode(classe),
       repository,
       classe.id.toString(),
       classe.parentId.toString(),
@@ -108,31 +108,44 @@ class AccessToMemoryMetadata {
   }
 
   void mapMetadadosToMetadata() {
-    for (final metadado in classe.metadados) {
-      switch (metadado.type) {
-        case Metadados.registroAbertura:
-        case Metadados.registroDesativacao:
-        case Metadados.indicador:
-          scopeAndContent.add(metadado.toCsv());
+    for (final md in classe.metadata.entries) {
+      final eArqType = md.key;
+      final content = md.value;
+      final atomType = mapEArqToAtom(eArqType);
+      switch (atomType) {
+        case 'scopeAndContent':
+          scopeAndContent.add('$eArqType: $content');
           break;
-        case Metadados.registroReativacao:
-        case Metadados.registroMudancaNome:
-        case Metadados.registroDeslocamento:
-        case Metadados.registroExtincao:
-          arrangement.add(metadado.toCsv());
+        case 'arrangement':
+          arrangement.add('$eArqType: $content');
           break;
-        case Metadados.prazoCorrente:
-        case Metadados.eventoCorrente:
-        case Metadados.prazoIntermediaria:
-        case Metadados.eventoIntermediaria:
-        case Metadados.destinacaoFinal:
-        case Metadados.registroAlteracao:
-        case Metadados.observacoes:
-          appraisal.add(metadado.toCsv());
+        case 'appraisal':
+          appraisal.add('$eArqType: $content');
           break;
         default:
           throw UnimplementedError();
       }
     }
+  }
+
+  String mapEArqToAtom(String type) {
+    return {
+      'Registro de Abertura': 'scopeAndContent',
+      'Registro de Desativação': 'scopeAndContent',
+      'Reativação da Classe': 'arrangement',
+      'Registro de Mudança de Nome de Classe': 'arrangement',
+      'Registro de Deslocamento de Classe': 'arrangement',
+      'Registro de Extinção': 'arrangement',
+      'Indicador de Classe Ativa/Inativa': 'scopeAndContent',
+      'Prazo de Guarda na Fase Corrente': 'appraisal',
+      'Evento que Determina a Contagem do Prazo de Guarda na Fase Corrente':
+          'appraisal',
+      'Prazo de Guarda na Fase Intermediária': 'appraisal',
+      'Evento que Determina a Contagem do Prazo de Guarda na Fase Intermediária':
+          'appraisal',
+      'Destinação Final': 'appraisal',
+      'Registro de Alteração': 'appraisal',
+      'Observações': 'appraisal',
+    }[type];
   }
 }

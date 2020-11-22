@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../repositories/hive_repository.dart';
@@ -41,7 +42,7 @@ class HomeDrawer extends StatelessWidget {
             title: const Text('Editar CODEARQ'),
             trailing: Chip(
               label: ValueListenableBuilder(
-                valueListenable: _repository.listenToSettings(
+                valueListenable: HiveRepository.classesBox.listenable(
                   keys: ['codearq'],
                 ),
                 builder: (_, __, ___) {
@@ -71,7 +72,9 @@ class HomeDrawer extends StatelessWidget {
             title: const Text('Modo Noturno'),
             activeColor: context.accentColor,
             value: _repository.isDarkMode,
-            onChanged: (_) => HiveRepository.settingsBox.put('darkMode', _),
+            onChanged: (_) async {
+              await HiveRepository.settingsBox.put('darkMode', _);
+            },
           ),
         ],
       ),

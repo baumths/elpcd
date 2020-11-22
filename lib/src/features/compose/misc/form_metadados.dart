@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../../entities/entities.dart';
+import 'metadata_viewmodel.dart';
 
 // TODO: Maybe use a Cubit instead
 
 class FormMetadados extends ChangeNotifier {
   static const int max = 14;
 
-  List<Metadado> metadados = <Metadado>[];
+  List<MetadataViewModel> metadados = <MetadataViewModel>[];
 
   bool get canAddMetadados => metadados.length < max;
 
-  void setInitialMetadados(List<Metadado> initialMetadados) {
+  void setInitialMetadados(List<MetadataViewModel> initialMetadados) {
     if (initialMetadados.isEmpty) return;
     metadados = initialMetadados;
     for (final m in initialMetadados) {
@@ -22,14 +22,14 @@ class FormMetadados extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addMetadado(Metadado value) {
+  void addMetadado(MetadataViewModel value) {
     if (isPresent(value.type)) return;
     metadados.add(value);
     _isPresent[value.type] = true;
     notifyListeners();
   }
 
-  void removeMetadado(Metadado value) {
+  void removeMetadado(MetadataViewModel value) {
     if (isPresent(value.type)) {
       metadados.remove(value);
       _isPresent[value.type] = false;
@@ -37,22 +37,24 @@ class FormMetadados extends ChangeNotifier {
     }
   }
 
-  bool isPresent(Metadados value) => _isPresent[value];
+  bool isPresent(String value) => _isPresent[value];
 
-  final Map<Metadados, bool> _isPresent = {
-    Metadados.registroAbertura: false,
-    Metadados.registroDesativacao: false,
-    Metadados.registroReativacao: false,
-    Metadados.registroMudancaNome: false,
-    Metadados.registroDeslocamento: false,
-    Metadados.registroExtincao: false,
-    Metadados.indicador: false,
-    Metadados.prazoCorrente: false,
-    Metadados.eventoCorrente: false,
-    Metadados.prazoIntermediaria: false,
-    Metadados.eventoIntermediaria: false,
-    Metadados.destinacaoFinal: false,
-    Metadados.registroAlteracao: false,
-    Metadados.observacoes: false,
+  final Map<String, bool> _isPresent = {
+    'Registro de Abertura': false,
+    'Registro de Desativação': false,
+    'Reativação da Classe': false,
+    'Registro de Mudança de Nome de Classe': false,
+    'Registro de Deslocamento de Classe': false,
+    'Registro de Extinção': false,
+    'Indicador de Classe Ativa/Inativa': false,
+    'Prazo de Guarda na Fase Corrente': false,
+    'Evento que Determina a Contagem do Prazo de Guarda na Fase Corrente':
+        false,
+    'Prazo de Guarda na Fase Intermediária': false,
+    'Evento que Determina a Contagem do Prazo de Guarda na Fase Intermediária':
+        false,
+    'Destinação Final': false,
+    'Registro de Alteração': false,
+    'Observações': false,
   };
 }

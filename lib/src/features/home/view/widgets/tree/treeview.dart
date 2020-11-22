@@ -3,6 +3,7 @@ import 'package:elpcd_dart/src/repositories/hive_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../shared/shared.dart';
@@ -19,11 +20,11 @@ class Treeview extends StatelessWidget {
     final repository = context.watch<HiveRepository>();
 
     return ValueListenableBuilder<Box<Classe>>(
-      valueListenable: repository.listenToClasses(),
+      valueListenable: HiveRepository.classesBox.listenable(),
       builder: (_, box, __) {
         if (box.isEmpty) return const _TreeViewPlaceholder();
         return FutureBuilder(
-          future: _buildNodes(repository.fetch()),
+          future: _buildNodes(repository.fetch(parents: true)),
           builder: (_, AsyncSnapshot<List<TreeNode>> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
@@ -61,7 +62,7 @@ class Treeview extends StatelessWidget {
     return <TreeNode>[
       for (final classe in classes)
         TreeNode(
-          key: ValueKey(classe.id),
+          key: ValueKey('${classe.id}'),
           children: classe.hasChildren
               ? await _buildNodes(classe.children)
               : const <TreeNode>[],
