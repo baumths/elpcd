@@ -14,7 +14,11 @@ part 'tree_node.dart';
 part 'treeview_placeholder.dart';
 part 'waiting_view.dart';
 
+// TODO: Implement my own version of `flutter_simple_treeview`
+
 class Treeview extends StatelessWidget {
+  const Treeview({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final repository = context.watch<HiveRepository>();

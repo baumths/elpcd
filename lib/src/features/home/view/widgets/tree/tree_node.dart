@@ -49,7 +49,7 @@ class TreeNodeWidget extends StatelessWidget {
               tooltip: 'Nova Classe Subordinada',
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  ElPCDRouter.compose,
+                  ComposeView.routeName,
                   arguments: Classe.fromParent(classe.id),
                 );
               },

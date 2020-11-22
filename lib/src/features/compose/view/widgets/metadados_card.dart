@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/shared.dart';
-import '../../misc/form_metadados.dart';
-import '../../misc/metadata_viewmodel.dart';
+import '../../misc/misc.dart';
 
 class MetadadosCard extends StatelessWidget {
   const MetadadosCard({Key key, @required this.metadado}) : super(key: key);
 
   final MetadataViewModel metadado;
 
+  // TODO: `destinacaoFinal` and `indicador` should be toggle buttons
+
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4,
       margin: const EdgeInsets.fromLTRB(12, 4, 12, 4),
       child: Column(
         children: [
           ListTile(
-            // contentPadding: const EdgeInsets.symmetric(horizontal: 4),
             title: Text(
               metadado.type,
               style: TextStyle(
@@ -38,9 +39,10 @@ class MetadadosCard extends StatelessWidget {
             child: TextFormField(
               minLines: 1,
               maxLines: null,
-              autofocus: true,
               initialValue: metadado.content,
-              decoration: InputDecoration(hintText: metadado.type),
+              decoration: const InputDecoration(
+                hintText: 'Metadados em branco serão removidos.',
+              ),
               onChanged: (value) => metadado.content = value.trim(),
             ),
           ),

@@ -7,13 +7,15 @@ import '../../../shared/shared.dart';
 
 class HomeController with ChangeNotifier {
   String _newCodearq = 'ElPCD';
+  bool isSaving = false;
+
+  void toggleSaving({@required bool value}) {
+    isSaving = value;
+    notifyListeners();
+  }
 
   void changeCodearq(String value) {
     _newCodearq = value.trim().isEmpty ? 'ElPCD' : value.trim();
-  }
-
-  void navigationRequested(BuildContext context, String route, {Object args}) {
-    Navigator.of(context).pushNamed(route, arguments: args);
   }
 
   Future<void> saveCodearq(BuildContext context) async {

@@ -16,7 +16,7 @@ class CsvExport {
   final HiveRepository _repository;
 
   /// AtoM Standards
-  List<String> get csvHeader => [
+  List<String> get csvHeader => const <String>[
         'referenceCode',
         'repository',
         'legacyId',
@@ -88,9 +88,9 @@ class AccessToMemoryMetadata {
   final Classe classe;
   final String repository;
 
-  List<String> scopeAndContent;
-  List<String> arrangement;
-  List<String> appraisal;
+  final scopeAndContent = <String>[];
+  final arrangement = <String>[];
+  final appraisal = <String>[];
 
   List<String> convert(HiveRepository _repository) {
     mapMetadadosToMetadata();
@@ -109,18 +109,18 @@ class AccessToMemoryMetadata {
 
   void mapMetadadosToMetadata() {
     for (final md in classe.metadata.entries) {
-      final eArqType = md.key;
+      final eArqBrasilType = md.key;
       final content = md.value;
-      final atomType = mapEArqToAtom(eArqType);
+      final atomType = mapEArqBrasilToAtom(eArqBrasilType);
       switch (atomType) {
         case 'scopeAndContent':
-          scopeAndContent.add('$eArqType: $content');
+          scopeAndContent.add('$eArqBrasilType: $content');
           break;
         case 'arrangement':
-          arrangement.add('$eArqType: $content');
+          arrangement.add('$eArqBrasilType: $content');
           break;
         case 'appraisal':
-          appraisal.add('$eArqType: $content');
+          appraisal.add('$eArqBrasilType: $content');
           break;
         default:
           throw UnimplementedError();
@@ -128,7 +128,7 @@ class AccessToMemoryMetadata {
     }
   }
 
-  String mapEArqToAtom(String type) {
+  String mapEArqBrasilToAtom(String type) {
     return {
       'Registro de Abertura': 'scopeAndContent',
       'Registro de Desativação': 'scopeAndContent',

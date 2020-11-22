@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../misc/form_metadados.dart';
-import '../../misc/metadata_viewmodel.dart';
+import '../../misc/misc.dart';
 
 class AddMetadados extends StatelessWidget {
   @override
@@ -43,7 +42,7 @@ class AddMetadados extends StatelessWidget {
       context: context,
       builder: (context) {
         return SimpleDialog(
-          title: const Text('Selecione um Metadata'),
+          title: const Text('Selecione um Metadado'),
           children: [
             for (String type in kMetadadosEArqBrasil)
               if (!formMetadados.isPresent(type))

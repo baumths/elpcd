@@ -3,8 +3,6 @@ import 'package:hive/hive.dart';
 
 part 'classe.g.dart';
 
-// Todo: RUN BUILD_RUNNER
-
 @HiveType(typeId: 0)
 class Classe with HiveObject {
   Classe({
@@ -53,6 +51,6 @@ class Classe with HiveObject {
         'parentId ➜ { $parentId } '
         'Nome ➜ { $name } '
         'Código ➜ { $code } '
-        '\n⮦ MetadataType\n$metadadosStr';
+        '\n⮦ Metadados\n$metadadosStr';
   }
 }

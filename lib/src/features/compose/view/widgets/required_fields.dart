@@ -10,6 +10,7 @@ class RequiredFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 4,
       margin: const EdgeInsets.fromLTRB(12, 12, 12, 4),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -17,7 +18,7 @@ class RequiredFields extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'MetadataType Obrigatórios',
+              'Metadados Obrigatórios',
               style: TextStyle(
                 color: context.theme.accentColor,
                 fontSize: 18,
