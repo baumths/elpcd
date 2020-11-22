@@ -5,6 +5,7 @@ import '../../features.dart';
 import 'widgets/widgets.dart';
 
 class HomeView extends StatelessWidget {
+  const HomeView({Key key}) : super(key: key);
   static const routeName = '/';
 
   @override
@@ -16,8 +17,8 @@ class HomeView extends StatelessWidget {
         actions: _buildActions(context),
       ),
       floatingActionButton: _buildFAB(context),
-      drawer: HomeDrawer(),
-      body: Treeview(),
+      drawer: const HomeDrawer(),
+      body: const Treeview(),
     );
   }
 
@@ -57,10 +58,7 @@ class HomeView extends StatelessWidget {
       hoverColor: Colors.white10,
       label: const Text('NOVA CLASSE'),
       icon: const Icon(Icons.post_add),
-      onPressed: () {
-        //! For using the new `ComposeView`, a class must be passed as args
-        Navigator.of(context).pushNamed(ElPCDRouter.compose);
-      },
+      onPressed: () => Navigator.of(context).pushNamed(ComposeView.routeName),
     );
   }
 }

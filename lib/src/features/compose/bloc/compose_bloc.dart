@@ -40,7 +40,6 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
       yield state.copyWith(isSaving: true, shouldValidate: true);
 
       if (state.isFormValid) {
-        Future.delayed(const Duration(seconds: 2)); //! remove
         await saveClasse(event.metadados);
         yield state.copyWith(
           isSaving: false,

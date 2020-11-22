@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 
@@ -16,7 +17,9 @@ class HiveRepository {
   Future<void> initDatabase() async {
     await Hive.initFlutter(boxesDirectoryName);
 
-    Hive.registerAdapter<Classe>(ClasseAdapter());
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter<Classe>(ClasseAdapter());
+    }
 
     settingsBox = await Hive.openBox<dynamic>(settingsBoxName);
     classesBox = await Hive.openBox<Classe>(classesBoxName);
@@ -24,6 +27,14 @@ class HiveRepository {
 
   static Box<Classe> classesBox;
   static Box<dynamic> settingsBox;
+
+  ValueListenable<Box<dynamic>> listenToClasses({List<dynamic> keys}) {
+    return classesBox.listenable(keys: keys);
+  }
+
+  ValueListenable<Box<dynamic>> listenToSettings({List<dynamic> keys}) {
+    return settingsBox.listenable(keys: keys);
+  }
 
   bool get isDarkMode =>
       settingsBox.get('darkMode', defaultValue: true) as bool;

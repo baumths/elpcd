@@ -7,18 +7,18 @@ import '../../../repositories/hive_repository.dart';
 import '../../../shared/shared.dart';
 import '../../features.dart';
 import '../bloc/compose_bloc.dart';
-import '../misc/form_metadados.dart';
+import '../misc/misc.dart';
 import 'widgets/widgets.dart';
 
 class ComposeView extends StatelessWidget {
-  const ComposeView({Key key, @required this.classe}) : super(key: key);
+  const ComposeView({Key key}) : super(key: key);
 
   static const routeName = '/compose';
 
-  final Classe classe;
-
   @override
   Widget build(BuildContext context) {
+    final classe = ModalRoute.of(context).settings.arguments as Classe;
+
     return BlocProvider<ComposeBloc>(
       create: (_) => ComposeBloc(
         RepositoryProvider.of<HiveRepository>(context),
