@@ -18,6 +18,7 @@ class MetadataCard extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 24),
             title: Text(
               metadata.type,
               style: TextStyle(
@@ -25,27 +26,41 @@ class MetadataCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            trailing: IconButton(
-              splashRadius: 20,
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                context.read<FormMetadata>().removeMetadata(metadata);
-              },
-            ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: TextFormField(
-              minLines: 1,
-              maxLines: null,
-              initialValue: metadata.content,
-              decoration: const InputDecoration(
-                hintText: 'Metadados não preenchidos serão removidos.',
-              ),
-              onChanged: (value) => metadata.content = value.trim(),
-            ),
-          ),
+          _MetadataFormField(metadata: metadata),
         ],
+      ),
+    );
+  }
+}
+
+class _MetadataFormField extends StatelessWidget {
+  const _MetadataFormField({
+    Key key,
+    @required this.metadata,
+  }) : super(key: key);
+
+  final MetadataViewModel metadata;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      child: TextFormField(
+        autofocus: true,
+        initialValue: metadata.content,
+        decoration: InputDecoration(
+          suffixIcon: IconButton(
+            splashRadius: 20,
+            tooltip: 'Remover',
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              context.read<MetadataCubit>().deleteMetadata(metadata);
+            },
+          ),
+          hintText: 'Metadados não preenchidos serão removidos.',
+        ),
+        onChanged: (value) => metadata.content = value.trim(),
       ),
     );
   }

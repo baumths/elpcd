@@ -1,32 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../bloc/compose_bloc.dart';
 import '../../misc/misc.dart';
 import 'widgets.dart';
 
-class MetadataList extends StatelessWidget {
-  const MetadataList({Key key}) : super(key: key);
+class MetadataSliverList extends StatelessWidget {
+  const MetadataSliverList({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<ComposeBloc, ComposeState>(
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (_, state) {
-        context.read<FormMetadata>().setInitialMetadata(state.metadata);
+        context.read<MetadataCubit>().setInitialMetadata(state.metadata);
       },
-      child: Consumer<FormMetadata>(
-        builder: (_, formMetadata, __) {
-          return ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: formMetadata.metadata.length,
-            itemBuilder: (_, index) {
-              return MetadataCard(
-                metadata: formMetadata.metadata.elementAt(index),
-              );
-            },
+      child: BlocBuilder<MetadataCubit, Set<MetadataViewModel>>(
+        builder: (_, metadata) {
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (_, index) => MetadataCard(
+                key: ValueKey(metadata.elementAt(index).type),
+                metadata: metadata.elementAt(index),
+              ),
+              childCount: metadata.length,
+            ),
           );
         },
       ),

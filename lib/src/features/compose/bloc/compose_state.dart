@@ -14,10 +14,11 @@ class ComposeState extends Equatable {
     @required this.shouldValidate,
     @required this.status,
   });
+
   final Classe classe;
   final String name;
   final String code;
-  final List<MetadataViewModel> metadata;
+  final Set<MetadataViewModel> metadata;
   final bool isEditing;
   final bool isSaving;
   final bool shouldValidate;
@@ -28,7 +29,7 @@ class ComposeState extends Equatable {
       classe: null,
       name: '',
       code: '',
-      metadata: <MetadataViewModel>[],
+      metadata: <MetadataViewModel>{},
       isEditing: false,
       isSaving: false,
       shouldValidate: false,
@@ -60,7 +61,7 @@ class ComposeState extends Equatable {
     Classe classe,
     String name,
     String code,
-    List<MetadataViewModel> metadata,
+    Set<MetadataViewModel> metadata,
     bool isEditing,
     bool isSaving,
     bool shouldValidate,

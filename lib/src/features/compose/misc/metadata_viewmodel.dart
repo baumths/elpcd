@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-const kMetadadosEArqBrasil = <String>[
+const kMetadadosEArqBrasil = <String>{
   'Registro de Abertura',
   'Registro de Desativação',
   'Reativação da Classe',
@@ -15,7 +15,7 @@ const kMetadadosEArqBrasil = <String>[
   'Destinação Final',
   'Registro de Alteração',
   'Observações',
-];
+};
 
 class MetadataViewModel {
   MetadataViewModel({@required this.type, this.content = ''});
@@ -24,8 +24,8 @@ class MetadataViewModel {
 
   String content;
 
-  bool get isEmpty => content.trim().isEmpty;
-  bool get isNotEmpty => content.trim().isNotEmpty;
+  bool get isEmpty => content.isEmpty;
+  bool get isNotEmpty => content.isNotEmpty;
 
   Map<String, String> toMap() => {type: content};
 }

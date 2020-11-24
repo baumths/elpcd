@@ -1,3 +1,4 @@
+import 'package:elpcd_dart/src/features/compose/misc/misc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +8,6 @@ import '../../../repositories/hive_repository.dart';
 import '../../../shared/shared.dart';
 import '../../features.dart';
 import '../bloc/compose_bloc.dart';
-import '../misc/misc.dart';
 import 'widgets/widgets.dart';
 
 class ComposeView extends StatelessWidget {
@@ -37,8 +37,8 @@ class ComposeView extends StatelessWidget {
         },
         buildWhen: (p, c) => p.isSaving != c.isSaving,
         builder: (_, state) {
-          return ChangeNotifierProvider(
-            create: (_) => FormMetadata(),
+          return BlocProvider<MetadataCubit>(
+            create: (_) => MetadataCubit(),
             child: _ComposeViewScaffold(isSaving: state.isSaving),
           );
         },
@@ -81,8 +81,9 @@ class _ComposeViewScaffold extends StatelessWidget {
                       child: LinearProgressIndicator(),
                     ),
                   const SliverToBoxAdapter(child: RequiredFields()),
-                  const SliverToBoxAdapter(child: MetadataList()),
                   const SliverToBoxAdapter(child: AddMetadata()),
+                  const MetadataSliverList(),
+                  const SliverToBoxAdapter(child: SizedBox(height: 240)),
                 ],
               ),
             ),
@@ -100,7 +101,7 @@ class _ComposeViewScaffold extends StatelessWidget {
         icon: const Icon(Icons.check),
         onPressed: () => context
             .read<ComposeBloc>()
-            .add(SavePressed(metadata: context.read<FormMetadata>().metadata)),
+            .add(SavePressed(metadata: context.read<MetadataCubit>().state)),
       ),
       const SizedBox(width: 8),
     ];
