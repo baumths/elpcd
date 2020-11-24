@@ -4,17 +4,17 @@ import 'metadata_viewmodel.dart';
 
 // TODO: Maybe use a Cubit instead
 
-class FormMetadados extends ChangeNotifier {
-  static const int max = 14;
+class FormMetadata extends ChangeNotifier {
+  static const int maxMetadata = 14;
 
-  List<MetadataViewModel> metadados = <MetadataViewModel>[];
+  List<MetadataViewModel> metadata = <MetadataViewModel>[];
 
-  bool get canAddMetadados => metadados.length < max;
+  bool get canAddMetadata => metadata.length < maxMetadata;
 
-  void setInitialMetadados(List<MetadataViewModel> initialMetadados) {
-    if (initialMetadados.isEmpty) return;
-    metadados = initialMetadados;
-    for (final m in initialMetadados) {
+  void setInitialMetadata(List<MetadataViewModel> initialMetadata) {
+    if (initialMetadata.isEmpty) return;
+    metadata = initialMetadata;
+    for (final m in initialMetadata) {
       _isPresent[m.type] = true;
     }
     // Only notify when all metadados have been added,
@@ -22,16 +22,16 @@ class FormMetadados extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addMetadado(MetadataViewModel value) {
+  void addMetadata(MetadataViewModel value) {
     if (isPresent(value.type)) return;
-    metadados.add(value);
+    metadata.add(value);
     _isPresent[value.type] = true;
     notifyListeners();
   }
 
-  void removeMetadado(MetadataViewModel value) {
+  void removeMetadata(MetadataViewModel value) {
     if (isPresent(value.type)) {
-      metadados.remove(value);
+      metadata.remove(value);
       _isPresent[value.type] = false;
       notifyListeners();
     }

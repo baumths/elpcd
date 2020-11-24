@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'shared.dart';
-
 abstract class AppDialogs {
   static Widget warning({
     BuildContext context,
@@ -10,8 +8,8 @@ abstract class AppDialogs {
   }) {
     return AlertDialog(
       elevation: 12,
-      title: Text(title, textAlign: TextAlign.center).center(),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      title: Center(child: Text(title, textAlign: TextAlign.center)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       contentPadding: const EdgeInsets.fromLTRB(24, 12, 24, 4),
       content: ButtonBar(
         alignment: MainAxisAlignment.spaceBetween,
@@ -19,7 +17,7 @@ abstract class AppDialogs {
           OutlineButton(
             borderSide: BorderSide.none,
             child: const Text('Cancelar'),
-            onPressed: () => context.pop<bool>(false),
+            onPressed: () => Navigator.of(context).pop<bool>(false),
           ),
           Tooltip(
             message: 'Impossível desfazer',
@@ -30,7 +28,7 @@ abstract class AppDialogs {
                 btnText.toUpperCase(),
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              onPressed: () => context.pop<bool>(true),
+              onPressed: () => Navigator.of(context).pop<bool>(true),
             ),
           ),
         ],

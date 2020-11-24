@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../shared/shared.dart';
 import '../../controllers/home_controller.dart';
 
 class CodearqEditor extends StatelessWidget {
-  final double bottomSheetHeight = 60;
+  const CodearqEditor({Key key}) : super(key: key);
+
+  static const double kBottomSheetHeight = 60;
+
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<HomeController>();
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
       child: SizedBox(
-        height: bottomSheetHeight,
+        height: kBottomSheetHeight,
         child: Row(
           children: [
             const SizedBox(width: 8),
@@ -20,7 +22,7 @@ class CodearqEditor extends StatelessWidget {
               icon: const Icon(Icons.close),
               tooltip: 'Cancelar',
               splashRadius: 24,
-              onPressed: context.pop,
+              onPressed: Navigator.of(context).pop,
             ),
             const SizedBox(width: 8),
             Expanded(
@@ -30,7 +32,7 @@ class CodearqEditor extends StatelessWidget {
                 onSubmitted: (_) async {
                   await controller.saveCodearq(context);
                 },
-                style: context.theme.textTheme.headline5,
+                style: Theme.of(context).textTheme.headline5,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Digite aqui',
@@ -39,12 +41,12 @@ class CodearqEditor extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: bottomSheetHeight,
+              height: kBottomSheetHeight,
               child: FlatButton.icon(
                 icon: const Icon(Icons.check),
                 label: Text(
                   'SALVAR',
-                  style: context.theme.textTheme.headline6,
+                  style: Theme.of(context).textTheme.headline6,
                 ),
                 onPressed: () async {
                   await controller.saveCodearq(context);

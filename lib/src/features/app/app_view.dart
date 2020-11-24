@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../repositories/hive_repository.dart';
 import '../features.dart';
@@ -8,7 +8,7 @@ import 'app_theme.dart';
 class ElPCDApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _repository = context.watch<HiveRepository>();
+    final _repository = RepositoryProvider.of<HiveRepository>(context);
     return ValueListenableBuilder(
       valueListenable: _repository.listenToSettings(keys: ['darkMode']),
       builder: (_, __, ___) {

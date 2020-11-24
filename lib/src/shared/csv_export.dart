@@ -1,10 +1,15 @@
 import 'dart:convert' as convert;
 
 import 'package:csv/csv.dart';
+import 'package:flutter/foundation.dart';
 import 'package:universal_html/html.dart' as html;
 
 import '../entities/entities.dart';
 import '../repositories/hive_repository.dart';
+
+//! Refator into its own feature, this way it would be possible to track
+//! progress and display to the user using BloC.
+//! And it would be nice to refactor the `downloadCsvFile`, it is too crouded
 
 /// Export classes as csv to be imported into the software
 /// AtoM - AccessToMemory [https://accesstomemory.org]
@@ -32,19 +37,22 @@ class CsvExport {
   /// AtoM can index classes properly
   List<String> get _accessToMemoryRepositoryRow {
     final codearq = _repository.codearq;
-    return [codearq, codearq, '-1', '', codearq, codearq, '', '', ''];
+    final rootId = HiveRepository.kRootId.toString();
+    return [codearq, codearq, rootId, '', codearq, codearq, '', '', ''];
   }
 
   // Converts a single classe into a `List<String>` to be "joined" into csv
   List<String> toCsv(Classe classe) {
-    final metadata = AccessToMemoryMetadata(classe);
-    return metadata.convert(_repository);
+    final metadata = AccessToMemoryMetadata(
+      classe: classe,
+      referenceCode: classe.referenceCode(_repository),
+    );
+    return metadata.convert();
   }
 
   /// Converts classes from the database
   /// into the csv format to be written to a file
   Future<String> _databaseToCsv() async {
-    //! FIXME: broken
     final List<List<String>> rows = [
       csvHeader,
       _accessToMemoryRepositoryRow,
@@ -80,72 +88,64 @@ class CsvExport {
 }
 
 class AccessToMemoryMetadata {
-  AccessToMemoryMetadata(
-    this.classe, {
-    this.repository = '',
-  }) : assert(classe != null);
+  AccessToMemoryMetadata({
+    @required this.classe,
+    @required this.referenceCode,
+  })  : assert(classe != null),
+        assert(referenceCode != null);
 
   final Classe classe;
-  final String repository;
+  final String referenceCode;
 
   final scopeAndContent = <String>[];
   final arrangement = <String>[];
   final appraisal = <String>[];
 
-  List<String> convert(HiveRepository _repository) {
-    mapMetadadosToMetadata();
+  List<String> convert() {
+    _mapMetadadosEArqBrasilToAtoMMetadata();
     return <String>[
-      _repository.buildReferenceCode(classe),
-      repository,
+      referenceCode,
+      '',
       classe.id.toString(),
       classe.parentId.toString(),
       classe.code,
       classe.name,
-      scopeAndContent.join('\n\n'),
-      arrangement.join('\n\n'),
-      appraisal.join('\n\n'),
+      scopeAndContent.join('\n'),
+      arrangement.join('\n'),
+      appraisal.join('\n'),
     ];
   }
 
-  void mapMetadadosToMetadata() {
-    for (final md in classe.metadata.entries) {
+  /// Takes a list of `kMetadadosEArqBrasil` types and converts it into the
+  /// `AtoMMetadata` types,
+  void _mapMetadadosEArqBrasilToAtoMMetadata() {
+    classe.metadata.entries.forEach((md) {
       final eArqBrasilType = md.key;
       final content = md.value;
-      final atomType = mapEArqBrasilToAtom(eArqBrasilType);
-      switch (atomType) {
-        case 'scopeAndContent':
-          scopeAndContent.add('$eArqBrasilType: $content');
-          break;
-        case 'arrangement':
-          arrangement.add('$eArqBrasilType: $content');
-          break;
-        case 'appraisal':
-          appraisal.add('$eArqBrasilType: $content');
-          break;
-        default:
-          throw UnimplementedError();
-      }
-    }
+      _mapEArqBrasilToAtom(eArqBrasilType).add('$eArqBrasilType: $content');
+    });
   }
 
-  String mapEArqBrasilToAtom(String type) {
+  /// Takes a `kMetadadosEArqBrasil` type and returns
+  /// the list its content belongs to in `AtoMMetadata` types
+  List<String> _mapEArqBrasilToAtom(String type) {
     return {
-      'Registro de Abertura': 'scopeAndContent',
-      'Registro de Desativação': 'scopeAndContent',
-      'Reativação da Classe': 'arrangement',
-      'Registro de Mudança de Nome de Classe': 'arrangement',
-      'Registro de Deslocamento de Classe': 'arrangement',
-      'Registro de Extinção': 'arrangement',
-      'Indicador de Classe Ativa/Inativa': 'scopeAndContent',
-      'Prazo de Guarda na Fase Corrente': 'appraisal',
+      'Registro de Abertura': scopeAndContent,
+      'Registro de Desativação': scopeAndContent,
+      'Reativação da Classe': arrangement,
+      'Registro de Mudança de Nome de Classe': arrangement,
+      'Registro de Deslocamento de Classe': arrangement,
+      'Registro de Extinção': arrangement,
+      'Indicador de Classe Ativa/Inativa': scopeAndContent,
+      'Prazo de Guarda na Fase Corrente': appraisal,
       'Evento que Determina a Contagem do Prazo de Guarda na Fase Corrente':
-          'appraisal',
-      'Prazo de Guarda na Fase Intermediária': 'appraisal',
+          appraisal,
+      'Prazo de Guarda na Fase Intermediária': appraisal,
       'Evento que Determina a Contagem do Prazo de Guarda na Fase Intermediária':
-          'appraisal',
-      'Destinação Final': 'appraisal',
-      'Registro de Alteração': 'appraisal',
-      'Observações': 'appraisal',
+          appraisal,
+      'Destinação Final': appraisal,
+      'Registro de Alteração': appraisal,
+      'Observações': appraisal,
     }[type];
   }
 }

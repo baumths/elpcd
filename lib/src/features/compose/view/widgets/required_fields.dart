@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../shared/shared.dart';
 import '../../bloc/compose_bloc.dart';
 
 // TODO: Maybe use [flutter_hooks] for the `StatefulWidgets`
 
 class RequiredFields extends StatelessWidget {
+  const RequiredFields({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -20,7 +21,7 @@ class RequiredFields extends StatelessWidget {
             Text(
               'Metadados Obrigatórios',
               style: TextStyle(
-                color: context.theme.accentColor,
+                color: Theme.of(context).accentColor,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -58,7 +59,9 @@ class __CodeFormFieldState extends State<_CodeFormField> {
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (_, state) => _textController.text = state.code,
       buildWhen: (p, c) =>
-          p.code != c.code || p.shouldValidate != c.shouldValidate,
+          p.code != c.code ||
+          p.shouldValidate != c.shouldValidate ||
+          p.status != c.status,
       builder: (_, state) {
         return TextFormField(
           controller: _textController,
@@ -97,7 +100,9 @@ class __NameFormFieldState extends State<_NameFormField> {
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (_, state) => _textController.text = state.name,
       buildWhen: (p, c) =>
-          p.name != c.name || p.shouldValidate != c.shouldValidate,
+          p.name != c.name ||
+          p.shouldValidate != c.shouldValidate ||
+          p.status != c.status,
       builder: (_, state) {
         return TextFormField(
           minLines: 1,

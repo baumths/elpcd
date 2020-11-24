@@ -7,9 +7,14 @@ import '../entities/entities.dart';
 extension ClasseX on Classe {
   bool get hasChildren => HiveRepository.hasChildren(id);
   List<Classe> get children => HiveRepository.getChildrenOf(id);
+
+  String referenceCode(HiveRepository repository) {
+    return repository.buildReferenceCode(this);
+  }
 }
 
 class HiveRepository {
+  static const kRootId = -1;
   final boxesDirectoryName = '.elpcd_database';
   final settingsBoxName = 'settings';
   final classesBoxName = 'classes';
@@ -28,7 +33,7 @@ class HiveRepository {
   static Box<Classe> classesBox;
   static Box<dynamic> settingsBox;
 
-  ValueListenable<Box<dynamic>> listenToClasses({List<dynamic> keys}) {
+  ValueListenable<Box<Classe>> listenToClasses({List<dynamic> keys}) {
     return classesBox.listenable(keys: keys);
   }
 
@@ -43,14 +48,13 @@ class HiveRepository {
 
   Classe getClasseById(int id) => classesBox.get(id);
 
-  Future<void> insert(Classe classe) async {
-    final int id = await classesBox.add(classe);
-    classe.id = id;
-    await classe.save();
-
-    if (classe.parentId != -1) {
-      addChildToParentsChildren(classe);
+  Future<void> upsert(Classe classe) async {
+    final bool isUpdating = classesBox.containsKey(classe.id);
+    if (!isUpdating) {
+      final int id = await classesBox.add(classe);
+      classe.id = id;
     }
+    await classe.save();
   }
 
   static List<Classe> getChildrenOf(int id) {
@@ -66,28 +70,18 @@ class HiveRepository {
     return child == null ? false : true;
   }
 
-  List<Classe> fetch({bool parents = false}) {
-    if (parents) {
-      return classesBox.values.where((p) => p.parentId == -1).toList();
+  List<Classe> fetch({bool parentsOnly = false}) {
+    if (parentsOnly) {
+      return classesBox.values.where((p) => p.parentId == kRootId).toList();
     }
     return classesBox.values.toList();
   }
 
-  Future<void> update(Classe classe) async {
-    if (getClasseById(classe.id) == null) return insert(classe);
-    return classe.save();
-  }
-
   Future<void> delete(Classe classe) async => classe.delete();
-
-  void addChildToParentsChildren(Classe child) {
-    final parent = getClasseById(child.parentId);
-    parent.children.add(child);
-  }
 
   /// Recursively build Reference Code for [classe]
   String buildReferenceCode(Classe classe) {
-    if (classe.parentId == -1) return '$codearq ${classe.code}';
+    if (classe.parentId == kRootId) return '$codearq ${classe.code}';
     final parent = getClasseById(classe.parentId);
     return '${buildReferenceCode(parent)}-${classe.code}';
   }

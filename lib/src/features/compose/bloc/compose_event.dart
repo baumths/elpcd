@@ -38,10 +38,10 @@ class CodeChanged extends ComposeEvent {
 }
 
 class SavePressed extends ComposeEvent {
-  const SavePressed({@required this.metadados});
+  const SavePressed({@required this.metadata});
 
-  final List<MetadataViewModel> metadados;
+  final List<MetadataViewModel> metadata;
 
   @override
-  List<Object> get props => [metadados];
+  List<Object> get props => [metadata];
 }

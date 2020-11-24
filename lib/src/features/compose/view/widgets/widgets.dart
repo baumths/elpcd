@@ -1,4 +1,4 @@
-export 'add_metadados.dart';
-export 'metadados_card.dart';
-export 'metadados_list.dart';
+export 'add_metadata.dart';
+export 'metadata_card.dart';
+export 'metadata_list.dart';
 export 'required_fields.dart';

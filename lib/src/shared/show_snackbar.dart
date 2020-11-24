@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../shared/shared.dart';
-
 abstract class ShowSnackBar {
   static void error(BuildContext context, String msg, {int duration = 3}) {
     ScaffoldMessenger.of(context)
@@ -27,11 +25,13 @@ abstract class ShowSnackBar {
       ..showSnackBar(
         SnackBar(
           duration: Duration(seconds: duration),
-          backgroundColor: context.accentColor,
+          backgroundColor: Theme.of(context).accentColor,
           content: Text(
             msg,
             style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.black),
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
           ),
         ),
       );

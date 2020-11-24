@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../shared/shared.dart';
 import '../../misc/misc.dart';
 
-class MetadadosCard extends StatelessWidget {
-  const MetadadosCard({Key key, @required this.metadado}) : super(key: key);
+class MetadataCard extends StatelessWidget {
+  const MetadataCard({Key key, @required this.metadata}) : super(key: key);
 
-  final MetadataViewModel metadado;
+  final MetadataViewModel metadata;
 
   // TODO: `destinacaoFinal` and `indicador` should be toggle buttons
 
@@ -20,9 +19,9 @@ class MetadadosCard extends StatelessWidget {
         children: [
           ListTile(
             title: Text(
-              metadado.type,
+              metadata.type,
               style: TextStyle(
-                color: context.accentColor,
+                color: Theme.of(context).accentColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -30,7 +29,7 @@ class MetadadosCard extends StatelessWidget {
               splashRadius: 20,
               icon: const Icon(Icons.delete),
               onPressed: () {
-                context.read<FormMetadados>().removeMetadado(metadado);
+                context.read<FormMetadata>().removeMetadata(metadata);
               },
             ),
           ),
@@ -39,11 +38,11 @@ class MetadadosCard extends StatelessWidget {
             child: TextFormField(
               minLines: 1,
               maxLines: null,
-              initialValue: metadado.content,
+              initialValue: metadata.content,
               decoration: const InputDecoration(
-                hintText: 'Metadados em branco serão removidos.',
+                hintText: 'Metadados não preenchidos serão removidos.',
               ),
-              onChanged: (value) => metadado.content = value.trim(),
+              onChanged: (value) => metadata.content = value.trim(),
             ),
           ),
         ],

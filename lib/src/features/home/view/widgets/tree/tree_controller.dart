@@ -1,11 +1,10 @@
 part of 'treeview.dart';
 
 class TreeviewController extends ChangeNotifier {
-  TreeviewController({bool allNodesExpanded = false}) {
-    _treeController = TreeController(allNodesExpanded: allNodesExpanded);
-  }
+  TreeviewController({bool allNodesExpanded = false})
+      : _treeController = TreeController(allNodesExpanded: allNodesExpanded);
 
-  TreeController _treeController;
+  final TreeController _treeController;
 
   TreeController get treeController => _treeController;
 
