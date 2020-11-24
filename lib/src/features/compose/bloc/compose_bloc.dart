@@ -14,8 +14,6 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
 
   final HiveRepository _repository;
 
-  //! BLOC exiting with null error
-
   @override
   Stream<ComposeState> mapEventToState(ComposeEvent event) async* {
     if (event is ComposeStarted) {
@@ -58,7 +56,7 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
     }
   }
 
-  Future<void> saveClasse(List<MetadataViewModel> metadata) async {
+  Future<void> saveClasse(Set<MetadataViewModel> metadata) async {
     final classe = state.classe
       ..name = state.name
       ..code = state.code
@@ -66,16 +64,16 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
     _repository.upsert(classe);
   }
 
-  Map<String, String> metadataToMap(List<MetadataViewModel> metadata) {
+  Map<String, String> metadataToMap(Set<MetadataViewModel> metadata) {
     return <String, String>{
       for (final md in metadata)
         if (md.isNotEmpty) ...md.toMap()
     };
   }
 
-  List<MetadataViewModel> metadataFromMap(Map<String, String> metadata) {
+  Set<MetadataViewModel> metadataFromMap(Map<String, String> metadata) {
     return metadata.entries.map<MetadataViewModel>((md) {
       return MetadataViewModel(type: md.key, content: md.value);
-    }).toList();
+    }).toSet();
   }
 }
