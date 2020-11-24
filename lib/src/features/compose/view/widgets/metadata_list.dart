@@ -6,23 +6,25 @@ import '../../bloc/compose_bloc.dart';
 import '../../misc/misc.dart';
 import 'widgets.dart';
 
-class MetadadosList extends StatelessWidget {
+class MetadataList extends StatelessWidget {
+  const MetadataList({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<ComposeBloc, ComposeState>(
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (_, state) {
-        context.read<FormMetadados>().setInitialMetadados(state.metadata);
+        context.read<FormMetadata>().setInitialMetadata(state.metadata);
       },
-      child: Consumer<FormMetadados>(
-        builder: (_, formMetadados, __) {
+      child: Consumer<FormMetadata>(
+        builder: (_, formMetadata, __) {
           return ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: formMetadados.metadados.length,
+            itemCount: formMetadata.metadata.length,
             itemBuilder: (_, index) {
-              return MetadadosCard(
-                metadado: formMetadados.metadados.elementAt(index),
+              return MetadataCard(
+                metadata: formMetadata.metadata.elementAt(index),
               );
             },
           );

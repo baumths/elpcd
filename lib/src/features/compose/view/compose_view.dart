@@ -38,7 +38,7 @@ class ComposeView extends StatelessWidget {
         buildWhen: (p, c) => p.isSaving != c.isSaving,
         builder: (_, state) {
           return ChangeNotifierProvider(
-            create: (_) => FormMetadados(),
+            create: (_) => FormMetadata(),
             child: _ComposeViewScaffold(isSaving: state.isSaving),
           );
         },
@@ -65,20 +65,8 @@ class _ComposeViewScaffold extends StatelessWidget {
             return Text(state.isEditing ? 'Editando Classe' : 'Nova Classe');
           },
         ),
-        leading: IconButton(
-          tooltip: 'Cancelar',
-          splashRadius: 20,
-          icon: const Icon(Icons.arrow_back),
-          onPressed: Navigator.of(context).pop,
-        ),
-        actions: [
-          IconButton(
-            tooltip: 'Salvar',
-            icon: const Icon(Icons.check),
-            onPressed: () => context.read<ComposeBloc>().add(SavePressed(
-                metadados: context.read<FormMetadados>().metadados)),
-          )
-        ],
+        leading: _leading(context),
+        actions: _actions(context),
       ),
       body: BlocBuilder<ComposeBloc, ComposeState>(
         builder: (_, state) {
@@ -92,15 +80,38 @@ class _ComposeViewScaffold extends StatelessWidget {
                     const SliverToBoxAdapter(
                       child: LinearProgressIndicator(),
                     ),
-                  SliverToBoxAdapter(child: RequiredFields()),
-                  SliverToBoxAdapter(child: MetadadosList()),
-                  SliverToBoxAdapter(child: AddMetadados()),
+                  const SliverToBoxAdapter(child: RequiredFields()),
+                  const SliverToBoxAdapter(child: MetadataList()),
+                  const SliverToBoxAdapter(child: AddMetadata()),
                 ],
               ),
             ),
           );
         },
       ),
+    );
+  }
+
+  List<Widget> _actions(BuildContext context) {
+    return <Widget>[
+      IconButton(
+        splashRadius: 20,
+        tooltip: 'Salvar',
+        icon: const Icon(Icons.check),
+        onPressed: () => context
+            .read<ComposeBloc>()
+            .add(SavePressed(metadata: context.read<FormMetadata>().metadata)),
+      ),
+      const SizedBox(width: 8),
+    ];
+  }
+
+  IconButton _leading(BuildContext context) {
+    return IconButton(
+      tooltip: 'Cancelar',
+      splashRadius: 20,
+      icon: const Icon(Icons.arrow_back),
+      onPressed: Navigator.of(context).pop,
     );
   }
 }

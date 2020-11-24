@@ -37,10 +37,14 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
     } else if (event is CodeChanged) {
       yield state.copyWith(code: event.code);
     } else if (event is SavePressed) {
-      yield state.copyWith(isSaving: true, shouldValidate: true);
+      yield state.copyWith(
+        isSaving: true,
+        shouldValidate: true,
+        status: ComposeStatus.none,
+      );
 
       if (state.isFormValid) {
-        await saveClasse(event.metadados);
+        await saveClasse(event.metadata);
         yield state.copyWith(
           isSaving: false,
           status: ComposeStatus.success,
@@ -59,14 +63,11 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
       ..name = state.name
       ..code = state.code
       ..metadata = metadataToMap(metadata);
-
-    state.isEditing
-        ? await _repository.update(classe)
-        : await _repository.insert(classe);
+    _repository.upsert(classe);
   }
 
   Map<String, String> metadataToMap(List<MetadataViewModel> metadata) {
-    return {
+    return <String, String>{
       for (final md in metadata)
         if (md.isNotEmpty) ...md.toMap()
     };

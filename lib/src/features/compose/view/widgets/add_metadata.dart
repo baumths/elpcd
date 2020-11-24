@@ -3,26 +3,29 @@ import 'package:provider/provider.dart';
 
 import '../../misc/misc.dart';
 
-class AddMetadados extends StatelessWidget {
+class AddMetadata extends StatelessWidget {
+  const AddMetadata({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: make user select from `MetadataType`, only one of each can be added
-    return Selector<FormMetadados, bool>(
-      selector: (_, value) => value.canAddMetadados,
-      builder: (_, canAddMetadados, child) {
+    return Selector<FormMetadata, bool>(
+      selector: (_, value) => value.canAddMetadata,
+      builder: (_, canAddMetadata, child) {
         return ListTile(
-          enabled: canAddMetadados,
+          enabled: canAddMetadata,
+          minLeadingWidth: 10,
           contentPadding: const EdgeInsets.only(left: 24),
           leading: const Icon(Icons.add),
+          dense: true,
+          subtitle: const Text('Metadados não preenchidos serão removidos.'),
           title: child,
           onTap: () async {
-            // TODO: show dialog to choose metadado
-            if (canAddMetadados) {
+            if (canAddMetadata) {
               final String selected = await _metadadosSelector(context);
               if (selected != null) {
                 context
-                    .read<FormMetadados>()
-                    .addMetadado(MetadataViewModel(type: selected));
+                    .read<FormMetadata>()
+                    .addMetadata(MetadataViewModel(type: selected));
               }
             }
             // TODO: Notify bloc
@@ -37,7 +40,7 @@ class AddMetadados extends StatelessWidget {
   }
 
   Future<String> _metadadosSelector(BuildContext context) async {
-    final formMetadados = context.read<FormMetadados>();
+    final formMetadados = context.read<FormMetadata>();
     return showDialog<String>(
       context: context,
       builder: (context) {
@@ -47,9 +50,7 @@ class AddMetadados extends StatelessWidget {
             for (String type in kMetadadosEArqBrasil)
               if (!formMetadados.isPresent(type))
                 SimpleDialogOption(
-                  onPressed: () {
-                    Navigator.pop<String>(context, type);
-                  },
+                  onPressed: () => Navigator.pop<String>(context, type),
                   child: Text(type),
                 )
           ],

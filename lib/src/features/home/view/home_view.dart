@@ -47,7 +47,7 @@ class HomeView extends StatelessWidget {
       builder: (BuildContext context) => IconButton(
         icon: const Icon(Icons.segment),
         tooltip: 'Configurações',
-        splashRadius: 24,
+        splashRadius: 20,
         onPressed: Scaffold.of(context).openDrawer,
       ),
     );
