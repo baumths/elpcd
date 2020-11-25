@@ -61,7 +61,7 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
       ..name = state.name
       ..code = state.code
       ..metadata = metadataToMap(metadata);
-    _repository.upsert(classe);
+    await _repository.upsert(classe);
   }
 
   Map<String, String> metadataToMap(Set<MetadataViewModel> metadata) {

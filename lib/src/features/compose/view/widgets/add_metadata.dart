@@ -8,7 +8,7 @@ class AddMetadata extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool canAddMetadata = context.watch<MetadataCubit>().canAddMetadata;
+    final canAddMetadata = context.watch<MetadataCubit>().canAddMetadata;
 
     return Center(
       child: SizedBox(
@@ -49,7 +49,7 @@ class _AddMetadataButton extends StatelessWidget {
           ),
         ),
         onTap: () async {
-          final String selected = await _metadadosSelector(context);
+          final selected = await _metadadosSelector(context);
           if (selected != null) {
             context
                 .read<MetadataCubit>()

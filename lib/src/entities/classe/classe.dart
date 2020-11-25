@@ -45,7 +45,7 @@ class Classe with HiveObject {
 
   @override
   String toString() {
-    final String metadadosStr = metadata.entries
+    final metadadosStr = metadata.entries
         .map<String>((md) => '${md.key}: ${md.value}')
         .toList()
         .join('\n');

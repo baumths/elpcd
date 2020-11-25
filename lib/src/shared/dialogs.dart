@@ -6,6 +6,9 @@ abstract class AppDialogs {
     String title,
     String btnText,
   }) {
+    final cancelTextColor = Theme.of(context).brightness == Brightness.dark
+        ? Theme.of(context).accentColor
+        : Theme.of(context).primaryColor;
     return AlertDialog(
       elevation: 12,
       title: Center(child: Text(title, textAlign: TextAlign.center)),
@@ -15,6 +18,7 @@ abstract class AppDialogs {
         alignment: MainAxisAlignment.spaceBetween,
         children: [
           OutlineButton(
+            textColor: cancelTextColor,
             borderSide: BorderSide.none,
             child: const Text('Cancelar'),
             onPressed: () => Navigator.of(context).pop<bool>(false),

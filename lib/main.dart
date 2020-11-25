@@ -6,7 +6,7 @@ import 'src/features/features.dart';
 import 'src/repositories/hive_repository.dart';
 
 Future<void> main() async {
-  final HiveRepository repository = HiveRepository();
+  final repository = HiveRepository();
   await repository.initDatabase();
   runApp(
     MultiProvider(

@@ -71,7 +71,7 @@ class _SetupTreeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isSmallDisplay = MediaQuery.of(context).size.width < 600;
+    final isSmallDisplay = MediaQuery.of(context).size.width < 600;
     return Consumer<TreeviewController>(
       builder: (_, controller, __) {
         return Scrollbar(

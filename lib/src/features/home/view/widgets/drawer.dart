@@ -85,7 +85,7 @@ class _ChangeCodearqTile extends StatelessWidget {
         label: ValueListenableBuilder(
           valueListenable: repository.listenToSettings(keys: ['codearq']),
           builder: (_, __, ___) {
-            String codearq = repository.codearq;
+            var codearq = repository.codearq;
             if (codearq.length > 9) {
               codearq = '${codearq.substring(0, 10)}...';
             }

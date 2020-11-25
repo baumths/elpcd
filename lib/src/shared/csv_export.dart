@@ -53,7 +53,7 @@ class CsvExport {
   /// Converts classes from the database
   /// into the csv format to be written to a file
   Future<String> _databaseToCsv() async {
-    final List<List<String>> rows = [
+    final rows = [
       csvHeader,
       _accessToMemoryRepositoryRow,
       for (final classe in _repository.fetch()) toCsv(classe)
