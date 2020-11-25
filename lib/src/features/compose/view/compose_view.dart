@@ -59,6 +59,7 @@ class _ComposeViewScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        titleSpacing: 0.0,
         title: BlocBuilder<ComposeBloc, ComposeState>(
           buildWhen: (p, c) => p.isEditing != c.isEditing,
           builder: (_, state) {
@@ -66,24 +67,22 @@ class _ComposeViewScaffold extends StatelessWidget {
           },
         ),
         leading: _leading(context),
-        actions: _actions(context),
       ),
+      floatingActionButton: _floatingActionButton(context),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: BlocBuilder<ComposeBloc, ComposeState>(
         builder: (_, state) {
           return IgnorePointer(
             ignoring: isSaving,
-            child: Scrollbar(
-              radius: const Radius.circular(8),
+            child: const Scrollbar(
+              radius: Radius.circular(8),
               child: CustomScrollView(
                 slivers: [
-                  if (isSaving)
-                    const SliverToBoxAdapter(
-                      child: LinearProgressIndicator(),
-                    ),
-                  const SliverToBoxAdapter(child: RequiredFields()),
-                  const SliverToBoxAdapter(child: AddMetadata()),
-                  const MetadataSliverList(),
-                  const SliverToBoxAdapter(child: SizedBox(height: 240)),
+                  SliverToBoxAdapter(child: SizedBox(height: 24)),
+                  SliverToBoxAdapter(child: RequiredFields()),
+                  SliverToBoxAdapter(child: AddMetadata()),
+                  MetadataSliverList(),
+                  SliverToBoxAdapter(child: SizedBox(height: 240)),
                 ],
               ),
             ),
@@ -93,26 +92,31 @@ class _ComposeViewScaffold extends StatelessWidget {
     );
   }
 
-  List<Widget> _actions(BuildContext context) {
-    return <Widget>[
-      IconButton(
-        splashRadius: 20,
-        tooltip: 'Salvar',
-        icon: const Icon(Icons.check),
-        onPressed: () => context
-            .read<ComposeBloc>()
-            .add(SavePressed(metadata: context.read<MetadataCubit>().state)),
-      ),
-      const SizedBox(width: 8),
-    ];
-  }
-
   IconButton _leading(BuildContext context) {
     return IconButton(
       tooltip: 'Cancelar',
       splashRadius: 20,
       icon: const Icon(Icons.arrow_back),
       onPressed: Navigator.of(context).pop,
+    );
+  }
+
+  FloatingActionButton _floatingActionButton(BuildContext context) {
+    if (isSaving) {
+      return FloatingActionButton(
+        onPressed: null,
+        child: CircularProgressIndicator(
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
+      );
+    }
+    return FloatingActionButton.extended(
+      hoverColor: Colors.white10,
+      label: const Text('SALVAR'),
+      icon: const Icon(Icons.check),
+      onPressed: () => context
+          .read<ComposeBloc>()
+          .add(SavePressed(metadata: context.read<MetadataCubit>().state)),
     );
   }
 }
