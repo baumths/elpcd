@@ -8,29 +8,55 @@ class AddMetadata extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canAddMetadata = context.watch<MetadataCubit>().canAddMetadata;
-    return ListTile(
-      enabled: canAddMetadata,
-      minLeadingWidth: 10,
-      contentPadding: const EdgeInsets.only(left: 24),
-      leading: const Icon(Icons.add),
-      dense: true,
-      subtitle: const Text('Metadados não preenchidos serão removidos.'),
-      title: const Text(
-        'Adicionar Metadados',
-        style: TextStyle(fontWeight: FontWeight.bold),
+    final bool canAddMetadata = context.watch<MetadataCubit>().canAddMetadata;
+
+    return Center(
+      child: SizedBox(
+        width: 600,
+        child: canAddMetadata
+            ? const _AddMetadataButton()
+            : const _MetadataDivider(),
       ),
-      onTap: () async {
-        if (canAddMetadata) {
+    );
+  }
+}
+
+class _AddMetadataButton extends StatelessWidget {
+  const _AddMetadataButton({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final color = Theme.of(context).brightness == Brightness.dark
+        ? Theme.of(context).accentColor
+        : Theme.of(context).primaryColor;
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(24, 4, 24, 0),
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+        ),
+        minLeadingWidth: 10,
+        contentPadding: const EdgeInsets.only(left: 24),
+        leading: Icon(Icons.add, color: color),
+        dense: true,
+        subtitle: const Text('Metadados não preenchidos serão removidos.'),
+        title: Text(
+          'Adicionar Metadados',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
+        onTap: () async {
           final String selected = await _metadadosSelector(context);
           if (selected != null) {
             context
                 .read<MetadataCubit>()
                 .addMetadata(MetadataViewModel(type: selected));
           }
-        }
-        // TODO: Notify bloc
-      },
+        },
+      ),
     );
   }
 
@@ -51,6 +77,37 @@ class AddMetadata extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _MetadataDivider extends StatelessWidget {
+  const _MetadataDivider({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final color = Theme.of(context).brightness == Brightness.dark
+        ? Theme.of(context).accentColor
+        : Theme.of(context).primaryColor;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(child: Container(color: color, height: 1)),
+          const SizedBox(width: 4),
+          Text(
+            'Metadados Adicionais',
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                .copyWith(fontWeight: FontWeight.bold, color: color),
+          ),
+          const SizedBox(width: 4),
+          Expanded(child: Container(color: color, height: 1)),
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,15 @@
 # ***TODO* list do projeto**
 
-> **IMPORTANTE**: Todos os arquivos precisam ser revisados, por um erro de substituição durante o refatoramento
+> *Alterar o nome da branch `master` para `main` durante o próximo `merge`*
+> ```bash
+> git branch -m master main
+> git push -u origin main
+> ```
+> ➜ *Mudar a `default branch` no github*
+> ```bash
+> git push origin --delete master
+> git remote set-head origin -a
+> ```
 
 ## ➜ **FEATURES**
 
