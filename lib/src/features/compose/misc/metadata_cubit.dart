@@ -21,7 +21,6 @@ class MetadataCubit extends Cubit<Set<MetadataViewModel>> {
   }
 
   bool isPresent(String type) {
-    // ignore: avoid_bool_literals_in_conditional_expressions
     return state.firstWhere((md) => md.type == type, orElse: () => null) == null
         ? false
         : true;

@@ -49,9 +49,9 @@ class HiveRepository {
   Classe getClasseById(int id) => classesBox.get(id);
 
   Future<void> upsert(Classe classe) async {
-    final bool isUpdating = classesBox.containsKey(classe.id);
+    final isUpdating = classesBox.containsKey(classe.id);
     if (!isUpdating) {
-      final int id = await classesBox.add(classe);
+      final id = await classesBox.add(classe);
       classe.id = id;
     }
     await classe.save();
@@ -66,7 +66,6 @@ class HiveRepository {
       (c) => c.parentId == id,
       orElse: () => null,
     );
-    // ignore: avoid_bool_literals_in_conditional_expressions
     return child == null ? false : true;
   }
 

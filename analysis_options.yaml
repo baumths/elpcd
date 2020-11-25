@@ -1,9 +1,1 @@
-include: package:lint/analysis_options.yaml
-
-linter:
-  rules:
-    avoid_function_literals_in_foreach_calls: false
-    avoid_positional_boolean_parameters: false
-    sort_child_properties_last: false
-    sort_pub_dependencies: false
-    unsafe_html: false
+include: package:pedantic/analysis_options.yaml
