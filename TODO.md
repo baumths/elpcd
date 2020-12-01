@@ -1,16 +1,5 @@
 # ***TODO* list do projeto**
 
-> *Alterar o nome da branch `master` para `main` durante o próximo `merge`*
-> ```bash
-> git branch -m master main
-> git push -u origin main
-> ```
-> ➜ *Mudar a `default branch` no github*
-> ```bash
-> git push origin --delete master
-> git remote set-head origin -a
-> ```
-
 ## ➜ **FEATURES**
 
 1) Nova VIEW `SearchView` para buscas, com histórico
@@ -22,10 +11,6 @@
 4) Criar outros BloC para as features, como:
     - Exportação de Csv, para que possa haver uma indicação de progresso
     - `HomeBloc` > permitirá remover as regras de negócio de dentro dos Widgets
-
-## ➜ **FIXME**
-  - Os metadados `Destinação Final` e `Indicador de classe ativa/inativa` precisam de um Widget específico como um `ToggleButton` ou um `SegmentedControll`
-  - De alguma maneira melhorar a criação de Códigos de Referência, o código está muito espalhado, deveria ser apenas um `getter` do objeto `Classe`
 
 ## ➜ **WISHLIST**
 
