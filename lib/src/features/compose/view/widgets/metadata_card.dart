@@ -55,6 +55,7 @@ class _MetadataFormField extends StatelessWidget {
         maxLines: null,
         initialValue: metadata.content,
         decoration: InputDecoration(
+          hintText: 'Metadados não preenchidos serão removidos.',
           suffixIcon: IconButton(
             splashRadius: 20,
             tooltip: 'Remover',

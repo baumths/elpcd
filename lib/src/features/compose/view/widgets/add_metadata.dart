@@ -39,8 +39,6 @@ class _AddMetadataButton extends StatelessWidget {
         minLeadingWidth: 10,
         contentPadding: const EdgeInsets.only(left: 24),
         leading: Icon(Icons.add, color: color),
-        dense: true,
-        subtitle: const Text('Metadados não preenchidos serão removidos.'),
         title: Text(
           'Adicionar Metadados',
           style: TextStyle(
