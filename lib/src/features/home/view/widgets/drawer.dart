@@ -8,7 +8,7 @@ import '../../home.dart';
 import 'widgets.dart';
 
 class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({Key key}) : super(key: key);
+  const HomeDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,24 +36,24 @@ class HomeDrawer extends StatelessWidget {
 }
 
 class _DrawerHeader extends StatelessWidget {
-  const _DrawerHeader({Key key}) : super(key: key);
+  const _DrawerHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const DrawerHeader(
-      child: SizedBox.shrink(),
       decoration: BoxDecoration(
         color: Colors.white,
         image: DecorationImage(
           image: AssetImage('assets/gedalogo_270x270.png'),
         ),
       ),
+      child: SizedBox.shrink(),
     );
   }
 }
 
 class _DownloadCsvTile extends StatelessWidget {
-  const _DownloadCsvTile({Key key}) : super(key: key);
+  const _DownloadCsvTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class _DownloadCsvTile extends StatelessWidget {
 }
 
 class _ChangeCodearqTile extends StatelessWidget {
-  const _ChangeCodearqTile({Key key}) : super(key: key);
+  const _ChangeCodearqTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +111,7 @@ class _ChangeCodearqTile extends StatelessWidget {
 }
 
 class _DarkModeSwitch extends StatelessWidget {
-  const _DarkModeSwitch({Key key}) : super(key: key);
+  const _DarkModeSwitch({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +124,6 @@ class _DarkModeSwitch extends StatelessWidget {
         final homeController = context.read<HomeController>()
           ..toggleSaving(value: true);
 
-        // TODO: Move to HomeBloc
         await HiveRepository.settingsBox.put('darkMode', _);
 
         homeController.toggleSaving(value: false);

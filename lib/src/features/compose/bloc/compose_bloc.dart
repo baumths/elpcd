@@ -17,11 +17,7 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
   @override
   Stream<ComposeState> mapEventToState(ComposeEvent event) async* {
     if (event is ComposeStarted) {
-      if (event.classe == null) {
-        yield state.copyWith(
-          classe: Classe.root(),
-        );
-      } else {
+      if (event.classe != state.classe) {
         yield state.copyWith(
           classe: event.classe,
           name: event.classe.name,
@@ -57,7 +53,9 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
   }
 
   Future<void> saveClasse(Set<MetadataViewModel> metadata) async {
-    final classe = state.classe
+    if (state.classe == null) return;
+
+    final classe = state.classe!
       ..name = state.name
       ..code = state.code
       ..metadata = metadataToMap(metadata);

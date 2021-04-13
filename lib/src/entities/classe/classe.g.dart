@@ -20,8 +20,8 @@ class ClasseAdapter extends TypeAdapter<Classe> {
       name: fields[2] as String,
       code: fields[3] as String,
       parentId: fields[1] as int,
-      metadata: (fields[5] as Map)?.cast<String, String>(),
-    )..id = fields[0] as int;
+      metadata: (fields[5] as Map).cast<String, String>(),
+    )..id = fields[0] as int?;
   }
 
   @override

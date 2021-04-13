@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../repositories/hive_repository.dart';
 import '../../../shared/shared.dart';
 
-//! TODO: CONVERT TO BLOC
-
 class HomeController with ChangeNotifier {
   String _newCodearq = 'ElPCD';
   bool isSaving = false;
 
-  void toggleSaving({@required bool value}) {
+  void toggleSaving({required bool value}) {
     isSaving = value;
     notifyListeners();
   }

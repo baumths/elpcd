@@ -1,32 +1,30 @@
 name: elpcd_dart
 description: 'Ferramenta para criação de PCDs e TTDs'
-
 publish_to: 'none'
-
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  csv: ^4.1.0
-  cupertino_icons: ^1.0.0
-  equatable: ^1.2.5
-  flutter_bloc: ^6.1.1
-  flutter_simple_treeview: ^2.0.2
-  hive: ^1.4.4+1
-  hive_flutter: ^0.3.1
-  provider: ^4.3.2+2
-  universal_html: ^1.2.3
+  csv: ^5.0.0
+  cupertino_icons: ^1.0.2
+  equatable: ^2.0.0
+  file_saver: ^0.0.6
+  flutter_bloc: ^7.0.0
+  flutter_simple_treeview: ^3.0.0-nullsafety.1
+  hive: ^2.0.3
+  hive_flutter: ^1.0.0
+  provider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.10.6
-  hive_generator: ^0.8.2
-  pedantic: ^1.9.2
+  build_runner: ^1.12.2
+  hive_generator: ^1.0.1
+  pedantic: ^1.11.0
 
 flutter:
   uses-material-design: true

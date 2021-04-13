@@ -6,7 +6,7 @@ import '../../misc/misc.dart';
 import 'widgets.dart';
 
 class MetadataSliverList extends StatelessWidget {
-  const MetadataSliverList({Key key}) : super(key: key);
+  const MetadataSliverList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -26,18 +26,18 @@ class HiveRepository {
       Hive.registerAdapter<Classe>(ClasseAdapter());
     }
 
-    settingsBox = await Hive.openBox<dynamic>(settingsBoxName);
+    settingsBox = await Hive.openBox<Object>(settingsBoxName);
     classesBox = await Hive.openBox<Classe>(classesBoxName);
   }
 
-  static Box<Classe> classesBox;
-  static Box<dynamic> settingsBox;
+  static late Box<Classe> classesBox;
+  static late Box<Object> settingsBox;
 
-  ValueListenable<Box<Classe>> listenToClasses({List<dynamic> keys}) {
+  ValueListenable<Box<Classe>> listenToClasses({List<Object>? keys}) {
     return classesBox.listenable(keys: keys);
   }
 
-  ValueListenable<Box<dynamic>> listenToSettings({List<dynamic> keys}) {
+  ValueListenable<Box<Object>> listenToSettings({List<Object>? keys}) {
     return settingsBox.listenable(keys: keys);
   }
 
@@ -46,7 +46,7 @@ class HiveRepository {
   String get codearq =>
       settingsBox.get('codearq', defaultValue: 'ElPCD') as String;
 
-  Classe getClasseById(int id) => classesBox.get(id);
+  Classe? getClasseById(int id) => classesBox.get(id);
 
   Future<void> upsert(Classe classe) async {
     final isUpdating = classesBox.containsKey(classe.id);
@@ -57,16 +57,19 @@ class HiveRepository {
     await classe.save();
   }
 
-  static List<Classe> getChildrenOf(int id) {
-    return classesBox.values.where((c) => c.parentId == id).toList();
+  static List<Classe> getChildrenOf(int? id) {
+    return classesBox.values.where((child) => child.parentId == id).toList();
   }
 
-  static bool hasChildren(int id) {
-    final child = classesBox.values.firstWhere(
-      (c) => c.parentId == id,
-      orElse: () => null,
-    );
-    return child == null ? false : true;
+  static bool hasChildren(int? id) {
+    try {
+      classesBox.values.firstWhere(
+        (child) => child.parentId == id,
+      );
+    } on StateError {
+      return false;
+    }
+    return true;
   }
 
   List<Classe> fetch({bool parentsOnly = false}) {
@@ -80,8 +83,11 @@ class HiveRepository {
 
   /// Recursively build Reference Code for [classe]
   String buildReferenceCode(Classe classe) {
-    if (classe.parentId == kRootId) return '$codearq ${classe.code}';
-    final parent = getClasseById(classe.parentId);
+    if (classe.parentId == kRootId) {
+      return '$codearq ${classe.code}';
+    }
+    final parent = getClasseById(classe.parentId)!;
+
     return '${buildReferenceCode(parent)}-${classe.code}';
   }
 }

@@ -11,18 +11,20 @@ import '../bloc/compose_bloc.dart';
 import 'widgets/widgets.dart';
 
 class ComposeView extends StatelessWidget {
-  const ComposeView({Key key}) : super(key: key);
+  const ComposeView({Key? key}) : super(key: key);
 
   static const routeName = '/compose';
 
   @override
   Widget build(BuildContext context) {
-    final classe = ModalRoute.of(context).settings.arguments as Classe;
+    final classe = ModalRoute.of(context)!.settings.arguments as Classe?;
 
     return BlocProvider<ComposeBloc>(
       create: (_) => ComposeBloc(
         RepositoryProvider.of<HiveRepository>(context),
-      )..add(ComposeStarted(classe: classe)),
+      )..add(
+          ComposeStarted(classe),
+        ),
       child: BlocConsumer<ComposeBloc, ComposeState>(
         listenWhen: (p, c) => p.status != c.status,
         listener: (_, state) {
@@ -49,8 +51,8 @@ class ComposeView extends StatelessWidget {
 
 class _ComposeViewScaffold extends StatelessWidget {
   const _ComposeViewScaffold({
-    Key key,
-    @required this.isSaving,
+    Key? key,
+    required this.isSaving,
   }) : super(key: key);
 
   final bool isSaving;

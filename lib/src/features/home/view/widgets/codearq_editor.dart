@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../controllers/home_controller.dart';
 
 class CodearqEditor extends StatelessWidget {
-  const CodearqEditor({Key key}) : super(key: key);
+  const CodearqEditor({Key? key}) : super(key: key);
 
   static const double kBottomSheetHeight = 60;
 
@@ -42,7 +42,7 @@ class CodearqEditor extends StatelessWidget {
             ),
             SizedBox(
               height: kBottomSheetHeight,
-              child: FlatButton.icon(
+              child: TextButton.icon(
                 icon: const Icon(Icons.check),
                 label: Text(
                   'SALVAR',

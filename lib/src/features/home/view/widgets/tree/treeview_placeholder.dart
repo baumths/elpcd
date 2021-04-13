@@ -1,7 +1,7 @@
 part of 'treeview.dart';
 
 class _TreeViewPlaceholder extends StatelessWidget {
-  const _TreeViewPlaceholder({Key key}) : super(key: key);
+  const _TreeViewPlaceholder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

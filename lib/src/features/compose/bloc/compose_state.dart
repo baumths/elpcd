@@ -5,17 +5,17 @@ enum ComposeStatus { none, success, failure }
 @immutable
 class ComposeState extends Equatable {
   const ComposeState({
-    @required this.classe,
-    @required this.name,
-    @required this.code,
-    @required this.metadata,
-    @required this.isEditing,
-    @required this.isSaving,
-    @required this.shouldValidate,
-    @required this.status,
+    this.classe,
+    required this.name,
+    required this.code,
+    required this.metadata,
+    required this.isEditing,
+    required this.isSaving,
+    required this.shouldValidate,
+    required this.status,
   });
 
-  final Classe classe;
+  final Classe? classe;
   final String name;
   final String code;
   final Set<MetadataViewModel> metadata;
@@ -39,14 +39,12 @@ class ComposeState extends Equatable {
 
   bool get nameInvalid => shouldValidate && name.isEmpty;
   bool get codeInvalid => shouldValidate && code.isEmpty;
-  bool get isFormValid {
-    return name != null && name.isNotEmpty && code != null && code.isNotEmpty;
-  }
+  bool get isFormValid => name.isNotEmpty && code.isNotEmpty;
 
   @override
   List<Object> get props {
     return [
-      classe,
+      if (classe != null) classe!,
       name,
       code,
       metadata,
@@ -58,14 +56,14 @@ class ComposeState extends Equatable {
   }
 
   ComposeState copyWith({
-    Classe classe,
-    String name,
-    String code,
-    Set<MetadataViewModel> metadata,
-    bool isEditing,
-    bool isSaving,
-    bool shouldValidate,
-    ComposeStatus status,
+    Classe? classe,
+    String? name,
+    String? code,
+    Set<MetadataViewModel>? metadata,
+    bool? isEditing,
+    bool? isSaving,
+    bool? shouldValidate,
+    ComposeStatus? status,
   }) {
     return ComposeState(
       classe: classe ?? this.classe,
