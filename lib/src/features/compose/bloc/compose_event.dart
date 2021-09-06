@@ -11,7 +11,7 @@ abstract class ComposeEvent extends Equatable {
 }
 
 class ComposeStarted extends ComposeEvent {
-  const ComposeStarted({this.classe});
+  ComposeStarted(Classe? _classe) : classe = _classe ?? Classe.root();
 
   final Classe classe;
 
@@ -20,7 +20,7 @@ class ComposeStarted extends ComposeEvent {
 }
 
 class NameChanged extends ComposeEvent {
-  const NameChanged({@required this.name});
+  const NameChanged({required this.name});
 
   final String name;
 
@@ -29,7 +29,7 @@ class NameChanged extends ComposeEvent {
 }
 
 class CodeChanged extends ComposeEvent {
-  const CodeChanged({@required this.code});
+  const CodeChanged({required this.code});
 
   final String code;
 
@@ -38,7 +38,7 @@ class CodeChanged extends ComposeEvent {
 }
 
 class SavePressed extends ComposeEvent {
-  const SavePressed({@required this.metadata});
+  const SavePressed({required this.metadata});
 
   final Set<MetadataViewModel> metadata;
 

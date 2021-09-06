@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 const kMetadadosEArqBrasil = <String>{
   'Registro de Abertura',
   'Registro de Desativação',
@@ -18,7 +16,7 @@ const kMetadadosEArqBrasil = <String>{
 };
 
 class MetadataViewModel {
-  MetadataViewModel({@required this.type, this.content = ''});
+  MetadataViewModel({required this.type, this.content = ''});
 
   final String type;
 

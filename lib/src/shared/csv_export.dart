@@ -1,13 +1,15 @@
 import 'dart:convert' as convert;
+import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
-import 'package:flutter/foundation.dart';
-import 'package:universal_html/html.dart' as html;
+import 'package:file_saver/file_saver.dart';
 
 import '../entities/entities.dart';
 import '../repositories/hive_repository.dart';
 
-//! Refator into its own feature, this way it would be possible to track
+// ignore_for_file: unsafe_html
+
+//! Refactor into its own feature, this way it would be possible to track
 //! progress and display to the user using BloC.
 //! And it would be nice to refactor the `downloadCsvFile`, it is too crouded
 
@@ -63,36 +65,22 @@ class CsvExport {
 
   /// Prepares the csv file and starts the download
   Future<void> downloadCsvFile() async {
-    final outputFileName = '$fileName.csv';
     final csv = await _databaseToCsv();
 
-    final bytes = convert.utf8.encode(csv);
-    final blob = html.Blob([bytes]);
-    final url = html.Url.createObjectUrlFromBlob(blob);
-
-    final anchor = html.document.createElement('a') as html.AnchorElement
-      ..href = url
-      ..style.display = 'none'
-      ..type = 'text/csv;charset=utf-8'
-      ..download = outputFileName;
-
-    html.document.body.children.add(anchor);
-
-    // download file
-    anchor.click();
-
-    // cleanup
-    html.document.body.children.remove(anchor);
-    html.Url.revokeObjectUrl(url);
+    await FileSaver.instance.saveFile(
+      '$fileName',
+      convert.utf8.encode(csv) as Uint8List,
+      'csv',
+      mimeType: MimeType.CSV,
+    );
   }
 }
 
 class AccessToMemoryMetadata {
   AccessToMemoryMetadata({
-    @required this.classe,
-    @required this.referenceCode,
-  })  : assert(classe != null),
-        assert(referenceCode != null);
+    required this.classe,
+    required this.referenceCode,
+  });
 
   final Classe classe;
   final String referenceCode;
@@ -146,6 +134,6 @@ class AccessToMemoryMetadata {
       'Destinação Final': appraisal,
       'Registro de Alteração': appraisal,
       'Observações': appraisal,
-    }[type];
+    }[type]!;
   }
 }

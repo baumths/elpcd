@@ -2,10 +2,9 @@ part of 'treeview.dart';
 
 class TreeNodeWidget extends StatelessWidget {
   const TreeNodeWidget({
-    @required this.classe,
-    Key key,
-  })  : assert(classe != null),
-        super(key: key);
+    Key? key,
+    required this.classe,
+  }) : super(key: key);
 
   final Classe classe;
 
@@ -32,8 +31,8 @@ class TreeNodeWidget extends StatelessWidget {
 
 class _ClasseNewChildButton extends StatelessWidget {
   const _ClasseNewChildButton({
-    Key key,
-    @required this.classe,
+    Key? key,
+    required this.classe,
   }) : super(key: key);
 
   final Classe classe;
@@ -56,8 +55,8 @@ class _ClasseNewChildButton extends StatelessWidget {
 
 class _ClasseDeleteButton extends StatelessWidget {
   const _ClasseDeleteButton({
-    Key key,
-    @required this.classe,
+    Key? key,
+    required this.classe,
   }) : super(key: key);
 
   final Classe classe;
@@ -70,7 +69,6 @@ class _ClasseDeleteButton extends StatelessWidget {
       color: Colors.redAccent.shade700,
       icon: const Icon(Icons.delete),
       onPressed: () async {
-        // TODO: move to HomeBloc
         final delete = await showDialog<bool>(
           context: context,
           builder: (ctx) => AppDialogs.warning(
@@ -91,8 +89,8 @@ class _ClasseDeleteButton extends StatelessWidget {
 
 class _ClasseTitle extends StatelessWidget {
   const _ClasseTitle({
-    Key key,
-    @required this.classe,
+    Key? key,
+    required this.classe,
   }) : super(key: key);
 
   final Classe classe;
@@ -111,8 +109,8 @@ class _ClasseTitle extends StatelessWidget {
 
 class _ClasseCodeChip extends StatelessWidget {
   const _ClasseCodeChip({
-    @required this.classe,
-    Key key,
+    Key? key,
+    required this.classe,
   }) : super(key: key);
 
   final Classe classe;

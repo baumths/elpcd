@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 import '../../repositories/hive_repository.dart';
@@ -6,12 +5,12 @@ import '../../repositories/hive_repository.dart';
 part 'classe.g.dart';
 
 @HiveType(typeId: 0)
-class Classe with HiveObject {
+class Classe extends HiveObject {
   Classe({
-    @required this.name,
-    @required this.code,
-    @required this.parentId,
-    @required this.metadata,
+    required this.name,
+    required this.code,
+    required this.parentId,
+    required this.metadata,
   });
 
   factory Classe.root() => Classe(
@@ -21,15 +20,15 @@ class Classe with HiveObject {
         metadata: <String, String>{},
       );
 
-  factory Classe.fromParent(int parentId) => Classe(
+  factory Classe.fromParent(int? parentId) => Classe(
         name: '',
         code: '',
-        parentId: parentId,
+        parentId: parentId ?? HiveRepository.kRootId,
         metadata: <String, String>{},
       );
 
   @HiveField(0)
-  int id;
+  int? id;
 
   @HiveField(1)
   int parentId;

@@ -1,3 +1,5 @@
+**/*.lock
+
 # Miscellaneous
 *.class
 *.log

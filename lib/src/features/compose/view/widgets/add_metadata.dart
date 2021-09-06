@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../misc/misc.dart';
 
 class AddMetadata extends StatelessWidget {
-  const AddMetadata({Key key}) : super(key: key);
+  const AddMetadata({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class AddMetadata extends StatelessWidget {
 }
 
 class _AddMetadataButton extends StatelessWidget {
-  const _AddMetadataButton({Key key}) : super(key: key);
+  const _AddMetadataButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class _AddMetadataButton extends StatelessWidget {
     );
   }
 
-  Future<String> _metadadosSelector(BuildContext context) {
+  Future<String?> _metadadosSelector(BuildContext context) {
     final isPresent = context.read<MetadataCubit>().isPresent;
     return showDialog<String>(
       context: context,
@@ -80,7 +80,7 @@ class _AddMetadataButton extends StatelessWidget {
 }
 
 class _MetadataDivider extends StatelessWidget {
-  const _MetadataDivider({Key key}) : super(key: key);
+  const _MetadataDivider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +100,7 @@ class _MetadataDivider extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .subtitle1
-                .copyWith(fontWeight: FontWeight.bold, color: color),
+                ?.copyWith(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(width: 4),
           Expanded(child: Container(color: color, height: 1)),

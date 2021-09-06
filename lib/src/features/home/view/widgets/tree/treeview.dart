@@ -1,4 +1,3 @@
-import 'package:elpcd_dart/src/shared/shared.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
@@ -7,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../entities/entities.dart';
 import '../../../../../repositories/hive_repository.dart';
+import '../../../../../shared/shared.dart';
 import '../../../../features.dart';
 
 part 'tree_controller.dart';
@@ -17,7 +17,7 @@ part 'waiting_view.dart';
 // TODO: Implement my own version of `flutter_simple_treeview`
 
 class Treeview extends StatelessWidget {
-  const Treeview({Key key}) : super(key: key);
+  const Treeview({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +26,18 @@ class Treeview extends StatelessWidget {
     return ValueListenableBuilder<Box<Classe>>(
       valueListenable: repository.listenToClasses(),
       builder: (_, box, __) {
-        if (box.isEmpty) return const _TreeViewPlaceholder();
+        if (box.isEmpty) {
+          return const _TreeViewPlaceholder();
+        }
         return FutureBuilder(
           future: _buildNodes(repository.fetch(parentsOnly: true)),
           builder: (_, AsyncSnapshot<List<TreeNode>> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
-                if (!snapshot.hasData) continue loadingLabel;
-                return _SetupTreeView(nodes: snapshot.data);
+                if (snapshot.hasData && snapshot.data != null) {
+                  return _SetupTreeView(nodes: snapshot.data!);
+                }
+                continue loadingLabel;
               loadingLabel:
               case ConnectionState.none:
               case ConnectionState.active:
@@ -63,8 +67,8 @@ class Treeview extends StatelessWidget {
 
 class _SetupTreeView extends StatelessWidget {
   const _SetupTreeView({
-    Key key,
-    @required this.nodes,
+    Key? key,
+    required this.nodes,
   }) : super(key: key);
 
   final List<TreeNode> nodes;

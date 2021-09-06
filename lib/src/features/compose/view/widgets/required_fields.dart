@@ -6,7 +6,7 @@ import '../../bloc/compose_bloc.dart';
 // TODO: Maybe use [flutter_hooks] for the `StatefulWidgets`
 
 class RequiredFields extends StatelessWidget {
-  const RequiredFields({Key key}) : super(key: key);
+  const RequiredFields({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class RequiredFields extends StatelessWidget {
 }
 
 class _CodeFormField extends StatefulWidget {
-  const _CodeFormField({Key key}) : super(key: key);
+  const _CodeFormField({Key? key}) : super(key: key);
 
   @override
   __CodeFormFieldState createState() => __CodeFormFieldState();
@@ -84,7 +84,7 @@ class __CodeFormFieldState extends State<_CodeFormField> {
 }
 
 class _NameFormField extends StatefulWidget {
-  const _NameFormField({Key key}) : super(key: key);
+  const _NameFormField({Key? key}) : super(key: key);
 
   @override
   __NameFormFieldState createState() => __NameFormFieldState();
