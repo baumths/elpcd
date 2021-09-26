@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../features/main/main_view.dart';
 import '../theme/theme.dart';
 
 class ElpcdApp extends StatelessWidget {
@@ -11,7 +12,7 @@ class ElpcdApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ElPCD',
       theme: kLightTheme,
-      home: const Scaffold(),
+      home: const MainView(),
     );
   }
 }
