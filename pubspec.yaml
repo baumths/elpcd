@@ -21,4 +21,5 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/gedalogo_480x320.png
+    - assets/svg/
   uses-material-design: true
