@@ -1,3 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-void main() => runApp(const MaterialApp());
+import 'src/presentation/app/app.dart';
+
+void main() => runApp(const ElpcdApp());
