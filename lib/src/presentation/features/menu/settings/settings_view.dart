@@ -37,16 +37,21 @@ class _SettingsViewState extends AnimatedState<SettingsView> {
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: animation,
-      child: Scrollbar(
-        child: ListView.separated(
-          itemCount: SettingsView.cards.length,
-          padding: const EdgeInsets.all(10),
-          separatorBuilder: (_, __) => const SizedBox(height: 10),
-          itemBuilder: (_, int index) {
-            return SettingsCard(
-              content: SettingsView.cards[index],
-            );
-          },
+      child: ScaleTransition(
+        scale: animation.drive(
+          Tween(begin: .97, end: 1),
+        ),
+        child: Scrollbar(
+          child: ListView.separated(
+            itemCount: SettingsView.cards.length,
+            padding: const EdgeInsets.all(10),
+            separatorBuilder: (_, __) => const SizedBox(height: 10),
+            itemBuilder: (_, int index) {
+              return SettingsCard(
+                content: SettingsView.cards[index],
+              );
+            },
+          ),
         ),
       ),
     );
