@@ -47,7 +47,7 @@ class MainView extends StatelessWidget {
           SizedBox(width: 20),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
-            child: SidebarMenu(),
+            child: MainSidebarMenu(),
           ),
           SizedBox(width: 20)
         ],
