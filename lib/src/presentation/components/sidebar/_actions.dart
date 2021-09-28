@@ -1,32 +1,18 @@
 part of 'sidebar.dart';
 
-typedef SidebarContentBuilder = Widget Function(
+typedef SidebarContentBuilder<T> = Widget Function(
   BuildContext context,
-  SidebarAction action,
+  T? action,
 );
 
-enum SidebarAction {
-  /// Closed content
-  none,
-
-  /// Browse Classes
-  search,
-
-  /// Export/Import app data
-  exim,
-
-  /// App settings
-  settings,
-}
-
-class SidebarActionItem {
+class SidebarActionItem<T extends Object> {
   const SidebarActionItem({
     required this.action,
     required this.icon,
     this.tooltip,
   });
 
-  final SidebarAction action;
+  final T action;
   final IconData icon;
   final String? tooltip;
 }
@@ -34,17 +20,15 @@ class SidebarActionItem {
 class _SidebarAction extends StatelessWidget {
   const _SidebarAction({
     Key? key,
-    required this.item,
+    required this.icon,
     this.isSelected = false,
-    required this.contentPosition,
+    this.tooltip,
     required this.onPressed,
   }) : super(key: key);
 
-  final SidebarActionItem item;
-
+  final IconData icon;
+  final String? tooltip;
   final bool isSelected;
-
-  final ContentPosition contentPosition;
 
   final VoidCallback onPressed;
 
@@ -52,21 +36,20 @@ class _SidebarAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    final Color selectedColor = colorScheme.onPrimary;
-    final Color unselectedColor = selectedColor.withOpacity(.6);
-
-    Color color = unselectedColor;
     Decoration? borderDecoration;
 
-    if (isSelected) {
-      color = selectedColor;
+    Color color = colorScheme.onPrimary.withOpacity(.6);
 
-      final BorderSide borderSide = BorderSide(color: color, width: 2);
+    if (isSelected) {
+      color = colorScheme.onPrimary;
 
       borderDecoration = BoxDecoration(
-        border: contentPosition == ContentPosition.left
-            ? Border(left: borderSide)
-            : Border(right: borderSide),
+        border: Border(
+          left: BorderSide(
+            color: color,
+            width: 2,
+          ),
+        ),
       );
     }
 
@@ -76,8 +59,8 @@ class _SidebarAction extends StatelessWidget {
       decoration: borderDecoration,
       child: IconButton(
         color: color,
-        icon: Icon(item.icon),
-        tooltip: item.tooltip,
+        icon: Icon(icon),
+        tooltip: tooltip,
         padding: EdgeInsets.zero,
         splashRadius: kmSplashRadius,
         onPressed: onPressed,

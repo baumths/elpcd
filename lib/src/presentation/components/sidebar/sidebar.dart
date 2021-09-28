@@ -6,47 +6,40 @@ import '../box.dart';
 
 part '_actions.dart';
 
-enum ContentPosition { left, right }
-
-class Sidebar extends StatefulWidget {
+class Sidebar<T extends Object> extends StatefulWidget {
   const Sidebar({
     Key key = const Key('SideBar'),
     this.actionsWidth = 48,
     this.contentWidth = 272,
     required this.topActions,
-    this.bottomActions = const <SidebarActionItem>[],
-    this.contentPosition = ContentPosition.left,
+    this.bottomActions = const [],
     required this.contentBuilder,
   }) : super(key: key);
 
   final double actionsWidth;
   final double contentWidth;
 
-  final List<SidebarActionItem> topActions;
-  final List<SidebarActionItem> bottomActions;
+  final List<SidebarActionItem<T>> topActions;
+  final List<SidebarActionItem<T>> bottomActions;
 
-  /// The position in which the content will be animated to.
-  final ContentPosition contentPosition;
-  final SidebarContentBuilder contentBuilder;
-
-  double get totalWidth => actionsWidth + contentWidth;
+  final SidebarContentBuilder<T> contentBuilder;
 
   @override
-  _SidebarState createState() => _SidebarState();
+  _SidebarState<T> createState() => _SidebarState<T>();
 }
 
-class _SidebarState extends AnimatedState<Sidebar> {
-  SidebarAction _selectedAction = SidebarAction.none;
-  SidebarAction get selectedAction => _selectedAction;
+class _SidebarState<T extends Object> extends AnimatedState<Sidebar<T>> {
+  T? _selectedAction;
+  T? get selectedAction => _selectedAction;
 
-  bool get isOpen => selectedAction != SidebarAction.none;
+  bool get isOpen => selectedAction != null;
 
-  void toggleAction(SidebarAction action) {
-    if (action == _selectedAction) {
+  void toggleAction(T action) {
+    if (action == selectedAction) {
       // User pressed on open action. Close it.
 
       setState(() {
-        _selectedAction = SidebarAction.none;
+        _selectedAction = null;
       });
 
       animateReverse();
@@ -59,64 +52,10 @@ class _SidebarState extends AnimatedState<Sidebar> {
     }
   }
 
-  late BorderRadiusGeometry _actionsBorderRadius;
-
-  void _setupActionsBorderRadius() {
-    if (widget.contentPosition == ContentPosition.left) {
-      _actionsBorderRadius = AppBorderRadius.right;
-    } else {
-      _actionsBorderRadius = AppBorderRadius.left;
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _setupActionsBorderRadius();
-  }
-
-  @override
-  void didUpdateWidget(covariant Sidebar oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.contentPosition != widget.contentPosition) {
-      _setupActionsBorderRadius();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
-
-    late final Widget content = Flexible(
-      key: const Key('SidebarContent'),
-      child: AnimatedBuilder(
-        animation: animation,
-        builder: (BuildContext context, Widget? child) {
-          return SizedBox(
-            width: lerpDouble(0, widget.contentWidth, animation.value),
-            child: animation.value > .99 ? child : null,
-          );
-        },
-        child: widget.contentBuilder(context, selectedAction),
-      ),
-    );
-
-    late final Widget actions = AnimatedBox(
-      key: const Key('SidebarActions'),
-      width: widget.actionsWidth,
-      decoration: BoxDecoration(
-        color: colorScheme.primary,
-        borderRadius: isOpen ? _actionsBorderRadius : AppBorderRadius.all,
-      ),
-      child: Column(
-        children: <Widget>[
-          ...widget.topActions.map(_buildAction),
-          const Spacer(),
-          ...widget.bottomActions.map(_buildAction),
-        ],
-      ),
-    );
 
     return DecoratedBox(
       // Fills background of actions and content inner rounded corners
@@ -127,25 +66,53 @@ class _SidebarState extends AnimatedState<Sidebar> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
-        children: widget.contentPosition == ContentPosition.left
-            ? <Widget>[content, actions]
-            : <Widget>[actions, content],
+        children: <Widget>[
+          //* Content
+          Flexible(
+            key: const Key('SidebarContent'),
+            child: AnimatedBuilder(
+              animation: animation,
+              builder: (BuildContext context, Widget? child) {
+                return SizedBox(
+                  width: lerpDouble(0, widget.contentWidth, animation.value),
+                  child: animation.value > .99 ? child : null,
+                );
+              },
+              child: widget.contentBuilder(context, selectedAction),
+            ),
+          ),
+          //* Actions
+          AnimatedBox(
+            key: const Key('SidebarActions'),
+            width: widget.actionsWidth,
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              borderRadius: isOpen //
+                  ? AppBorderRadius.right
+                  : AppBorderRadius.all,
+            ),
+            child: Column(
+              children: <Widget>[
+                ...widget.topActions.map(_buildAction),
+                const Spacer(),
+                ...widget.bottomActions.map(_buildAction),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildAction(SidebarActionItem item) {
+  Widget _buildAction(SidebarActionItem<T> item) {
     return _SidebarAction(
       isSelected: item.action == selectedAction,
-      item: item,
-      contentPosition: widget.contentPosition,
+      icon: item.icon,
+      tooltip: item.tooltip,
       onPressed: () => toggleAction(item.action),
     );
   }
 
   @override
-  Curve get curve => Curves.fastOutSlowIn;
-
-  @override
-  Duration get duration => const Duration(milliseconds: 500);
+  Duration get duration => const Duration(milliseconds: 300);
 }
