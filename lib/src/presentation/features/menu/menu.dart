@@ -14,18 +14,18 @@ class Menu extends StatefulWidget {
     Key key = const Key('MenuView'),
   }) : super(key: key);
 
-  static const List<MenuDestinationModel> destinations = [
-    MenuDestinationModel(
+  static const List<MenuDestination> destinations = [
+    MenuDestination(
       label: Text('VISUALIZAR'),
       icon: Icon(Icons.account_tree_rounded),
       content: Browse(),
     ),
-    MenuDestinationModel(
+    MenuDestination(
       label: Text('TRANSFERIR'),
       icon: Icon(Icons.leak_add_rounded),
       content: Center(child: Text('TRANSFER VIEW')),
     ),
-    MenuDestinationModel(
+    MenuDestination(
       label: Text('CONFIGURAR'),
       icon: Icon(Icons.settings_rounded),
       content: Settings(),

@@ -2,8 +2,8 @@ part of 'menu.dart';
 
 const double kNavRailMinWidth = 64.0;
 
-class MenuDestinationModel extends NavigationRailDestination {
-  const MenuDestinationModel({
+class MenuDestination extends NavigationRailDestination {
+  const MenuDestination({
     required Widget label,
     required Widget icon,
     required this.content,
