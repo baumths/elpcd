@@ -1,24 +1,12 @@
-part of 'widgets.dart';
+part of '../settings.dart';
 
-class SettingsCardContent {
-  SettingsCardContent({
-    required this.title,
-    required this.builder,
-    this.infoTooltip,
-  });
-
-  final String title;
-  final WidgetBuilder builder;
-  final String? infoTooltip;
-}
-
-class SettingsCard extends StatelessWidget {
-  const SettingsCard({
+class SettingsSection extends StatelessWidget {
+  const SettingsSection({
     Key? key,
-    required this.content,
+    required this.model,
   }) : super(key: key);
 
-  final SettingsCardContent content;
+  final SettingsSectionModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -39,22 +27,22 @@ class SettingsCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    content.title,
+                    model.title,
                     style: theme.textTheme.subtitle2,
                   ),
                 ),
-                if (content.infoTooltip != null)
+                if (model.infoTooltip != null)
                   Tooltip(
                     preferBelow: false,
                     verticalOffset: 15,
-                    message: content.infoTooltip!,
+                    message: model.infoTooltip!,
                     child: const Icon(Icons.info_outline_rounded),
                   )
               ],
             ),
           ),
           const Divider(height: 1),
-          content.builder(context),
+          model.body,
         ],
       ),
     );

@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+part of '../settings.dart';
 
 class BrowserTypeTile extends StatelessWidget {
   const BrowserTypeTile({

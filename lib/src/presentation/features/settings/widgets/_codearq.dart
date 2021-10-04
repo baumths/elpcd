@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+part of '../settings.dart';
 
 class CodearqTile extends StatefulWidget {
   const CodearqTile({
