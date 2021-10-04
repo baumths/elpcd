@@ -1,14 +1,12 @@
 part of '../settings.dart';
 
-class BrowserTypeTile extends StatelessWidget {
-  const BrowserTypeTile({
+class BrowseTypeTile extends StatelessWidget {
+  const BrowseTypeTile({
     Key key = const Key('BrowserTypeTile'),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-
     // TODO: get from user preferences
     String selectedType = 'Hierárquica';
 

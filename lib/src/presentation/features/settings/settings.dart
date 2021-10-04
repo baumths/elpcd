@@ -4,7 +4,7 @@ import 'package:flutter/services.dart' show PhysicalKeyboardKey;
 import '../../theme/theme.dart';
 
 part '_utils.dart';
-part 'widgets/_browser_type.dart';
+part 'widgets/_browse_type.dart';
 part 'widgets/_section.dart';
 part 'widgets/_codearq.dart';
 
@@ -16,7 +16,7 @@ class Settings extends StatelessWidget {
   static const List<SettingsSectionModel> sections = [
     SettingsSectionModel(
       title: 'VISUALIZAÇÃO',
-      body: BrowserTypeTile(),
+      body: BrowseTypeTile(),
     ),
     SettingsSectionModel(
       title: 'CODEARQ',
