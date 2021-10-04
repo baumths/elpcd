@@ -2,75 +2,67 @@ import 'package:flutter/material.dart';
 
 import '../../components/svg_image.dart';
 import '../../theme/theme.dart';
-import 'widgets/widgets.dart';
+import '../menu/menu.dart';
 
 class MainView extends StatelessWidget {
-  const MainView({Key? key}) : super(key: key);
+  const MainView({
+    Key key = const Key('MainView'),
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Material(
-      color: Theme.of(context).colorScheme.secondary,
+      color: colorScheme.secondary,
       child: Row(
         children: const <Widget>[
           Expanded(
-            flex: 6,
-            child: BrowseView(),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: Center(
-              child: SizedBox(
-                width: 40,
-                height: double.infinity,
-                child: Icon(Icons.double_arrow_rounded),
-              ),
-            ),
+            child: Menu(),
           ),
           Expanded(
-            key: Key('ComposeView'),
-            flex: 4,
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: PhysicalModel(
-                elevation: 8,
-                borderRadius: AppBorderRadius.all,
-                color: Colors.white,
-                child: SizedBox.expand(
-                  child: Center(
-                    child: SvgImage.factory,
-                  ),
-                ),
-              ),
-            ),
+            child: Compose(),
           ),
-          SizedBox(width: 20),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: MainSidebarMenu(),
-          ),
-          SizedBox(width: 20)
         ],
       ),
     );
   }
 }
 
-class BrowseView extends StatelessWidget {
-  const BrowseView({
+class Compose extends StatelessWidget {
+  const Compose({
+    Key key = const Key('ComposeView'),
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.all(AppEdgeInsets.large),
+      child: PhysicalModel(
+        elevation: 8,
+        borderRadius: AppBorderRadius.all,
+        color: Colors.white,
+        child: SizedBox.expand(
+          child: Center(
+            child: SvgImage.factory,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Browse extends StatelessWidget {
+  const Browse({
     Key key = const Key('BrowseView'),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const PhysicalModel(
-      elevation: 12,
-      color: Colors.white,
-      child: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: BrowsePlaceholder(),
-      ),
+    return const SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: BrowsePlaceholder(),
     );
   }
 }
@@ -83,7 +75,7 @@ class BrowsePlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(40),
+      padding: const EdgeInsets.all(AppEdgeInsets.large),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -91,7 +83,8 @@ class BrowsePlaceholder extends StatelessWidget {
           const SizedBox(height: 40),
           const Flexible(
             child: Text(
-              'Você ainda não criou nenhuma classe.',
+              'Seu PCD está vazio.',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,
               ),
