@@ -74,8 +74,6 @@ class _CodearqTileState extends State<CodearqTile> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-
     // TODO: Perhaps debounce field's onChanged and save after some delay?
 
     return Column(
@@ -111,27 +109,38 @@ class CodearqHelperText extends StatelessWidget {
   static const String conarqUrl = 'https://www.gov.br/conarq/pt-br/servicos-1/'
       'consulta-as-entidades-custodiadoras-de-acervos-arquivisticos-cadastradas';
 
+  static const String helperText =
+      'Este é o nome da instituição arquivística que será '
+      'criada no AtoM quando você importar o arquivo CSV do seu PCD.\n\n'
+      'Para mais informações sobre o '
+      'Cadastro nacional de entidades custodiadoras de acervos arquivísticos '
+      'acesse o ';
+
+  static const String hyperLinkText = 'site do Conarq';
+
   void onTap() {
     // TODO:
-    print('LAUNCH ==> $conarqUrl');
+    print('LAUNCH ➜ $conarqUrl');
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
-    final TextStyle? textStyle = theme.textTheme.caption;
+    final TextStyle? textStyle = theme.textTheme.caption?.copyWith(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: colorScheme.primary.withOpacity(.7),
+    );
 
     return RichText(
       text: TextSpan(
-        style: textStyle?.copyWith(fontWeight: FontWeight.w500),
-        text: 'Este será o nome da instituição arquivística '
-            'criada no AtoM quando você importar o arquivo CSV do seu PCD.\n\n'
-            'Para mais informações sobre o CODEARQ, acesse o '
-            'Cadastro nacional de entidades custodiadoras de acervos arquivísticos ',
+        text: helperText,
+        style: textStyle,
         children: [
           WidgetSpan(
             child: Tooltip(
+              message: conarqUrl,
               textStyle: theme.tooltipTheme.textStyle?.copyWith(fontSize: 10),
               verticalOffset: 10,
               child: MouseRegion(
@@ -139,15 +148,17 @@ class CodearqHelperText extends StatelessWidget {
                 child: GestureDetector(
                   onTap: onTap,
                   child: Text(
-                    'clicando aqui',
+                    hyperLinkText,
                     style: textStyle?.copyWith(
                       color: colorScheme.primary,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
+                      // Height needed to align vertically with parent span.
+                      // Without this, the parent span would be a little higher.
+                      height: 1.2,
                     ),
                   ),
                 ),
               ),
-              message: conarqUrl,
             ),
           ),
           const TextSpan(text: '.'),
@@ -177,13 +188,24 @@ class _CodearqDisplayTile extends StatelessWidget {
     );
 
     return ListTile(
+      onTap: onTap,
       dense: true,
       horizontalTitleGap: 2,
       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-      trailing: Icon(Icons.edit_rounded, color: colorScheme.primary),
-      subtitle: const Text('Toque para editar'),
-      title: Text(codearq, style: textStyle),
-      onTap: onTap,
+      subtitle: const Text(
+        'Toque para editar',
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      title: Text(
+        codearq,
+        style: textStyle,
+      ),
+      trailing: Icon(
+        Icons.edit_rounded,
+        color: colorScheme.primary,
+      ),
     );
   }
 }

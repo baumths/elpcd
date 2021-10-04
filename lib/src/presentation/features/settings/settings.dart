@@ -15,11 +15,11 @@ class Settings extends StatelessWidget {
 
   static const List<SettingsSectionModel> sections = [
     SettingsSectionModel(
-      title: 'Tipo de Visualização',
+      title: 'VISUALIZAÇÃO',
       body: BrowserTypeTile(),
     ),
     SettingsSectionModel(
-      title: 'Alterar CODEARQ',
+      title: 'CODEARQ',
       infoTooltip: 'O CODEARQ é salvo automaticamente',
       body: CodearqTile(),
     ),
