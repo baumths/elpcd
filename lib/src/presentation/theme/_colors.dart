@@ -4,6 +4,7 @@ abstract class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color background = Color(0xFFE6E6E6);
 
+  static const Color primaryLight = Color(0xFF8F96A3);
   static const Color primary = Color(0xFF000026);
   static const Color primaryDarker = Color(0xFF00001A);
 
@@ -11,6 +12,9 @@ abstract class AppColors {
   static const Color success = Color(0xFF29634B);
   static const Color warning = Color(0xFFF0B53C);
   static const Color danger = Color(0xFFB00020);
+
+  // Reduced Opacity (hover colors)
+  static const Color primary15 = Color(0x26000026);
 }
 
 const ColorScheme kColorScheme = ColorScheme.light(

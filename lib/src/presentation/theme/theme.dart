@@ -8,6 +8,14 @@ final ThemeData kLightTheme = ThemeData(
   errorColor: AppColors.danger,
   tooltipTheme: tooltipTheme,
   navigationRailTheme: navigationRailTheme,
+  dividerTheme: dividerTheme,
+  hoverColor: AppColors.primary15,
+);
+
+const DividerThemeData dividerTheme = DividerThemeData(
+  color: AppColors.primaryLight,
+  space: 1.5,
+  thickness: 1.5,
 );
 
 final TooltipThemeData tooltipTheme = TooltipThemeData(
@@ -21,7 +29,7 @@ final TooltipThemeData tooltipTheme = TooltipThemeData(
 
 NavigationRailThemeData get navigationRailTheme {
   final Color selectedColor = kColorScheme.onPrimary;
-  final Color unselectedColor = kColorScheme.onPrimary.withOpacity(.4);
+  const Color unselectedColor = AppColors.primaryLight;
   const double iconSize = 32.0;
 
   return NavigationRailThemeData(
@@ -30,14 +38,14 @@ NavigationRailThemeData get navigationRailTheme {
       color: selectedColor,
       size: iconSize,
     ),
-    unselectedIconTheme: IconThemeData(
+    unselectedIconTheme: const IconThemeData(
       color: unselectedColor,
       size: iconSize,
     ),
     selectedLabelTextStyle: TextStyle(
       color: selectedColor,
     ),
-    unselectedLabelTextStyle: TextStyle(
+    unselectedLabelTextStyle: const TextStyle(
       color: unselectedColor,
     ),
   );
