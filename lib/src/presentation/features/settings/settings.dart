@@ -5,23 +5,23 @@ import '../../theme/theme.dart';
 
 part '_utils.dart';
 part 'widgets/_browse_type.dart';
-part 'widgets/_section.dart';
 part 'widgets/_codearq.dart';
+part 'widgets/_section.dart';
 
 class Settings extends StatelessWidget {
   const Settings({
-    Key key = const Key('SettingsView'),
+    Key key = const Key('Settings'),
   }) : super(key: key);
 
   static const List<SettingsSectionModel> sections = [
     SettingsSectionModel(
       title: 'VISUALIZAÇÃO',
-      body: BrowseTypeTile(),
+      body: BrowseTypeSection(),
     ),
     SettingsSectionModel(
       title: 'CODEARQ',
       infoTooltip: 'O CODEARQ é salvo automaticamente',
-      body: CodearqTile(),
+      body: CodearqSection(),
     ),
   ];
 
@@ -30,7 +30,7 @@ class Settings extends StatelessWidget {
     return Scrollbar(
       child: ListView.separated(
         itemCount: Settings.sections.length,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(AppEdgeInsets.small),
         separatorBuilder: (_, __) => const SizedBox(height: 10),
         itemBuilder: (_, int index) {
           return SettingsSection(

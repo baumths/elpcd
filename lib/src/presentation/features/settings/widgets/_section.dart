@@ -10,40 +10,64 @@ class SettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Material(
-      elevation: 8,
-      clipBehavior: Clip.hardEdge,
-      color: theme.colorScheme.surface,
-      borderRadius: AppBorderRadius.all,
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        borderRadius: AppBorderRadius.all,
+        border: Border.fromBorderSide(
+          BorderSide(
+            color: AppColors.primaryLight,
+            width: 1.5,
+          ),
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    model.title,
-                    style: theme.textTheme.subtitle2,
-                  ),
-                ),
-                if (model.infoTooltip != null)
-                  Tooltip(
-                    preferBelow: false,
-                    verticalOffset: 15,
-                    message: model.infoTooltip!,
-                    child: const Icon(Icons.info_outline_rounded),
-                  )
-              ],
-            ),
-          ),
-          const Divider(height: 1),
+          _Header(model: model),
+          const Divider(),
           model.body,
         ],
+      ),
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  const _Header({
+    Key? key,
+    required this.model,
+  }) : super(key: key);
+
+  final SettingsSectionModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppEdgeInsets.medium,
+      ),
+      child: SizedBox(
+        height: 40,
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                model.title,
+                style: theme.textTheme.subtitle2,
+              ),
+            ),
+            if (model.infoTooltip != null)
+              Tooltip(
+                preferBelow: false,
+                verticalOffset: 15,
+                message: model.infoTooltip!,
+                child: const Icon(Icons.info_outline_rounded),
+              ),
+          ],
+        ),
       ),
     );
   }

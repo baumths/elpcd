@@ -1,8 +1,8 @@
 part of '../settings.dart';
 
-class BrowseTypeTile extends StatelessWidget {
-  const BrowseTypeTile({
-    Key key = const Key('BrowserTypeTile'),
+class BrowseTypeSection extends StatelessWidget {
+  const BrowseTypeSection({
+    Key key = const Key('BrowseTypeSection'),
   }) : super(key: key);
 
   @override
@@ -18,23 +18,26 @@ class BrowseTypeTile extends StatelessWidget {
           setState(() => selectedType = value);
         }
 
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _RadioTile(
-              groupValue: selectedType,
-              label: 'Hierárquica',
-              icon: Icons.account_tree_rounded,
-              onChanged: select,
-            ),
-            _RadioTile(
-              groupValue: selectedType,
-              label: 'Multinível',
-              icon: Icons.layers_rounded,
-              onChanged: select,
-            ),
-          ],
+        return Padding(
+          padding: const EdgeInsets.only(bottom: AppEdgeInsets.xSmall),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _RadioTile(
+                groupValue: selectedType,
+                label: 'Hierárquica',
+                icon: Icons.account_tree_rounded,
+                onChanged: select,
+              ),
+              _RadioTile(
+                groupValue: selectedType,
+                label: 'Multinível',
+                icon: Icons.layers_rounded,
+                onChanged: select,
+              ),
+            ],
+          ),
         );
       },
     );
@@ -60,29 +63,56 @@ class _RadioTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final Color primaryColor = theme.colorScheme.primary;
+    final ColorScheme colorScheme = theme.colorScheme;
+    final Color primaryColor = colorScheme.primary;
 
-    final Color iconColor = label == groupValue ? primaryColor : Colors.grey;
+    late Color iconColor;
+    late TextStyle? labelStyle;
 
-    return InkWell(
-      onTap: () => onChanged(label),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5),
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Radio<String>(
-                value: label,
-                groupValue: groupValue,
-                activeColor: primaryColor,
-                onChanged: onChanged,
+    if (label == groupValue) {
+      iconColor = primaryColor;
+      labelStyle = theme.textTheme.subtitle1;
+    } else {
+      iconColor = AppColors.primaryLight;
+      labelStyle = theme.textTheme.subtitle1;
+    }
+
+    return Material(
+      color: Colors.transparent,
+      borderRadius: AppBorderRadius.all,
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onTap: () => onChanged(label),
+        hoverColor: theme.hoverColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: AppEdgeInsets.xSmall * 1.5,
+          ),
+          child: Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: AppEdgeInsets.small,
+                ),
+                child: Radio<String>(
+                  value: label,
+                  groupValue: groupValue,
+                  activeColor: primaryColor,
+                  onChanged: onChanged,
+                ),
               ),
-            ),
-            Expanded(child: Text(label)),
-            Icon(icon, color: iconColor),
-            const SizedBox(width: 10),
-          ],
+              const SizedBox(width: AppEdgeInsets.small),
+              Expanded(
+                child: Text(label, style: labelStyle),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppEdgeInsets.medium,
+                ),
+                child: Icon(icon, color: iconColor),
+              ),
+            ],
+          ),
         ),
       ),
     );

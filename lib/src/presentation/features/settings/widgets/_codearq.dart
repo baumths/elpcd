@@ -1,17 +1,17 @@
 part of '../settings.dart';
 
-class CodearqTile extends StatefulWidget {
-  const CodearqTile({
-    Key key = const Key('CodearqTile'),
+class CodearqSection extends StatefulWidget {
+  const CodearqSection({
+    Key key = const Key('CodearqSection'),
   }) : super(key: key);
 
   final String codearq = 'ElPCD'; // TODO: get from user preferences
 
   @override
-  State<CodearqTile> createState() => _CodearqTileState();
+  State<CodearqSection> createState() => _CodearqSectionState();
 }
 
-class _CodearqTileState extends State<CodearqTile> {
+class _CodearqSectionState extends State<CodearqSection> {
   late final FocusNode _focusNode;
   late final TextEditingController _textEditingController;
 
@@ -81,12 +81,19 @@ class _CodearqTileState extends State<CodearqTile> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+          padding: EdgeInsets.symmetric(
+            vertical: AppEdgeInsets.small,
+            horizontal: AppEdgeInsets.medium,
+          ),
           child: CodearqHelperText(),
         ),
         SizedBox(
           height: 64,
-          child: Center(
+          child: AnimatedSwitcher(
+            duration: kAnimationDuration,
+            reverseDuration: Duration.zero,
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
             child: isEditing
                 ? _CodearqEditTile(
                     focusNode: _focusNode,
@@ -119,18 +126,17 @@ class CodearqHelperText extends StatelessWidget {
   static const String hyperLinkText = 'site do Conarq';
 
   void onTap() {
-    // TODO:
-    print('LAUNCH ➜ $conarqUrl');
+    // TODO: LAUNCH ➜ [conarqUrl]
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
+
     final TextStyle? textStyle = theme.textTheme.caption?.copyWith(
       fontSize: 14,
       fontWeight: FontWeight.w500,
-      color: colorScheme.primary.withOpacity(.7),
     );
 
     return RichText(
@@ -187,24 +193,30 @@ class _CodearqDisplayTile extends StatelessWidget {
       fontWeight: FontWeight.w600,
     );
 
-    return ListTile(
-      onTap: onTap,
-      dense: true,
-      horizontalTitleGap: 2,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-      subtitle: const Text(
-        'Toque para editar',
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
+    return Material(
+      color: Colors.transparent,
+      clipBehavior: Clip.hardEdge,
+      borderRadius: AppBorderRadius.all,
+      child: ListTile(
+        onTap: onTap,
+        dense: true,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppEdgeInsets.medium,
         ),
-      ),
-      title: Text(
-        codearq,
-        style: textStyle,
-      ),
-      trailing: Icon(
-        Icons.edit_rounded,
-        color: colorScheme.primary,
+        subtitle: const Text(
+          'Toque para editar',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        title: Text(
+          codearq,
+          style: textStyle,
+        ),
+        trailing: Icon(
+          Icons.edit_rounded,
+          color: colorScheme.primary,
+        ),
       ),
     );
   }
@@ -223,7 +235,9 @@ class _CodearqEditTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.all(
+        AppEdgeInsets.medium,
+      ).copyWith(top: AppEdgeInsets.small),
       child: Row(
         children: [
           Expanded(
@@ -234,11 +248,10 @@ class _CodearqEditTile extends StatelessWidget {
               decoration: const InputDecoration(
                 filled: true,
                 isDense: true,
-                border: InputBorder.none,
                 hintText: 'ElPCD',
+                border: InputBorder.none,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: AppBorderRadius.all,
-                  borderSide: BorderSide(width: .9),
                 ),
               ),
             ),
