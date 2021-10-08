@@ -76,16 +76,32 @@ class _CodearqSectionState extends State<CodearqSection> {
   Widget build(BuildContext context) {
     // TODO: Perhaps debounce field's onChanged and save after some delay?
 
+    late final Widget codearqDisplayTile = Align(
+      alignment: Alignment.bottomCenter,
+      child: _DisplayTile(
+        codearq: widget.codearq,
+        onTap: () => isEditing = true,
+      ),
+    );
+
+    late final Widget codearqEditTile = Align(
+      alignment: Alignment.center,
+      child: _EditTile(
+        focusNode: _focusNode,
+        controller: _textEditingController,
+      ),
+    );
+
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: AppEdgeInsets.small,
-            horizontal: AppEdgeInsets.medium,
+          padding: EdgeInsets.fromLTRB(
+            AppEdgeInsets.medium,
+            AppEdgeInsets.small,
+            AppEdgeInsets.medium,
+            AppEdgeInsets.xSmall,
           ),
-          child: CodearqHelperText(),
+          child: _HelperText(),
         ),
         SizedBox(
           height: 64,
@@ -94,15 +110,10 @@ class _CodearqSectionState extends State<CodearqSection> {
             reverseDuration: Duration.zero,
             switchInCurve: Curves.easeIn,
             switchOutCurve: Curves.easeOut,
-            child: isEditing
-                ? _CodearqEditTile(
-                    focusNode: _focusNode,
-                    controller: _textEditingController,
-                  )
-                : _CodearqDisplayTile(
-                    codearq: widget.codearq,
-                    onTap: () => isEditing = true,
-                  ),
+            child: KeyedSubtree(
+              key: Key('$isEditing'),
+              child: isEditing ? codearqEditTile : codearqDisplayTile,
+            ),
           ),
         ),
       ],
@@ -110,8 +121,8 @@ class _CodearqSectionState extends State<CodearqSection> {
   }
 }
 
-class CodearqHelperText extends StatelessWidget {
-  const CodearqHelperText({Key? key}) : super(key: key);
+class _HelperText extends StatelessWidget {
+  const _HelperText({Key? key}) : super(key: key);
 
   static const String conarqUrl = 'https://www.gov.br/conarq/pt-br/servicos-1/'
       'consulta-as-entidades-custodiadoras-de-acervos-arquivisticos-cadastradas';
@@ -139,6 +150,18 @@ class CodearqHelperText extends StatelessWidget {
       fontWeight: FontWeight.w500,
     );
 
+    final TextStyle? hyperLinkTextStyle = textStyle?.copyWith(
+      color: colorScheme.primary,
+      fontWeight: FontWeight.w700,
+      // Height needed to align vertically with parent span.
+      // Without this, the parent span would be a little higher.
+      height: 1.2,
+    );
+
+    final TextStyle? tooltipTextStyle = theme.tooltipTheme.textStyle?.copyWith(
+      fontSize: 10,
+    );
+
     return RichText(
       text: TextSpan(
         text: helperText,
@@ -147,7 +170,7 @@ class CodearqHelperText extends StatelessWidget {
           WidgetSpan(
             child: Tooltip(
               message: conarqUrl,
-              textStyle: theme.tooltipTheme.textStyle?.copyWith(fontSize: 10),
+              textStyle: tooltipTextStyle,
               verticalOffset: 10,
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
@@ -155,13 +178,7 @@ class CodearqHelperText extends StatelessWidget {
                   onTap: onTap,
                   child: Text(
                     hyperLinkText,
-                    style: textStyle?.copyWith(
-                      color: colorScheme.primary,
-                      fontWeight: FontWeight.w700,
-                      // Height needed to align vertically with parent span.
-                      // Without this, the parent span would be a little higher.
-                      height: 1.2,
-                    ),
+                    style: hyperLinkTextStyle,
                   ),
                 ),
               ),
@@ -174,8 +191,8 @@ class CodearqHelperText extends StatelessWidget {
   }
 }
 
-class _CodearqDisplayTile extends StatelessWidget {
-  const _CodearqDisplayTile({
+class _DisplayTile extends StatelessWidget {
+  const _DisplayTile({
     Key? key,
     required this.codearq,
     this.onTap,
@@ -189,41 +206,36 @@ class _CodearqDisplayTile extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
 
-    final TextStyle? textStyle = theme.textTheme.subtitle1?.copyWith(
-      fontWeight: FontWeight.w600,
-    );
-
-    return Material(
-      color: Colors.transparent,
-      clipBehavior: Clip.hardEdge,
-      borderRadius: AppBorderRadius.all,
-      child: ListTile(
-        onTap: onTap,
-        dense: true,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: AppEdgeInsets.medium,
+    return ListTile(
+      onTap: onTap,
+      shape: const RoundedRectangleBorder(
+        borderRadius: AppBorderRadius.bottom,
+      ),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: AppEdgeInsets.medium,
+      ),
+      subtitle: const Text(
+        'Toque para editar',
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
         ),
-        subtitle: const Text(
-          'Toque para editar',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-          ),
+      ),
+      title: Text(
+        codearq,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
         ),
-        title: Text(
-          codearq,
-          style: textStyle,
-        ),
-        trailing: Icon(
-          Icons.edit_rounded,
-          color: colorScheme.primary,
-        ),
+      ),
+      trailing: Icon(
+        Icons.edit_rounded,
+        color: colorScheme.primary,
       ),
     );
   }
 }
 
-class _CodearqEditTile extends StatelessWidget {
-  const _CodearqEditTile({
+class _EditTile extends StatelessWidget {
+  const _EditTile({
     Key? key,
     required this.focusNode,
     required this.controller,
@@ -235,28 +247,23 @@ class _CodearqEditTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(
-        AppEdgeInsets.medium,
-      ).copyWith(top: AppEdgeInsets.small),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              autofocus: true,
-              focusNode: focusNode,
-              controller: controller,
-              decoration: const InputDecoration(
-                filled: true,
-                isDense: true,
-                hintText: 'ElPCD',
-                border: InputBorder.none,
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: AppBorderRadius.all,
-                ),
-              ),
-            ),
-          )
-        ],
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppEdgeInsets.medium,
+      ),
+      child: TextField(
+        autofocus: true,
+        focusNode: focusNode,
+        controller: controller,
+        decoration: const InputDecoration(
+          filled: true,
+          isDense: true,
+          hintText: 'ElPCD',
+          border: InputBorder.none,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: AppBorderRadius.all,
+            borderSide: BorderSide(width: 2),
+          ),
+        ),
       ),
     );
   }

@@ -18,26 +18,22 @@ class BrowseTypeSection extends StatelessWidget {
           setState(() => selectedType = value);
         }
 
-        return Padding(
-          padding: const EdgeInsets.only(bottom: AppEdgeInsets.xSmall),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _RadioTile(
-                groupValue: selectedType,
-                label: 'Hierárquica',
-                icon: Icons.account_tree_rounded,
-                onChanged: select,
-              ),
-              _RadioTile(
-                groupValue: selectedType,
-                label: 'Multinível',
-                icon: Icons.layers_rounded,
-                onChanged: select,
-              ),
-            ],
-          ),
+        return Column(
+          children: [
+            _RadioTile(
+              groupValue: selectedType,
+              label: 'Hierárquica',
+              icon: Icons.account_tree_rounded,
+              onChanged: select,
+            ),
+            _RadioTile(
+              groupValue: selectedType,
+              label: 'Multinível',
+              icon: Icons.layers_rounded,
+              onChanged: select,
+              borderRadius: AppBorderRadius.bottom,
+            ),
+          ],
         );
       },
     );
@@ -50,11 +46,13 @@ class _RadioTile extends StatelessWidget {
     required this.label,
     required this.icon,
     this.groupValue,
+    this.borderRadius = BorderRadius.zero,
     required this.onChanged,
   }) : super(key: key);
 
   final String label;
   final IconData icon;
+  final BorderRadius borderRadius;
 
   final String? groupValue;
 
@@ -71,49 +69,41 @@ class _RadioTile extends StatelessWidget {
 
     if (label == groupValue) {
       iconColor = primaryColor;
-      labelStyle = theme.textTheme.subtitle1;
+      labelStyle = theme.textTheme.subtitle1?.copyWith(
+        fontWeight: FontWeight.bold,
+      );
     } else {
       iconColor = AppColors.primaryLight;
       labelStyle = theme.textTheme.subtitle1;
     }
 
-    return Material(
-      color: Colors.transparent,
-      borderRadius: AppBorderRadius.all,
-      clipBehavior: Clip.hardEdge,
-      child: InkWell(
-        onTap: () => onChanged(label),
-        hoverColor: theme.hoverColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: AppEdgeInsets.xSmall * 1.5,
+    return InkWell(
+      onTap: () => onChanged(label),
+      hoverColor: theme.hoverColor,
+      borderRadius: borderRadius,
+      child: Row(
+        children: <Widget>[
+          Radio<String>(
+            value: label,
+            groupValue: groupValue,
+            onChanged: onChanged,
+            activeColor: primaryColor,
+            //? +8px all around
+            visualDensity: VisualDensity.adaptivePlatformDensity.copyWith(
+              horizontal: 2,
+              vertical: 2,
+            ),
           ),
-          child: Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: AppEdgeInsets.small,
-                ),
-                child: Radio<String>(
-                  value: label,
-                  groupValue: groupValue,
-                  activeColor: primaryColor,
-                  onChanged: onChanged,
-                ),
-              ),
-              const SizedBox(width: AppEdgeInsets.small),
-              Expanded(
-                child: Text(label, style: labelStyle),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppEdgeInsets.medium,
-                ),
-                child: Icon(icon, color: iconColor),
-              ),
-            ],
+          Expanded(
+            child: Text(label, style: labelStyle),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppEdgeInsets.medium,
+            ),
+            child: Icon(icon, color: iconColor),
+          ),
+        ],
       ),
     );
   }

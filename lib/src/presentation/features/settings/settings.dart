@@ -27,16 +27,19 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scrollbar(
-      child: ListView.separated(
-        itemCount: Settings.sections.length,
-        padding: const EdgeInsets.all(AppEdgeInsets.small),
-        separatorBuilder: (_, __) => const SizedBox(height: 10),
-        itemBuilder: (_, int index) {
-          return SettingsSection(
+    return Material(
+      color: Colors.transparent,
+      child: Scrollbar(
+        child: ListView.separated(
+          itemCount: Settings.sections.length,
+          padding: const EdgeInsets.all(AppEdgeInsets.small),
+          separatorBuilder: (_, __) => const SizedBox(
+            height: AppEdgeInsets.medium,
+          ),
+          itemBuilder: (_, int index) => SettingsSection(
             model: Settings.sections[index],
-          );
-        },
+          ),
+        ),
       ),
     );
   }
