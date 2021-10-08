@@ -17,12 +17,19 @@ class SettingsScope extends InheritedWidget {
     Key? key,
     required Widget child,
     required this.browserTypeController,
+    required this.codearqController,
+    required this.codearq,
   }) : super(key: key, child: child);
 
   final BrowserTypeController browserTypeController;
+  final CodearqController codearqController;
+
+  final String codearq;
 
   @override
   bool updateShouldNotify(SettingsScope oldWidget) {
-    return oldWidget.browserTypeController != browserTypeController;
+    return oldWidget.codearq != codearq ||
+        oldWidget.browserTypeController != browserTypeController ||
+        oldWidget.codearqController != codearqController;
   }
 }

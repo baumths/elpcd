@@ -1,11 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show PhysicalKeyboardKey;
 
 import '../../theme/theme.dart';
 
 import 'controllers/browser_type.dart';
+import 'controllers/codearq.dart';
 
 part '_utils.dart';
 part 'widgets/_browser_type.dart';
@@ -41,6 +41,21 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   late final BrowserTypeController browserTypeController;
+  late final CodearqController codearqController;
+
+  // TODO: Get from user preferences,
+  String _codearq = 'ElPCD';
+
+  void onCodearqSaved(String codearq) {
+    codearq = codearq.trim();
+
+    if (codearq.isNotEmpty && codearq != _codearq) {
+      setState(() {
+        _codearq = codearq;
+      });
+    }
+    // TODO: Save in user preferences;
+  }
 
   @override
   void initState() {
@@ -52,11 +67,15 @@ class _SettingsState extends State<Settings> {
         // TODO: Save in user preferences
       },
     );
+    codearqController = CodearqController(
+      onSaved: onCodearqSaved,
+    );
   }
 
   @override
   void dispose() {
     browserTypeController.dispose();
+    codearqController.dispose();
     super.dispose();
   }
 
@@ -64,6 +83,8 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return SettingsScope(
       browserTypeController: browserTypeController,
+      codearqController: codearqController,
+      codearq: _codearq,
       child: Material(
         color: Colors.transparent,
         child: Scrollbar(

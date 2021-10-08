@@ -1,96 +1,14 @@
 part of '../settings.dart';
 
-class CodearqSection extends StatefulWidget {
+class CodearqSection extends StatelessWidget {
   const CodearqSection({
     Key key = const Key('CodearqSection'),
   }) : super(key: key);
 
-  final String codearq = 'ElPCD'; // TODO: get from user preferences
-
-  @override
-  State<CodearqSection> createState() => _CodearqSectionState();
-}
-
-class _CodearqSectionState extends State<CodearqSection> {
-  late final FocusNode _focusNode;
-  late final TextEditingController _textEditingController;
-
-  String get text => _textEditingController.text;
-
-  bool _isEditing = false;
-  bool get isEditing => _isEditing;
-  set isEditing(bool value) {
-    if (isEditing == value) return;
-
-    setState(() {
-      _isEditing = value;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _textEditingController = TextEditingController(text: widget.codearq);
-    _focusNode = FocusNode(onKeyEvent: _onKeyEvent)
-      ..addListener(_onFocusChange);
-  }
-
-  @override
-  void dispose() {
-    _textEditingController.dispose();
-    _focusNode
-      ..removeListener(_onFocusChange)
-      ..dispose();
-    super.dispose();
-  }
-
-  void _onSaved() {
-    if (text == widget.codearq) return;
-    // TODO: Save new CODEARQ
-    print('Saving CODEARQ ==> ${_textEditingController.text}');
-  }
-
-  void _onFocusChange() {
-    if (_focusNode.hasFocus) return;
-
-    // Save when unfocused
-    _onSaved();
-    isEditing = false;
-  }
-
-  KeyEventResult _onKeyEvent(FocusNode focusNode, KeyEvent event) {
-    final PhysicalKeyboardKey keyPressed = event.physicalKey;
-
-    final bool fieldSubmitted = keyPressed == PhysicalKeyboardKey.enter ||
-        keyPressed == PhysicalKeyboardKey.numpadEnter ||
-        keyPressed == PhysicalKeyboardKey.tab;
-
-    if (fieldSubmitted) {
-      focusNode.unfocus();
-      return KeyEventResult.handled;
-    }
-    return KeyEventResult.ignored;
-  }
-
   @override
   Widget build(BuildContext context) {
-    // TODO: Perhaps debounce field's onChanged and save after some delay?
-
-    late final Widget codearqDisplayTile = Align(
-      alignment: Alignment.bottomCenter,
-      child: _DisplayTile(
-        codearq: widget.codearq,
-        onTap: () => isEditing = true,
-      ),
-    );
-
-    late final Widget codearqEditTile = Align(
-      alignment: Alignment.center,
-      child: _EditTile(
-        focusNode: _focusNode,
-        controller: _textEditingController,
-      ),
-    );
+    final settings = Settings.of(context);
+    final controller = settings.codearqController;
 
     return Column(
       children: [
@@ -105,15 +23,36 @@ class _CodearqSectionState extends State<CodearqSection> {
         ),
         SizedBox(
           height: 64,
-          child: AnimatedSwitcher(
-            duration: kAnimationDuration,
-            reverseDuration: Duration.zero,
-            switchInCurve: Curves.easeIn,
-            switchOutCurve: Curves.easeOut,
-            child: KeyedSubtree(
-              key: Key('$isEditing'),
-              child: isEditing ? codearqEditTile : codearqDisplayTile,
-            ),
+          child: AnimatedBuilder(
+            animation: controller,
+            builder: (_, __) {
+              late final Widget child;
+
+              if (controller.isEditing) {
+                controller.text = settings.codearq;
+
+                child = const Align(
+                  alignment: Alignment.center,
+                  child: _EditTile(),
+                );
+              } else {
+                child = const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: _DisplayTile(),
+                );
+              }
+
+              return AnimatedSwitcher(
+                duration: kAnimationDuration,
+                reverseDuration: Duration.zero,
+                switchInCurve: Curves.easeIn,
+                switchOutCurve: Curves.easeOut,
+                child: KeyedSubtree(
+                  key: Key('${controller.isEditing}'),
+                  child: child,
+                ),
+              );
+            },
           ),
         ),
       ],
@@ -135,10 +74,6 @@ class _HelperText extends StatelessWidget {
       'acesse o ';
 
   static const String hyperLinkText = 'site do Conarq';
-
-  void onTap() {
-    // TODO: LAUNCH ➜ [conarqUrl]
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +110,9 @@ class _HelperText extends StatelessWidget {
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
-                  onTap: onTap,
+                  onTap: () {
+                    // TODO: Launch [conarqUrl]
+                  },
                   child: Text(
                     hyperLinkText,
                     style: hyperLinkTextStyle,
@@ -192,22 +129,17 @@ class _HelperText extends StatelessWidget {
 }
 
 class _DisplayTile extends StatelessWidget {
-  const _DisplayTile({
-    Key? key,
-    required this.codearq,
-    this.onTap,
-  }) : super(key: key);
-
-  final String codearq;
-  final VoidCallback? onTap;
+  const _DisplayTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final settings = Settings.of(context);
+
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
 
     return ListTile(
-      onTap: onTap,
+      onTap: settings.codearqController.enableEditing,
       shape: const RoundedRectangleBorder(
         borderRadius: AppBorderRadius.bottom,
       ),
@@ -221,7 +153,7 @@ class _DisplayTile extends StatelessWidget {
         ),
       ),
       title: Text(
-        codearq,
+        settings.codearq,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
@@ -235,25 +167,22 @@ class _DisplayTile extends StatelessWidget {
 }
 
 class _EditTile extends StatelessWidget {
-  const _EditTile({
-    Key? key,
-    required this.focusNode,
-    required this.controller,
-  }) : super(key: key);
-
-  final FocusNode focusNode;
-  final TextEditingController controller;
+  const _EditTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = Settings.of(context).codearqController;
+
+    // TODO: Debounce field's onChanged to save after delay
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppEdgeInsets.medium,
       ),
       child: TextField(
         autofocus: true,
-        focusNode: focusNode,
-        controller: controller,
+        focusNode: controller.focusNode,
+        controller: controller.textEditingController,
         decoration: const InputDecoration(
           filled: true,
           isDense: true,
