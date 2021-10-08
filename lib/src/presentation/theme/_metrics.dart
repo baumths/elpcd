@@ -13,6 +13,7 @@ abstract class AppBorderRadius {
 
   static const BorderRadius topLeft = BorderRadius.only(topLeft: radius);
   static const BorderRadius topRight = BorderRadius.only(topRight: radius);
+  static const BorderRadius bottom = BorderRadius.vertical(bottom: radius);
   static const BorderRadius bottomLeft = BorderRadius.only(bottomLeft: radius);
   static const BorderRadius bottomRight = BorderRadius.only(bottomRight: radius);
 
