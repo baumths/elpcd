@@ -1,14 +1,18 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show PhysicalKeyboardKey;
 
 import '../../theme/theme.dart';
 
+import 'controllers/browser_type.dart';
+
 part '_utils.dart';
-part 'widgets/_browse_type.dart';
+part 'widgets/_browser_type.dart';
 part 'widgets/_codearq.dart';
 part 'widgets/_section.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({
     Key key = const Key('Settings'),
   }) : super(key: key);
@@ -16,7 +20,7 @@ class Settings extends StatelessWidget {
   static const List<SettingsSectionModel> sections = [
     SettingsSectionModel(
       title: 'VISUALIZAÇÃO',
-      body: BrowseTypeSection(),
+      body: BrowserTypeSection(),
     ),
     SettingsSectionModel(
       title: 'CODEARQ',
@@ -25,19 +29,53 @@ class Settings extends StatelessWidget {
     ),
   ];
 
+  static SettingsScope of(BuildContext context) {
+    final obj = context.dependOnInheritedWidgetOfExactType<SettingsScope>();
+    assert(obj != null, 'No Settings found in given BuildContext');
+    return obj!;
+  }
+
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  late final BrowserTypeController browserTypeController;
+
+  @override
+  void initState() {
+    super.initState();
+    browserTypeController = BrowserTypeController(
+      // TODO: Get from user preferences
+      initiallySelectedType: 'Hierárquica',
+      onChanged: (String type) {
+        // TODO: Save in user preferences
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    browserTypeController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: Scrollbar(
-        child: ListView.separated(
-          itemCount: Settings.sections.length,
-          padding: const EdgeInsets.all(AppEdgeInsets.small),
-          separatorBuilder: (_, __) => const SizedBox(
-            height: AppEdgeInsets.medium,
-          ),
-          itemBuilder: (_, int index) => SettingsSection(
-            model: Settings.sections[index],
+    return SettingsScope(
+      browserTypeController: browserTypeController,
+      child: Material(
+        color: Colors.transparent,
+        child: Scrollbar(
+          child: ListView.separated(
+            itemCount: Settings.sections.length,
+            padding: const EdgeInsets.all(AppEdgeInsets.small),
+            separatorBuilder: (_, __) => const SizedBox(
+              height: AppEdgeInsets.medium,
+            ),
+            itemBuilder: (_, int index) => SettingsSection(
+              model: Settings.sections[index],
+            ),
           ),
         ),
       ),
