@@ -85,18 +85,15 @@ class _SettingsState extends State<Settings> {
       browserTypeController: browserTypeController,
       codearqController: codearqController,
       codearq: _codearq,
-      child: Material(
-        color: Colors.transparent,
-        child: Scrollbar(
-          child: ListView.separated(
-            itemCount: Settings.sections.length,
-            padding: const EdgeInsets.all(AppEdgeInsets.small),
-            separatorBuilder: (_, __) => const SizedBox(
-              height: AppEdgeInsets.medium,
-            ),
-            itemBuilder: (_, int index) => SettingsSection(
-              model: Settings.sections[index],
-            ),
+      child: Scrollbar(
+        child: ListView.separated(
+          itemCount: Settings.sections.length,
+          padding: const EdgeInsets.all(AppEdgeInsets.small),
+          separatorBuilder: (_, __) => const SizedBox(
+            height: AppEdgeInsets.medium,
+          ),
+          itemBuilder: (_, int index) => SettingsSection(
+            model: Settings.sections[index],
           ),
         ),
       ),

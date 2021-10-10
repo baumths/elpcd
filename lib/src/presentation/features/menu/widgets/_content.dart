@@ -11,14 +11,16 @@ class MenuContent extends StatelessWidget {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.all(
+      padding: const EdgeInsets.fromLTRB(
+        0,
         AppEdgeInsets.large,
-      ).copyWith(left: 0),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: AppBorderRadius.all,
-        ),
+        AppEdgeInsets.large,
+        AppEdgeInsets.large,
+      ),
+      child: Material(
+        type: MaterialType.card,
+        color: colorScheme.surface,
+        borderRadius: AppBorderRadius.all,
         child: AnimatedBuilder(
           animation: controller,
           builder: (_, __) {
