@@ -21,7 +21,7 @@ abstract class AppBorderRadius {
   static const BorderRadius right = BorderRadius.horizontal(right: radius);
 }
 
-abstract class AppEdgeInsets {
+abstract class AppInsets {
   static const double xSmall = 4;
   static const double small = 8;
   static const double medium = 16;

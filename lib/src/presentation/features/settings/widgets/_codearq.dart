@@ -14,10 +14,10 @@ class CodearqSection extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.fromLTRB(
-            AppEdgeInsets.medium,
-            AppEdgeInsets.small,
-            AppEdgeInsets.medium,
-            AppEdgeInsets.xSmall,
+            AppInsets.medium,
+            AppInsets.small,
+            AppInsets.medium,
+            AppInsets.xSmall,
           ),
           child: _HelperText(),
         ),
@@ -144,7 +144,7 @@ class _DisplayTile extends StatelessWidget {
         borderRadius: AppBorderRadius.bottom,
       ),
       contentPadding: const EdgeInsets.symmetric(
-        horizontal: AppEdgeInsets.medium,
+        horizontal: AppInsets.medium,
       ),
       subtitle: const Text(
         'Toque para editar',
@@ -177,7 +177,7 @@ class _EditTile extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppEdgeInsets.medium,
+        horizontal: AppInsets.medium,
       ),
       child: TextField(
         autofocus: true,

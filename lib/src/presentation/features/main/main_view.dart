@@ -37,7 +37,7 @@ class Compose extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.all(AppEdgeInsets.large),
+      padding: EdgeInsets.all(AppInsets.large),
       child: PhysicalModel(
         elevation: 8,
         borderRadius: AppBorderRadius.all,
@@ -75,7 +75,7 @@ class BrowsePlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(AppEdgeInsets.large),
+      padding: const EdgeInsets.all(AppInsets.large),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

@@ -47,7 +47,7 @@ class _Header extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: AppEdgeInsets.medium,
+        horizontal: AppInsets.medium,
       ),
       child: SizedBox(
         height: 40,

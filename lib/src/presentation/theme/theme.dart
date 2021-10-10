@@ -19,7 +19,7 @@ const DividerThemeData dividerTheme = DividerThemeData(
 );
 
 final TooltipThemeData tooltipTheme = TooltipThemeData(
-  padding: const EdgeInsets.all(AppEdgeInsets.small),
+  padding: const EdgeInsets.all(AppInsets.small),
   textStyle: TextStyle(color: kColorScheme.onPrimary, fontSize: 12),
   decoration: BoxDecoration(
     color: kColorScheme.primary.withOpacity(.9),

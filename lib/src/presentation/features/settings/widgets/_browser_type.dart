@@ -82,7 +82,7 @@ class _RadioTile extends StatelessWidget {
                 child: Text(label, style: labelStyle),
               ),
               Padding(
-                padding: const EdgeInsets.all(AppEdgeInsets.medium),
+                padding: const EdgeInsets.all(AppInsets.medium),
                 child: Icon(icon, color: iconColor),
               ),
             ],

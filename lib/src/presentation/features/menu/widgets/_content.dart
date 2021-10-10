@@ -13,9 +13,9 @@ class MenuContent extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         0,
-        AppEdgeInsets.large,
-        AppEdgeInsets.large,
-        AppEdgeInsets.large,
+        AppInsets.large,
+        AppInsets.large,
+        AppInsets.large,
       ),
       child: Material(
         type: MaterialType.card,

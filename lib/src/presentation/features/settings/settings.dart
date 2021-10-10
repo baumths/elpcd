@@ -88,9 +88,9 @@ class _SettingsState extends State<Settings> {
       child: Scrollbar(
         child: ListView.separated(
           itemCount: Settings.sections.length,
-          padding: const EdgeInsets.all(AppEdgeInsets.small),
+          padding: const EdgeInsets.all(AppInsets.small),
           separatorBuilder: (_, __) => const SizedBox(
-            height: AppEdgeInsets.medium,
+            height: AppInsets.medium,
           ),
           itemBuilder: (_, int index) => SettingsSection(
             model: Settings.sections[index],
