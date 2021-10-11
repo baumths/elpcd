@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../theme/theme.dart';
 import '../main/main_view.dart';
 import '../settings/settings.dart';
+import '../transfer/transfer.dart';
 
 part '_controller.dart';
 part '_utils.dart';
@@ -11,7 +12,7 @@ part 'widgets/_navigation.dart';
 
 class Menu extends StatefulWidget {
   const Menu({
-    Key key = const Key('MenuView'),
+    Key key = const Key('Menu'),
   }) : super(key: key);
 
   static const List<MenuDestination> destinations = [
@@ -23,7 +24,7 @@ class Menu extends StatefulWidget {
     MenuDestination(
       label: Text('TRANSFERIR'),
       icon: Icon(Icons.leak_add_rounded),
-      content: Center(child: Text('TRANSFER VIEW')),
+      content: Transfer(),
     ),
     MenuDestination(
       label: Text('CONFIGURAR'),
