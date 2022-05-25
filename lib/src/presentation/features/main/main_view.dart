@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../components/svg_image.dart';
 import '../../theme/theme.dart';
 import '../menu/menu.dart';
+import '../search/search.dart';
 
 class MainView extends StatelessWidget {
   const MainView({
@@ -31,22 +32,30 @@ class MainView extends StatelessWidget {
 
 class Compose extends StatelessWidget {
   const Compose({
-    Key key = const Key('ComposeView'),
+    Key key = const Key('Compose'),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(AppInsets.large),
-      child: PhysicalModel(
-        elevation: 8,
-        borderRadius: AppBorderRadius.all,
-        color: Colors.white,
-        child: SizedBox.expand(
-          child: Center(
-            child: SvgImage.factory,
+    return Padding(
+      padding: const EdgeInsets.all(AppInsets.large),
+      child: Column(
+        children: const [
+          Search(),
+          SizedBox(height: AppInsets.medium),
+          Expanded(
+            child: PhysicalModel(
+              elevation: 8,
+              borderRadius: AppBorderRadius.all,
+              color: Colors.white,
+              child: SizedBox.expand(
+                child: Center(
+                  child: SvgImage.factory,
+                ),
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
