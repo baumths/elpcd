@@ -1,0 +1,9 @@
+version: 1
+namespace: test
+
+metadata:
+  - tag: a
+    label: A
+
+  - tag: b
+    label: B

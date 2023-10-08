@@ -1,0 +1,88 @@
+version: 0.0.1
+namespace: earq
+
+title: E-Arq Brasil v2
+url: https://www.gov.br/conarq/pt-br/centrais-de-conteudo/publicacoes/EARQV203MAI2022.pdf
+
+metadata:
+  - tag: id
+    label: Identificador da classe
+
+  - tag: nome
+    label: Nome da classe
+
+  - tag: codigo
+    label: Código da classe
+
+  - tag: subordinacao
+    label: Subordinação da classe
+
+  - tag: indicadorUso
+    label: "Indicação de permissão de uso"
+    type: option
+    values:
+      - Sim
+      - Não
+
+  - tag: indicadorAtiva
+    label: "Indicação de classe ativa/inativa"
+    type: option
+    values:
+      - Ativa
+      - Inativa
+
+  - tag: prazoCorrente
+    label: "Prazo na idade corrente"
+
+  - tag: eventoCorrente
+    label: "Evento de contagem na idade corrente"
+
+  - tag: prazoIntermediaria
+    label: "Prazo na idade intermediária"
+
+  - tag: eventoIntermediaria
+    label: "Evento de contagem na idade intermediária"
+
+  - tag: destinacao
+    label: "Destinação final"
+
+  - tag: sigilo
+    label: "Sigilo associado à classe"
+
+  - tag: observacao
+    label: "Observação"
+
+# Available Types: (default: text)
+  # text     = text field (String)
+  # option   = checkbox or dropdown (Boolean|String)
+  # datetime = date and time picker (ISO 8601)
+
+# eventoClasse:
+#   id: "Identificador do evento"
+#   tipo:
+#     label: "Tipo de evento"
+#     type: option
+#     values:
+#       - "EGC1. Abertura de classe"
+#       - "EGC2. Desativação de classe"
+#       - "EGC3. Reativação de classe"
+#       - "EGC4. Mudança de nome de classe"
+#       - "EGC5. Deslocamento de classe"
+#       - "EGC6. Extinção de classe"
+#       - "EGC7. Alteração de prazo corrente"
+#       - "EGC8. Alteração de evento corrente"
+#       - "EGC9. Alteração de prazo intermediária"
+#       - "EGC10. Alteração de evento intermediária"
+#       - "EGC11. Alteração de destinação"
+#       - "EGC12. Alteração de sigilo associado à classe"
+#   classeId:
+#     label: "Identificador da classe afetada"
+#     ref: "earq.classe.id"
+#   dataHora:
+#     label: "Data e hora do evento"
+#     type: datetime
+#   agenteId:
+#     label: "Agente responsável pelo evento"
+#     skip: "Agente não implementado"
+#     ref: "earq.agente.id"
+#   valorAnterior: "Valor anterior do atributo"
