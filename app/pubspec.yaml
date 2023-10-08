@@ -16,6 +16,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+  # Ensure that the Material Icons font is included in the app.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
