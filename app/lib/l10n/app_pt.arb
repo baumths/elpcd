@@ -1,13 +1,13 @@
 {
   "shortAppTitle": "ElPCD",
   "@shortAppTitle": {
-    "description": "O título da a aplicação abreviado"
+    "description": "O título da aplicação abreviado"
   },
   "extendedAppTitle": "Elaborador de Planos de Classificação de Documentos",
   "@extendedAppTitle": {
     "description": "O título da aplicação por extenso"
   },
-  "fileClassificationSchemes": "Planos de Classificação de Documentos",
-  "newFcs": "Novo PCD",
+  "classificationSchemes": "Planos de Classificação",
+  "newScheme": "Novo Plano",
   "import": "Importar"
 }
