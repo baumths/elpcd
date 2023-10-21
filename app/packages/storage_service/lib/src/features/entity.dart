@@ -1,5 +1,3 @@
-import 'package:elpcd_utils/elpcd_utils.dart';
-
 class Entity {
   final String id;
   final String name;
@@ -29,9 +27,9 @@ abstract class EntitiesRepository {
 
   Future<EntitiesRepositoryFailure?> save(Entity entity);
 
-  AsyncResult<Entity?, EntitiesRepositoryFailure> getById(String id);
+  Future<(Entity?, EntitiesRepositoryFailure?)> getById(String id);
 
-  AsyncResult<Entity?, EntitiesRepositoryFailure> delete(String id);
+  Future<(Entity?, EntitiesRepositoryFailure?)> delete(String id);
 }
 
 class EntitiesRepositoryFailure {

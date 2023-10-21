@@ -1,13 +1,11 @@
-import 'package:elpcd_utils/elpcd_utils.dart';
-
 import '../../../features/entity.dart';
 
 class InMemoryEntitiesRepository extends EntitiesRepository {
   late final Map<String, Entity> entities = {};
 
   @override
-  AsyncResult<Entity?, EntitiesRepositoryFailure> getById(String id) {
-    return Future.value(Success(entities[id]));
+  Future<(Entity?, EntitiesRepositoryFailure?)> getById(String id) {
+    return Future.value((entities[id], null));
   }
 
   @override
@@ -17,7 +15,7 @@ class InMemoryEntitiesRepository extends EntitiesRepository {
   }
 
   @override
-  AsyncResult<Entity?, EntitiesRepositoryFailure> delete(String id) {
-    return Future.value(Success(entities.remove(id)));
+  Future<(Entity?, EntitiesRepositoryFailure?)> delete(String id) {
+    return Future.value((entities.remove(id), null));
   }
 }

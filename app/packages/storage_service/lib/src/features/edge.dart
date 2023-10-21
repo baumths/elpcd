@@ -1,5 +1,3 @@
-import 'package:elpcd_utils/elpcd_utils.dart';
-
 class Edge {
   final String childId;
   final String? parentId;
@@ -29,7 +27,7 @@ abstract class EdgesRepository {
 
   Future<EdgesRepositoryFailure?> add(Edge edge);
 
-  AsyncResult<List<Edge>, EdgesRepositoryFailure> getChildren(String? parentId);
+  Future<(List<Edge>?, EdgesRepositoryFailure?)> getChildren(String? parentId);
 }
 
 class EdgesRepositoryFailure {
