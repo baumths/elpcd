@@ -7,13 +7,14 @@ environment:
   sdk: '>=3.1.3 <4.0.0'
 
 dependencies:
+  storage_service:
+    path: packages/storage_service
+
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-
-  storage_service:
-    path: packages/storage_service
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_lints: ^2.0.0
