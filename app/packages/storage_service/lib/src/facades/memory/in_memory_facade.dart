@@ -1,15 +1,24 @@
+import '../../features/entity.dart';
+import '../../repositories/entities.dart';
 import '../../storage_facade.dart';
-import 'repositories/edges.dart';
-import 'repositories/entities.dart';
+import 'stores/edges.dart';
+import 'stores/entities.dart';
 
 class InMemoryStorageFacade extends StorageFacade {
+  late InMemoryEdgesStore _edgesStore;
+  late InMemoryEntitiesStore _entitiesStore;
+
   @override
-  InMemoryEdgesRepository edgesRepositoryFactory() {
-    return InMemoryEdgesRepository();
+  Future<void> init() async {
+    _edgesStore = InMemoryEdgesStore();
+    _entitiesStore = InMemoryEntitiesStore();
   }
 
   @override
-  InMemoryEntitiesRepository entitiesRepositoryFactory() {
-    return InMemoryEntitiesRepository();
+  EntitiesRepository entitiesRepositoryFactory() {
+    return EntitiesRepositoryImpl(
+      edgesStore: _edgesStore,
+      entitiesStore: _entitiesStore,
+    );
   }
 }

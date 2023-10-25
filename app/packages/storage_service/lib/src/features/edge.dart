@@ -22,14 +22,6 @@ class Edge {
   }
 }
 
-abstract class EdgesRepository {
-  const EdgesRepository();
-
-  Future<EdgesRepositoryFailure?> add(Edge edge);
-
-  Future<(List<Edge>?, EdgesRepositoryFailure?)> getChildren(String? parentId);
-}
-
-class EdgesRepositoryFailure {
-  const EdgesRepositoryFailure();
+class EdgeException implements Exception {
+  const EdgeException();
 }

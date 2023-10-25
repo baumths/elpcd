@@ -22,16 +22,14 @@ class Entity {
   }
 }
 
-abstract class EntitiesRepository {
-  const EntitiesRepository();
-
-  Future<EntitiesRepositoryFailure?> save(Entity entity);
-
-  Future<(Entity?, EntitiesRepositoryFailure?)> getById(String id);
-
-  Future<(Entity?, EntitiesRepositoryFailure?)> delete(String id);
+class EntityException implements Exception {
+  const EntityException();
 }
 
-class EntitiesRepositoryFailure {
-  const EntitiesRepositoryFailure();
+abstract class EntitiesRepository {
+  Future<List<Entity>> getRoots();
+
+  Future<List<Entity>> getChildren(String? parentId);
+
+  Future<int> countChildren(String id, {bool recursive = false});
 }
