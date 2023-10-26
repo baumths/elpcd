@@ -1,8 +1,8 @@
 abstract class Store<T> {
   Future<void> put(T object);
 
-  Future<T?> get(String key);
+  Future<T?> get(int id);
   Stream<T> getWhere(bool Function(T object) condition);
 
-  Future<T?> delete(String key);
+  Future<T?> delete(int id);
 }

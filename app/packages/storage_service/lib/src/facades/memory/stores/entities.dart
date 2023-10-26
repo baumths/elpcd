@@ -2,13 +2,13 @@ import '../../../features/entity.dart';
 import '../../../store.dart';
 
 class InMemoryEntitiesStore extends Store<Entity> {
-  late final Map<String, Entity> entities = {};
+  late final Map<int, Entity> entities = {};
 
   @override
   Future<void> put(Entity object) async => entities[object.id] = object;
 
   @override
-  Future<Entity?> get(String key) async => entities[key];
+  Future<Entity?> get(int id) async => entities[id];
 
   @override
   Stream<Entity> getWhere(bool Function(Entity object) condition) async* {
@@ -22,5 +22,5 @@ class InMemoryEntitiesStore extends Store<Entity> {
   }
 
   @override
-  Future<Entity?> delete(String key) async => entities.remove(key);
+  Future<Entity?> delete(int id) async => entities.remove(id);
 }

@@ -1,4 +1,4 @@
-import 'features/entity.dart';
+import 'repositories/entities.dart';
 
 abstract class StorageFacade {
   Future<void> init() => Future.value();

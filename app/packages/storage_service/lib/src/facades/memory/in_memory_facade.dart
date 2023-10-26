@@ -1,4 +1,3 @@
-import '../../features/entity.dart';
 import '../../repositories/entities.dart';
 import '../../storage_facade.dart';
 import 'stores/edges.dart';
@@ -16,7 +15,7 @@ class InMemoryStorageFacade extends StorageFacade {
 
   @override
   EntitiesRepository entitiesRepositoryFactory() {
-    return EntitiesRepositoryImpl(
+    return EntitiesRepository(
       edgesStore: _edgesStore,
       entitiesStore: _entitiesStore,
     );

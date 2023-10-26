@@ -1,5 +1,5 @@
 class Entity {
-  final String id;
+  final int id;
   final String name;
 
   const Entity({
@@ -9,7 +9,7 @@ class Entity {
 
   factory Entity.fromMap(Map<String, Object?> map) {
     return Entity(
-      id: map['id'] as String,
+      id: map['id'] as int,
       name: map['name'] as String? ?? '',
     );
   }
@@ -24,12 +24,4 @@ class Entity {
 
 class EntityException implements Exception {
   const EntityException();
-}
-
-abstract class EntitiesRepository {
-  Future<List<Entity>> getRoots();
-
-  Future<List<Entity>> getChildren(String? parentId);
-
-  Future<int> countChildren(String id, {bool recursive = false});
 }

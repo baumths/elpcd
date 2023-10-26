@@ -2,21 +2,19 @@ import '../../../features/edge.dart';
 import '../../../store.dart';
 
 class InMemoryEdgesStore extends Store<Edge> {
-  late final List<Edge> edges = [];
+  late final Map<int, Edge> edges = {};
 
   @override
-  Future<void> put(Edge object) async => edges.add(object);
+  Future<void> put(Edge object) async => edges[object.id] = object;
 
   @override
-  Future<Edge?> get(String key) async {
-    return edges.where((edge) => edge.id == key).firstOrNull;
-  }
+  Future<Edge?> get(int id) async => edges[id];
 
   @override
   Stream<Edge> getWhere(bool Function(Edge object) condition) async* {
     if (edges.isEmpty) return;
 
-    for (final edge in edges) {
+    for (final edge in edges.values) {
       if (condition(edge)) {
         yield edge;
       }
@@ -24,20 +22,5 @@ class InMemoryEdgesStore extends Store<Edge> {
   }
 
   @override
-  Future<Edge?> delete(String key) async {
-    int? indexToRemove;
-
-    for (final (index, edge) in edges.indexed) {
-      if (edge.id == key) {
-        indexToRemove = index;
-        break;
-      }
-    }
-
-    if (indexToRemove != null) {
-      return edges.removeAt(indexToRemove);
-    }
-
-    return null;
-  }
+  Future<Edge?> delete(int id) async => edges.remove(id);
 }
