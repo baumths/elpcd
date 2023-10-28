@@ -1,22 +1,22 @@
 import 'package:storage_service/storage_service.dart';
 
 class EntitiesRepository {
-  final Collection<Edge> edgesStore;
-  final Collection<Entity> entitiesStore;
+  final Collection<Edge> edgesCollection;
+  final Collection<Entity> entitiesCollection;
 
   EntitiesRepository({
-    required this.edgesStore,
-    required this.entitiesStore,
+    required this.edgesCollection,
+    required this.entitiesCollection,
   });
 
   Future<List<Entity>> getRoots() => getChildren(null);
 
   Future<List<Entity>> getChildren(int? parentId) async {
-    final edges = edgesStore.getWhere((edge) => edge.fromId == parentId);
+    final edges = edgesCollection.getWhere((edge) => edge.fromId == parentId);
     final entities = <Entity>[];
 
     await for (final Edge(toId: id) in edges) {
-      final entity = await entitiesStore.get(id);
+      final entity = await entitiesCollection.get(id);
 
       if (entity != null) {
         entities.add(entity);
@@ -30,13 +30,13 @@ class EntitiesRepository {
   }
 
   Future<int> _countChildren(int id) async {
-    return edgesStore.getWhere((edge) => edge.fromId == id).length;
+    return edgesCollection.getWhere((edge) => edge.fromId == id).length;
   }
 
   Future<int> _countDescendants(int id) async {
     int count = 0;
 
-    final edges = edgesStore.getWhere((edge) => edge.fromId == id);
+    final edges = edgesCollection.getWhere((edge) => edge.fromId == id);
     await for (final Edge(toId: id) in edges) {
       count += 1 + await _countDescendants(id);
     }
