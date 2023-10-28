@@ -1,10 +1,8 @@
-import '../features/edge.dart';
-import '../features/entity.dart';
-import '../store.dart';
+import 'package:storage_service/storage_service.dart';
 
 class EntitiesRepository {
-  final Store<Edge> edgesStore;
-  final Store<Entity> entitiesStore;
+  final Collection<Edge> edgesStore;
+  final Collection<Entity> entitiesStore;
 
   EntitiesRepository({
     required this.edgesStore,

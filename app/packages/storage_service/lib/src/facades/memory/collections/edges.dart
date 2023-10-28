@@ -1,7 +1,7 @@
 import '../../../features/edge.dart';
-import '../../../store.dart';
+import '../../../collection.dart';
 
-class InMemoryEdgesStore extends Store<Edge> {
+class InMemoryEdgesCollection extends Collection<Edge> {
   late final Map<int, Edge> edges = {};
 
   @override

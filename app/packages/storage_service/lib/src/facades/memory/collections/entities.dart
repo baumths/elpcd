@@ -1,7 +1,7 @@
 import '../../../features/entity.dart';
-import '../../../store.dart';
+import '../../../collection.dart';
 
-class InMemoryEntitiesStore extends Store<Entity> {
+class InMemoryEntitiesCollection extends Collection<Entity> {
   late final Map<int, Entity> entities = {};
 
   @override

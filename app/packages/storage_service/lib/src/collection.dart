@@ -1,4 +1,4 @@
-abstract class Store<T> {
+abstract class Collection<T> {
   Future<void> put(T object);
 
   Future<T?> get(int id);
