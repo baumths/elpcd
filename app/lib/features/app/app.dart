@@ -15,8 +15,10 @@ class ElpcdApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider.value(
-      value: storageFacade,
+    return MultiProvider(
+      providers: [
+        Provider.value(value: storageFacade),
+      ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         restorationScopeId: 'ElpcdApp',
