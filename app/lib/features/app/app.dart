@@ -1,3 +1,4 @@
+import 'package:elpcd/data/repositories/entities.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storage_service/storage_service.dart';
@@ -18,6 +19,12 @@ class ElpcdApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider.value(value: storageFacade),
+        Provider<EntitiesRepository>(
+          create: (_) => EntitiesRepository(
+            edgesCollection: storageFacade.edgesCollection,
+            entitiesCollection: storageFacade.entitiesCollection,
+          ),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
