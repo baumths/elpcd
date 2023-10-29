@@ -9,5 +9,9 @@
   },
   "classificationSchemes": "Planos de Classificação",
   "newScheme": "Novo Plano",
-  "import": "Importar"
+  "import": "Importar",
+  "untitled": "Sem Título",
+  "noClassificationSchemes": "Nenhum Plano de Classificação foi encontrado",
+  "somethingWentWrong": "Algo deu errado",
+  "tryAgain": "Tentar novamente"
 }
