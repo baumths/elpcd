@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart' show ValueListenable, ValueNotifier;
 
-import '/data/repositories/entities.dart';
+import '/repositories/entities_repository.dart';
 import 'scheme_model.dart';
 
 export 'scheme_model.dart';

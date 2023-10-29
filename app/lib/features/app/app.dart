@@ -1,9 +1,9 @@
-import 'package:elpcd/data/repositories/entities.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storage_service/storage_service.dart';
 
 import '/localizations.dart';
+import '/repositories/entities_repository.dart';
 import 'router.dart';
 
 class ElpcdApp extends StatelessWidget {
