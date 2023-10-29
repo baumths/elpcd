@@ -17,7 +17,6 @@ class AppScaffold extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               notificationPredicate: (_) => false,
-              titleSpacing: 0,
               title: Text(
                 context.l10n.shortAppTitle,
                 style: const TextStyle(
