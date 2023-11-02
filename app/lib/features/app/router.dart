@@ -9,7 +9,7 @@ abstract class AppRouter {
 
   static final RouterConfig<Object> config = GoRouter(
     navigatorKey: _navigatorKey,
-    initialLocation: '/schemes',
+    initialLocation: '/',
     routes: [
       ShellRoute(
         builder: (context, state, child) => AppScaffold(
@@ -17,7 +17,7 @@ abstract class AppRouter {
         ),
         routes: [
           GoRoute(
-            path: '/schemes',
+            path: '/',
             builder: (context, state) => const SchemesListPage(),
           ),
         ],
