@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:storage_service/storage_service.dart';
 
 import '/localizations.dart';
 import 'schemes_list_controller.dart';
@@ -8,7 +9,7 @@ import 'schemes_list_controller.dart';
 class SchemeTile extends StatelessWidget {
   const SchemeTile({super.key, required this.scheme, this.onTap});
 
-  final Scheme scheme;
+  final Class scheme;
   final VoidCallback? onTap;
 
   @override
@@ -18,7 +19,7 @@ class SchemeTile extends StatelessWidget {
       visualDensity: const VisualDensity(horizontal: 4, vertical: 4),
       contentPadding: const EdgeInsetsDirectional.only(start: 16, end: 8),
       leading: InitialsAvatar(name: scheme.name),
-      title: Text(scheme.name ?? context.l10n.untitled),
+      title: Text(scheme.name.isEmpty ? context.l10n.untitled : scheme.name),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -111,7 +112,7 @@ class ClassCount extends StatefulWidget {
     required this.controller,
   });
 
-  final int schemeId;
+  final String schemeId;
   final SchemesListController controller;
 
   @override

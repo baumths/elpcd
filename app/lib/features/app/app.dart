@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:storage_service/storage_service.dart';
 
 import '/localizations.dart';
-import '/repositories/entities_repository.dart';
 import 'router.dart';
 
 class ElpcdApp extends StatelessWidget {
@@ -19,11 +18,8 @@ class ElpcdApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider.value(value: storageFacade),
-        Provider<EntitiesRepository>(
-          create: (_) => EntitiesRepository(
-            edgesCollection: storageFacade.edgesCollection,
-            entitiesCollection: storageFacade.entitiesCollection,
-          ),
+        Provider<ClassesRepository>(
+          create: (_) => storageFacade.classesRepository,
         ),
       ],
       child: MaterialApp.router(

@@ -14,7 +14,7 @@ class SchemesListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider(
       create: (context) => SchemesListController(
-        entitiesRepository: context.read(),
+        classesRepository: context.read(),
       )..fetchSchemes(),
       dispose: (_, controller) => controller.dispose(),
       child: const Padding(

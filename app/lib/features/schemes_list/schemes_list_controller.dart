@@ -1,9 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart' show ValueListenable, ValueNotifier;
-
-import '/repositories/entities_repository.dart';
-import 'scheme_model.dart';
-
-export 'scheme_model.dart';
+import 'package:storage_service/storage_service.dart';
 
 sealed class SchemesListState {}
 
@@ -16,39 +14,43 @@ final class SchemesListFailure extends SchemesListState {
 
 final class SchemesListSuccess extends SchemesListState {
   SchemesListSuccess(this.schemes);
-  final List<Scheme> schemes;
+  final List<Class> schemes;
 }
 
 class SchemesListController {
   SchemesListController({
-    required EntitiesRepository entitiesRepository,
-  })  : _entitiesRepository = entitiesRepository,
-        _stateNotifier = ValueNotifier(SchemesListSuccess([]));
+    required ClassesRepository classesRepository,
+  })  : _classesRepository = classesRepository,
+        _stateNotifier = ValueNotifier(SchemesListSuccess([])) {
+    _classesSubscription = _classesRepository
+        .watch()
+        .where((Class clazz) => clazz.parentId == null)
+        .listen((_) => fetchSchemes());
+  }
 
-  final EntitiesRepository _entitiesRepository;
+  late StreamSubscription<Class> _classesSubscription;
+  final ClassesRepository _classesRepository;
 
   Future<void> fetchSchemes() async {
     if (state is SchemesListLoading) return;
     _state = SchemesListLoading();
 
     try {
-      final entities = await _entitiesRepository.getRoots();
-      if (entities.isEmpty) {
+      final classes = await _classesRepository.getChildren(null);
+      if (classes.isEmpty) {
         _state = SchemesListSuccess([]);
         return;
       }
 
-      _state = SchemesListSuccess(
-        entities.map(Scheme.fromEntity).toList(growable: false),
-      );
+      _state = SchemesListSuccess(classes);
     } on Exception catch (e) {
       _state = SchemesListFailure(e.toString());
     }
   }
 
   // TODO: move to its own controller to enable caching and exception handling
-  Future<int> getClassCount(int schemeId) {
-    return _entitiesRepository.countChildren(schemeId, recursive: true);
+  Future<int> getClassCount(String schemeId) {
+    return _classesRepository.countChildren(schemeId, recursive: true);
   }
 
   // TODO: once available, use macros to generate the following boilerplate
@@ -63,5 +65,6 @@ class SchemesListController {
 
   void dispose() {
     _stateNotifier.dispose();
+    _classesSubscription.cancel();
   }
 }

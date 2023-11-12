@@ -8,7 +8,7 @@ void main() async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
 
-  final storageFacade = InMemoryStorageFacade();
+  final storageFacade = VirtualStorageFacade();
   await storageFacade.init();
 
   runApp(ElpcdApp(
