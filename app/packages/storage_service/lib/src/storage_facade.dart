@@ -1,11 +1,8 @@
-import 'features/edge.dart';
-import 'features/entity.dart';
-import 'collection.dart';
+import 'features/class.dart';
 
 abstract class StorageFacade {
   Future<void> init() => Future.value();
   Future<void> dispose() => Future.value();
 
-  Collection<Edge> get edgesCollection;
-  Collection<Entity> get entitiesCollection;
+  ClassesRepository get classesRepository;
 }

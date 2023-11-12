@@ -1,27 +1,23 @@
 class Edge {
-  final int id;
-  final int toId;
-  final int? fromId;
+  final String? sourceId;
+  final String targetId;
 
   const Edge({
-    required this.id,
-    required this.toId,
-    required this.fromId,
+    required this.sourceId,
+    required this.targetId,
   });
 
   factory Edge.fromMap(Map<String, Object?> map) {
     return Edge(
-      id: map['id'] as int,
-      toId: map['toId'] as int,
-      fromId: map['fromId'] as int?,
+      sourceId: map['sourceId'] as String?,
+      targetId: map['targetId'] as String,
     );
   }
 
   Map<String, Object?> toMap() {
     return {
-      'id': id,
-      'toId': toId,
-      if (fromId != null) 'fromId': fromId,
+      if (sourceId != null) 'sourceId': sourceId,
+      'targetId': targetId,
     };
   }
 }

@@ -1,5 +1,5 @@
 class Entity {
-  final int id;
+  final String id;
   final String name;
 
   const Entity({
@@ -7,9 +7,11 @@ class Entity {
     required this.name,
   });
 
+  Entity.create({String name = ''}) : this(id: '', name: name);
+
   factory Entity.fromMap(Map<String, Object?> map) {
     return Entity(
-      id: map['id'] as int,
+      id: map['id'] as String,
       name: map['name'] as String? ?? '',
     );
   }
