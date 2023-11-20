@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:storage_service/storage_service.dart';
 
 import '../scheme_explorer/scheme_explorer_view.dart';
-import '../schemes_list/schemes_list_page.dart';
+import '../schemes_list/schemes_list_view.dart';
 import 'widgets/scaffold.dart';
 
 abstract class AppRouter {
@@ -18,7 +18,7 @@ abstract class AppRouter {
         routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) => const SchemesListPage(),
+            builder: (context, state) => const SchemesListView(),
             routes: [
               GoRoute(
                 path: ':schemeId',

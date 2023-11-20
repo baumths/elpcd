@@ -7,8 +7,8 @@ import 'new_scheme_button.dart';
 import 'schemes_list.dart';
 import 'schemes_list_controller.dart';
 
-class SchemesListPage extends StatelessWidget {
-  const SchemesListPage({super.key});
+class SchemesListView extends StatelessWidget {
+  const SchemesListView({super.key});
 
   @override
   Widget build(BuildContext context) {
