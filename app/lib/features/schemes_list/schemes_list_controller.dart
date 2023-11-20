@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart' show ValueListenable, ValueNotifier;
+import 'package:flutter/foundation.dart' show ValueNotifier, protected;
 import 'package:storage_service/storage_service.dart';
 
 sealed class SchemesListState {}
@@ -17,34 +17,38 @@ final class SchemesListSuccess extends SchemesListState {
   final List<Class> schemes;
 }
 
-class SchemesListController {
+class SchemesListController extends ValueNotifier<SchemesListState> {
   SchemesListController({
     required ClassesRepository classesRepository,
   })  : _classesRepository = classesRepository,
-        _stateNotifier = ValueNotifier(SchemesListSuccess([])) {
+        super(SchemesListSuccess([])) {
     _classesSubscription = _classesRepository
         .watch()
         .where((Class clazz) => clazz.parentId == null)
         .listen((_) => fetchSchemes());
   }
 
-  late StreamSubscription<Class> _classesSubscription;
+  @protected
+  @override
+  set value(SchemesListState newValue) => super.value = newValue;
+
+  StreamSubscription<Class>? _classesSubscription;
   final ClassesRepository _classesRepository;
 
   Future<void> fetchSchemes() async {
-    if (state is SchemesListLoading) return;
-    _state = SchemesListLoading();
+    if (value is SchemesListLoading) return;
+    value = SchemesListLoading();
 
     try {
       final classes = await _classesRepository.getChildren(null);
       if (classes.isEmpty) {
-        _state = SchemesListSuccess([]);
+        value = SchemesListSuccess([]);
         return;
       }
 
-      _state = SchemesListSuccess(classes);
+      value = SchemesListSuccess(classes);
     } on Exception catch (e) {
-      _state = SchemesListFailure(e.toString());
+      value = SchemesListFailure(e.toString());
     }
   }
 
@@ -53,18 +57,10 @@ class SchemesListController {
     return _classesRepository.countChildren(schemeId, recursive: true);
   }
 
-  // TODO: once available, use macros to generate the following boilerplate
-
-  final ValueNotifier<SchemesListState> _stateNotifier;
-
-  ValueListenable<SchemesListState> get listenable => _stateNotifier;
-
-  SchemesListState get state => _stateNotifier.value;
-
-  set _state(SchemesListState newState) => _stateNotifier.value = newState;
-
+  @override
   void dispose() {
-    _stateNotifier.dispose();
-    _classesSubscription.cancel();
+    _classesSubscription?.cancel();
+    _classesSubscription = null;
+    super.dispose();
   }
 }

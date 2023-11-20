@@ -15,7 +15,7 @@ class SchemesList extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watch<SchemesListController>();
     return ValueListenableBuilder(
-      valueListenable: controller.listenable,
+      valueListenable: controller,
       builder: (context, state, _) => switch (state) {
         SchemesListLoading() => const _Loading(),
         SchemesListFailure() => _Failure(failure: state),
