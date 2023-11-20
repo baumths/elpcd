@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../app/router.dart';
 import '/localizations.dart';
 import 'new_scheme_button.dart';
 import 'scheme_tile.dart';
@@ -24,7 +25,7 @@ class SchemesList extends StatelessWidget {
             itemBuilder: (context, index) => SchemeTile(
               scheme: state.schemes[index],
               onTap: () {
-                // TODO: Navigate to Scheme Explorer
+                AppRouter.goToSchemeExplorer(context, state.schemes[index]);
               },
             ),
           ),
