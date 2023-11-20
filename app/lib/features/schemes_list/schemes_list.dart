@@ -84,20 +84,12 @@ class _Failure extends StatelessWidget {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    context.l10n.somethingWentWrong,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.titleLarge,
-                  ),
-                  const SizedBox(width: 8),
-                ],
-              ),
+            Text(
+              context.l10n.somethingWentWrong,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleLarge,
             ),
+            const SizedBox(height: 16),
             FilledButton.tonal(
               child: Text(context.l10n.tryAgain),
               onPressed: () {
