@@ -12,9 +12,7 @@ abstract class AppRouter {
     initialLocation: '/',
     routes: [
       ShellRoute(
-        builder: (context, state, child) => AppScaffold(
-          content: child,
-        ),
+        builder: (context, state, child) => AppScaffold(body: child),
         routes: [
           GoRoute(
             path: '/',
