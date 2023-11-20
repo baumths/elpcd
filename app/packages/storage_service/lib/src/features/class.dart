@@ -1,9 +1,18 @@
+import '/src/storage_facade.dart';
+
 class Class {
   const Class({
     required this.id,
     required this.parentId,
     required this.name,
   });
+
+  Class.empty({String? parentId})
+      : this(
+          id: StorageFacade.generateUniqueIdentifier(),
+          parentId: parentId,
+          name: '',
+        );
 
   final String id;
   final String? parentId;
