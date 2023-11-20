@@ -41,19 +41,23 @@ class VirtualClassesRepository implements ClassesRepository {
 
   @override
   Future<void> save(Class clazz) async {
+    final oldClass = await getById(clazz.id);
+
+    final newEdge = Edge(
+      sourceId: clazz.parentId,
+      targetId: clazz.id,
+    );
+
+    if (oldClass == null) {
+      virtualEdges.add(newEdge);
+    } else {
+      virtualEdges = <Edge>[
+        for (final edge in virtualEdges)
+          if (edge.targetId == clazz.id) newEdge else edge
+      ];
+    }
+
     virtualEntities[clazz.id] = Entity(id: clazz.id, name: clazz.name);
-
-    virtualEdges = <Edge>[
-      for (final edge in virtualEdges)
-        if (edge.targetId == clazz.id)
-          Edge(
-            sourceId: clazz.parentId,
-            targetId: clazz.id,
-          )
-        else
-          edge
-    ];
-
     controller.add(clazz);
   }
 
