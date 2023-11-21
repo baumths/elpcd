@@ -1,11 +1,11 @@
-import 'package:uuid/uuid.dart';
+import 'package:nanoid2/nanoid2.dart' show Alphabet, nanoid;
 
 import 'features/class.dart';
 
-const _uuid = Uuid();
-
 abstract class StorageFacade {
-  static String generateUniqueIdentifier() => _uuid.v7();
+  static String generateUniqueIdentifier() {
+    return nanoid(length: 10, alphabet: Alphabet.noDoppelgangerSafe);
+  }
 
   Future<void> init() => Future.value();
   Future<void> dispose() => Future.value();
