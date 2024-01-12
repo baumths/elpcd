@@ -1,0 +1,19 @@
+name: elpcd
+description: Elaborador de Planos de Classificação de Documentos
+publish_to: none
+version: 2.0.0
+
+environment:
+  sdk: ^3.3.0-0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^3.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
