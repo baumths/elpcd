@@ -8,7 +8,7 @@ import '../../home.dart';
 import 'widgets.dart';
 
 class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({Key? key}) : super(key: key);
+  const HomeDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class HomeDrawer extends StatelessWidget {
 }
 
 class _DrawerHeader extends StatelessWidget {
-  const _DrawerHeader({Key? key}) : super(key: key);
+  const _DrawerHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class _DrawerHeader extends StatelessWidget {
 }
 
 class _DownloadCsvTile extends StatelessWidget {
-  const _DownloadCsvTile({Key? key}) : super(key: key);
+  const _DownloadCsvTile();
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +67,16 @@ class _DownloadCsvTile extends StatelessWidget {
         //! Convert CsvExport into a bloc to show progress in UI
         await CsvExport(repository).downloadCsvFile();
 
-        context.read<HomeController>().toggleSaving(value: false);
+        if (context.mounted) {
+          context.read<HomeController>().toggleSaving(value: false);
+        }
       },
     );
   }
 }
 
 class _ChangeCodearqTile extends StatelessWidget {
-  const _ChangeCodearqTile({Key? key}) : super(key: key);
+  const _ChangeCodearqTile();
 
   @override
   Widget build(BuildContext context) {
@@ -111,20 +113,20 @@ class _ChangeCodearqTile extends StatelessWidget {
 }
 
 class _DarkModeSwitch extends StatelessWidget {
-  const _DarkModeSwitch({Key? key}) : super(key: key);
+  const _DarkModeSwitch();
 
   @override
   Widget build(BuildContext context) {
     final repository = RepositoryProvider.of<HiveRepository>(context);
     return SwitchListTile(
       title: const Text('Modo Noturno'),
-      activeColor: Theme.of(context).accentColor,
+      activeColor: Theme.of(context).colorScheme.secondary,
       value: repository.isDarkMode,
-      onChanged: (_) async {
+      onChanged: (value) async {
         final homeController = context.read<HomeController>()
           ..toggleSaving(value: true);
 
-        await HiveRepository.settingsBox.put('darkMode', _);
+        await HiveRepository.settingsBox.put('darkMode', value);
 
         homeController.toggleSaving(value: false);
       },

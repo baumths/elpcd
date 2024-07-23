@@ -1,10 +1,7 @@
 part of 'treeview.dart';
 
 class TreeNodeWidget extends StatelessWidget {
-  const TreeNodeWidget({
-    Key? key,
-    required this.classe,
-  }) : super(key: key);
+  const TreeNodeWidget({super.key, required this.classe});
 
   final Classe classe;
 
@@ -30,10 +27,7 @@ class TreeNodeWidget extends StatelessWidget {
 }
 
 class _ClasseNewChildButton extends StatelessWidget {
-  const _ClasseNewChildButton({
-    Key? key,
-    required this.classe,
-  }) : super(key: key);
+  const _ClasseNewChildButton({required this.classe});
 
   final Classe classe;
 
@@ -54,10 +48,7 @@ class _ClasseNewChildButton extends StatelessWidget {
 }
 
 class _ClasseDeleteButton extends StatelessWidget {
-  const _ClasseDeleteButton({
-    Key? key,
-    required this.classe,
-  }) : super(key: key);
+  const _ClasseDeleteButton({required this.classe});
 
   final Classe classe;
 
@@ -77,10 +68,9 @@ class _ClasseDeleteButton extends StatelessWidget {
             btnText: 'Apagar',
           ),
         );
-        if (delete ?? false) {
+        if ((delete ?? false) && context.mounted) {
           final repository = RepositoryProvider.of<HiveRepository>(context);
           await repository.delete(classe);
-          // TODO: show snackbar
         }
       },
     );
@@ -88,10 +78,7 @@ class _ClasseDeleteButton extends StatelessWidget {
 }
 
 class _ClasseTitle extends StatelessWidget {
-  const _ClasseTitle({
-    Key? key,
-    required this.classe,
-  }) : super(key: key);
+  const _ClasseTitle({required this.classe});
 
   final Classe classe;
 
@@ -100,7 +87,7 @@ class _ClasseTitle extends StatelessWidget {
     return Expanded(
       child: Text(
         classe.name,
-        style: Theme.of(context).textTheme.subtitle1,
+        style: Theme.of(context).textTheme.titleMedium,
         overflow: TextOverflow.ellipsis,
       ),
     );
@@ -108,10 +95,7 @@ class _ClasseTitle extends StatelessWidget {
 }
 
 class _ClasseCodeChip extends StatelessWidget {
-  const _ClasseCodeChip({
-    Key? key,
-    required this.classe,
-  }) : super(key: key);
+  const _ClasseCodeChip({required this.classe});
 
   final Classe classe;
 

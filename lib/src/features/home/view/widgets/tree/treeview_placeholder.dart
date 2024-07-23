@@ -1,16 +1,15 @@
 part of 'treeview.dart';
 
 class _TreeViewPlaceholder extends StatelessWidget {
-  const _TreeViewPlaceholder({Key? key}) : super(key: key);
+  const _TreeViewPlaceholder();
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      // TODO: add button to start by importing data
       child: Text(
         'Crie uma Classe para começar',
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.headline3,
+        style: Theme.of(context).textTheme.displaySmall,
       ),
     );
   }

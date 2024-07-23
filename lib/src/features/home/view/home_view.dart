@@ -5,7 +5,7 @@ import '../../features.dart';
 import 'widgets/widgets.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({super.key});
   static const routeName = '/';
 
   @override

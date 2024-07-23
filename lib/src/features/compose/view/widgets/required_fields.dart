@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/compose_bloc.dart';
 
-// TODO: Maybe use [flutter_hooks] for the `StatefulWidgets`
-
 class RequiredFields extends StatelessWidget {
-  const RequiredFields({Key? key}) : super(key: key);
+  const RequiredFields({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,7 @@ class RequiredFields extends StatelessWidget {
                 Text(
                   'Metadados Obrigatórios',
                   style: TextStyle(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -43,7 +41,7 @@ class RequiredFields extends StatelessWidget {
 }
 
 class _CodeFormField extends StatefulWidget {
-  const _CodeFormField({Key? key}) : super(key: key);
+  const _CodeFormField();
 
   @override
   __CodeFormFieldState createState() => __CodeFormFieldState();
@@ -84,7 +82,7 @@ class __CodeFormFieldState extends State<_CodeFormField> {
 }
 
 class _NameFormField extends StatefulWidget {
-  const _NameFormField({Key? key}) : super(key: key);
+  const _NameFormField();
 
   @override
   __NameFormFieldState createState() => __NameFormFieldState();

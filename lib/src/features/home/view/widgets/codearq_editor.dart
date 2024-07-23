@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../controllers/home_controller.dart';
 
 class CodearqEditor extends StatelessWidget {
-  const CodearqEditor({Key? key}) : super(key: key);
+  const CodearqEditor({super.key});
 
   static const double kBottomSheetHeight = 60;
 
@@ -32,7 +32,7 @@ class CodearqEditor extends StatelessWidget {
                 onSubmitted: (_) async {
                   await controller.saveCodearq(context);
                 },
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Digite aqui',
@@ -46,7 +46,7 @@ class CodearqEditor extends StatelessWidget {
                 icon: const Icon(Icons.check),
                 label: Text(
                   'SALVAR',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 onPressed: () async {
                   await controller.saveCodearq(context);

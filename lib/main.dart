@@ -15,7 +15,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => TreeviewController()),
         RepositoryProvider.value(value: repository),
       ],
-      child: ElPCDApp(),
+      child: const ElPCDApp(),
     ),
   );
 }

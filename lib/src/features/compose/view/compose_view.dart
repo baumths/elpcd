@@ -1,17 +1,16 @@
-import 'package:elpcd_dart/src/features/compose/misc/misc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../../entities/entities.dart';
 import '../../../repositories/hive_repository.dart';
 import '../../../shared/shared.dart';
 import '../../features.dart';
 import '../bloc/compose_bloc.dart';
+import '../misc/misc.dart';
 import 'widgets/widgets.dart';
 
 class ComposeView extends StatelessWidget {
-  const ComposeView({Key? key}) : super(key: key);
+  const ComposeView({super.key});
 
   static const routeName = '/compose';
 
@@ -50,10 +49,7 @@ class ComposeView extends StatelessWidget {
 }
 
 class _ComposeViewScaffold extends StatelessWidget {
-  const _ComposeViewScaffold({
-    Key? key,
-    required this.isSaving,
-  }) : super(key: key);
+  const _ComposeViewScaffold({required this.isSaving});
 
   final bool isSaving;
 
@@ -79,6 +75,7 @@ class _ComposeViewScaffold extends StatelessWidget {
             child: const Scrollbar(
               radius: Radius.circular(8),
               child: CustomScrollView(
+                primary: true,
                 slivers: [
                   SliverToBoxAdapter(child: SizedBox(height: 24)),
                   SliverToBoxAdapter(child: RequiredFields()),

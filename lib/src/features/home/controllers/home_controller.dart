@@ -18,7 +18,9 @@ class HomeController with ChangeNotifier {
 
   Future<void> saveCodearq(BuildContext context) async {
     await HiveRepository.settingsBox.put('codearq', _newCodearq);
-    Navigator.of(context).pop();
-    ShowSnackBar.info(context, 'CODEARQ alterado para ➜ $_newCodearq');
+    if (context.mounted) {
+      Navigator.of(context).pop();
+      ShowSnackBar.info(context, 'CODEARQ alterado para ➜ $_newCodearq');
+    }
   }
 }

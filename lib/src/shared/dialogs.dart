@@ -6,9 +6,10 @@ abstract class AppDialogs {
     required String title,
     required String btnText,
   }) {
-    final cancelTextColor = Theme.of(context).brightness == Brightness.dark
-        ? Theme.of(context).accentColor
-        : Theme.of(context).primaryColor;
+    final theme = Theme.of(context);
+    final cancelTextColor = theme.brightness == Brightness.dark
+        ? theme.colorScheme.secondary
+        : theme.colorScheme.primary;
     return AlertDialog(
       elevation: 12,
       title: Center(
@@ -23,7 +24,7 @@ abstract class AppDialogs {
         children: [
           OutlinedButton(
             style: OutlinedButton.styleFrom(
-              primary: cancelTextColor,
+              foregroundColor: cancelTextColor,
             ),
             onPressed: () => Navigator.of(context).pop<bool>(false),
             child: const Text('Cancelar'),
@@ -32,7 +33,8 @@ abstract class AppDialogs {
             message: 'Impossível desfazer',
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.redAccent.shade700,
+                backgroundColor: theme.colorScheme.error,
+                foregroundColor: theme.colorScheme.onError,
               ),
               onPressed: () => Navigator.of(context).pop<bool>(true),
               child: Text(

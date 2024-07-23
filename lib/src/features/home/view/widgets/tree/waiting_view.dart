@@ -1,14 +1,14 @@
 part of 'treeview.dart';
 
 class _WaitingView extends StatelessWidget {
-  const _WaitingView({Key? key}) : super(key: key);
+  const _WaitingView();
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: const <Widget>[
+        children: <Widget>[
           Text(
             'Aguarde enquanto seus dados são carregados',
             textAlign: TextAlign.center,

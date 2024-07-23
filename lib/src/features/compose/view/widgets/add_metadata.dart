@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../misc/misc.dart';
 
 class AddMetadata extends StatelessWidget {
-  const AddMetadata({Key? key}) : super(key: key);
+  const AddMetadata({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +22,14 @@ class AddMetadata extends StatelessWidget {
 }
 
 class _AddMetadataButton extends StatelessWidget {
-  const _AddMetadataButton({Key? key}) : super(key: key);
+  const _AddMetadataButton();
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).brightness == Brightness.dark
-        ? Theme.of(context).accentColor
-        : Theme.of(context).primaryColor;
+    final theme = Theme.of(context);
+    final color = theme.brightness == Brightness.dark
+        ? theme.colorScheme.secondary
+        : theme.colorScheme.primary;
 
     return Container(
       margin: const EdgeInsets.fromLTRB(24, 4, 24, 0),
@@ -48,7 +49,7 @@ class _AddMetadataButton extends StatelessWidget {
         ),
         onTap: () async {
           final selected = await _metadadosSelector(context);
-          if (selected != null) {
+          if (selected != null && context.mounted) {
             context
                 .read<MetadataCubit>()
                 .addMetadata(MetadataViewModel(type: selected));
@@ -80,13 +81,14 @@ class _AddMetadataButton extends StatelessWidget {
 }
 
 class _MetadataDivider extends StatelessWidget {
-  const _MetadataDivider({Key? key}) : super(key: key);
+  const _MetadataDivider();
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).brightness == Brightness.dark
-        ? Theme.of(context).accentColor
-        : Theme.of(context).primaryColor;
+    final theme = Theme.of(context);
+    final color = theme.brightness == Brightness.dark
+        ? theme.colorScheme.secondary
+        : theme.colorScheme.primary;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
@@ -99,7 +101,7 @@ class _MetadataDivider extends StatelessWidget {
             'Metadados Adicionais',
             style: Theme.of(context)
                 .textTheme
-                .subtitle1
+                .titleMedium
                 ?.copyWith(fontWeight: FontWeight.bold, color: color),
           ),
           const SizedBox(width: 4),

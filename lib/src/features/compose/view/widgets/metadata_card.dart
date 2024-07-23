@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../misc/misc.dart';
 
 class MetadataCard extends StatelessWidget {
-  const MetadataCard({Key? key, required this.metadata}) : super(key: key);
+  const MetadataCard({super.key, required this.metadata});
 
   final MetadataViewModel metadata;
 
@@ -24,7 +24,7 @@ class MetadataCard extends StatelessWidget {
                 title: Text(
                   metadata.type,
                   style: TextStyle(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -39,10 +39,7 @@ class MetadataCard extends StatelessWidget {
 }
 
 class _MetadataFormField extends StatelessWidget {
-  const _MetadataFormField({
-    Key? key,
-    required this.metadata,
-  }) : super(key: key);
+  const _MetadataFormField({required this.metadata});
 
   final MetadataViewModel metadata;
 

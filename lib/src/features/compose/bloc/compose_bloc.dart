@@ -10,45 +10,56 @@ part 'compose_event.dart';
 part 'compose_state.dart';
 
 class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
-  ComposeBloc(this._repository) : super(ComposeState.initial());
+  ComposeBloc(this._repository) : super(ComposeState.initial()) {
+    on<ComposeStarted>(_onStarted);
+    on<NameChanged>(_onNameChanged);
+    on<CodeChanged>(_onCodeChanged);
+    on<SavePressed>(_onSavePressed);
+  }
 
   final HiveRepository _repository;
 
-  @override
-  Stream<ComposeState> mapEventToState(ComposeEvent event) async* {
-    if (event is ComposeStarted) {
-      if (event.classe != state.classe) {
-        yield state.copyWith(
-          classe: event.classe,
-          name: event.classe.name,
-          code: event.classe.code,
-          metadata: metadataFromMap(event.classe.metadata),
-          isEditing: true,
-        );
-      }
-    } else if (event is NameChanged) {
-      yield state.copyWith(name: event.name);
-    } else if (event is CodeChanged) {
-      yield state.copyWith(code: event.code);
-    } else if (event is SavePressed) {
-      yield state.copyWith(
-        isSaving: true,
-        shouldValidate: true,
-        status: ComposeStatus.none,
-      );
+  void _onStarted(ComposeStarted event, Emitter<ComposeState> emit) {
+    if (event.classe != state.classe) {
+      emit(state.copyWith(
+        classe: event.classe,
+        name: event.classe.name,
+        code: event.classe.code,
+        metadata: metadataFromMap(event.classe.metadata),
+        isEditing: true,
+      ));
+    }
+  }
 
-      if (state.isFormValid) {
-        await saveClasse(event.metadata);
-        yield state.copyWith(
-          isSaving: false,
-          status: ComposeStatus.success,
-        );
-      } else {
-        yield state.copyWith(
-          isSaving: false,
-          status: ComposeStatus.failure,
-        );
-      }
+  void _onNameChanged(NameChanged event, Emitter<ComposeState> emit) {
+    emit(state.copyWith(name: event.name));
+  }
+
+  void _onCodeChanged(CodeChanged event, Emitter<ComposeState> emit) {
+    emit(state.copyWith(code: event.code));
+  }
+
+  Future<void> _onSavePressed(
+    SavePressed event,
+    Emitter<ComposeState> emit,
+  ) async {
+    emit(state.copyWith(
+      isSaving: true,
+      shouldValidate: true,
+      status: ComposeStatus.none,
+    ));
+
+    if (state.isFormValid) {
+      await saveClasse(event.metadata);
+      emit(state.copyWith(
+        isSaving: false,
+        status: ComposeStatus.success,
+      ));
+    } else {
+      emit(state.copyWith(
+        isSaving: false,
+        status: ComposeStatus.failure,
+      ));
     }
   }
 

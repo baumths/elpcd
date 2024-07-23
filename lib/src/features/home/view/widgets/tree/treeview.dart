@@ -14,10 +14,8 @@ part 'tree_node.dart';
 part 'treeview_placeholder.dart';
 part 'waiting_view.dart';
 
-// TODO: Implement my own version of `flutter_simple_treeview`
-
 class Treeview extends StatelessWidget {
-  const Treeview({Key? key}) : super(key: key);
+  const Treeview({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +64,7 @@ class Treeview extends StatelessWidget {
 }
 
 class _SetupTreeView extends StatelessWidget {
-  const _SetupTreeView({
-    Key? key,
-    required this.nodes,
-  }) : super(key: key);
+  const _SetupTreeView({required this.nodes});
 
   final List<TreeNode> nodes;
 

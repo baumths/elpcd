@@ -1,5 +1,4 @@
 import 'dart:convert' as convert;
-import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
 import 'package:file_saver/file_saver.dart';
@@ -68,10 +67,10 @@ class CsvExport {
     final csv = await _databaseToCsv();
 
     await FileSaver.instance.saveFile(
-      '$fileName',
-      convert.utf8.encode(csv) as Uint8List,
-      'csv',
-      mimeType: MimeType.CSV,
+      name: fileName,
+      bytes: convert.utf8.encode(csv),
+      ext: 'csv',
+      mimeType: MimeType.csv,
     );
   }
 }
@@ -107,11 +106,11 @@ class AccessToMemoryMetadata {
   /// Takes a list of `kMetadadosEArqBrasil` types and converts it into the
   /// `AtoMMetadata` types,
   void _mapMetadadosEArqBrasilToAtoMMetadata() {
-    classe.metadata.entries.forEach((md) {
+    for (final md in classe.metadata.entries) {
       final eArqBrasilType = md.key;
       final content = md.value;
       _mapEArqBrasilToAtom(eArqBrasilType).add('$eArqBrasilType: $content');
-    });
+    }
   }
 
   /// Takes a `kMetadadosEArqBrasil` type and returns

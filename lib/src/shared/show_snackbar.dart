@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 
 abstract class ShowSnackBar {
   static void error(BuildContext context, String msg, {int duration = 3}) {
+    final theme = Theme.of(context);
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
           duration: Duration(seconds: duration),
-          backgroundColor: Colors.red[900],
+          backgroundColor: theme.colorScheme.error,
           content: Text(
             msg,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: theme.colorScheme.onError,
             ),
           ),
         ),
@@ -20,17 +21,18 @@ abstract class ShowSnackBar {
   }
 
   static void info(BuildContext context, String msg, {int duration = 3}) {
+    final theme = Theme.of(context);
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
         SnackBar(
           duration: Duration(seconds: duration),
-          backgroundColor: Theme.of(context).accentColor,
+          backgroundColor: theme.colorScheme.secondary,
           content: Text(
             msg,
-            style: const TextStyle(
+            style:  TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: theme.colorScheme.onSecondary,
             ),
           ),
         ),

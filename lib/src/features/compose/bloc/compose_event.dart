@@ -11,7 +11,7 @@ abstract class ComposeEvent extends Equatable {
 }
 
 class ComposeStarted extends ComposeEvent {
-  ComposeStarted(Classe? _classe) : classe = _classe ?? Classe.root();
+  ComposeStarted(Classe? classe) : classe = classe ?? Classe.root();
 
   final Classe classe;
 

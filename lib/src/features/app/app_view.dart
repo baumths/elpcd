@@ -6,17 +6,19 @@ import '../features.dart';
 import 'app_theme.dart';
 
 class ElPCDApp extends StatelessWidget {
+  const ElPCDApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final _repository = RepositoryProvider.of<HiveRepository>(context);
+    final repository = RepositoryProvider.of<HiveRepository>(context);
     return ValueListenableBuilder(
-      valueListenable: _repository.listenToSettings(keys: ['darkMode']),
+      valueListenable: repository.listenToSettings(keys: ['darkMode']),
       builder: (_, __, ___) {
         return MaterialApp(
           title: 'ElPCD',
           debugShowCheckedModeBanner: false,
-          themeMode: _repository.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-          theme: AppTheme.themeData(darkMode: _repository.isDarkMode),
+          themeMode: repository.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          theme: AppTheme.themeData(darkMode: repository.isDarkMode),
           initialRoute: HomeView.routeName,
           routes: {
             HomeView.routeName: (_) => const HomeView(),
