@@ -1,1 +1,0 @@
-export 'classe/classe.dart';

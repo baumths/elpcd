@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import 'src/features/features.dart';
-import 'src/repositories/hive_repository.dart';
+import 'features/app/app.dart';
+import 'features/home/home_controller.dart';
+import 'features/home/widgets/tree/treeview.dart';
+import 'repositories/hive_repository.dart';
 
 Future<void> main() async {
   final repository = HiveRepository();
