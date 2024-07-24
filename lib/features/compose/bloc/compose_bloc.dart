@@ -26,7 +26,7 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
         name: event.classe.name,
         code: event.classe.code,
         metadata: metadataFromMap(event.classe.metadata),
-        isEditing: true,
+        isEditing: event.isEditing,
       ));
     }
   }

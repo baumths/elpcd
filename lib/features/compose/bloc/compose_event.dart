@@ -11,12 +11,15 @@ abstract class ComposeEvent extends Equatable {
 }
 
 class ComposeStarted extends ComposeEvent {
-  ComposeStarted(Classe? classe) : classe = classe ?? Classe.root();
+  ComposeStarted(Classe? classe)
+      : isEditing = classe != null,
+        classe = classe ?? Classe.root();
 
   final Classe classe;
+  final bool isEditing;
 
   @override
-  List<Object> get props => [classe];
+  List<Object> get props => [classe, isEditing];
 }
 
 class NameChanged extends ComposeEvent {
