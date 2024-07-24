@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../../../repositories/hive_repository.dart';
 import '../../../../shared/shared.dart';
+import '../../../backup/export.dart';
+import '../../../backup/import.dart';
 import '../../home.dart';
 import 'widgets.dart';
 
@@ -23,9 +25,13 @@ class HomeDrawer extends StatelessWidget {
               children: <Widget>[
                 const _DrawerHeader(),
                 if (isSaving) const LinearProgressIndicator(),
-                const _DownloadCsvTile(),
                 const _ChangeCodearqTile(),
                 const _DarkModeSwitch(),
+                const Divider(),
+                const _DownloadCsvTile(),
+                const Divider(),
+                const BackupExportTile(),
+                const BackupImportTile(),
               ],
             ),
           ),
