@@ -10,23 +10,28 @@ class MetadataSliverList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ComposeBloc, ComposeState>(
-      listenWhen: (p, c) => p.isEditing != c.isEditing,
-      listener: (_, state) {
-        context.read<MetadataCubit>().setInitialMetadata(state.metadata);
-      },
-      child: BlocBuilder<MetadataCubit, Set<MetadataViewModel>>(
-        builder: (_, metadata) {
-          return SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (_, index) => MetadataCard(
-                key: ValueKey(metadata.elementAt(index).type),
-                metadata: metadata.elementAt(index),
-              ),
-              childCount: metadata.length,
-            ),
-          );
+    return ListTileTheme(
+      data: ListTileThemeData(
+        textColor: Theme.of(context).colorScheme.secondary,
+      ),
+      child: BlocListener<ComposeBloc, ComposeState>(
+        listenWhen: (p, c) => p.isEditing != c.isEditing,
+        listener: (_, state) {
+          context.read<MetadataCubit>().setInitialMetadata(state.metadata);
         },
+        child: BlocBuilder<MetadataCubit, Set<MetadataViewModel>>(
+          builder: (_, metadata) {
+            return SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (_, index) => MetadataCard(
+                  key: ValueKey(metadata.elementAt(index).type),
+                  metadata: metadata.elementAt(index),
+                ),
+                childCount: metadata.length,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

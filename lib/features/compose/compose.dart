@@ -70,25 +70,26 @@ class _ComposeViewScaffold extends StatelessWidget {
       ),
       floatingActionButton: _floatingActionButton(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      body: BlocBuilder<ComposeBloc, ComposeState>(
-        builder: (_, state) {
-          return IgnorePointer(
-            ignoring: isSaving,
-            child: const Scrollbar(
-              radius: Radius.circular(8),
-              child: CustomScrollView(
-                primary: true,
-                slivers: [
-                  SliverToBoxAdapter(child: SizedBox(height: 24)),
-                  SliverToBoxAdapter(child: RequiredFields()),
-                  SliverToBoxAdapter(child: AddMetadata()),
-                  MetadataSliverList(),
-                  SliverToBoxAdapter(child: SizedBox(height: 240)),
-                ],
-              ),
-            ),
-          );
-        },
+      body: Center(
+        child: SizedBox(
+          width: 600,
+          child: BlocBuilder<ComposeBloc, ComposeState>(
+            builder: (_, state) {
+              return IgnorePointer(
+                ignoring: isSaving,
+                child: const CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(child: SizedBox(height: 24)),
+                    SliverToBoxAdapter(child: RequiredFields()),
+                    SliverToBoxAdapter(child: AddMetadata()),
+                    MetadataSliverList(),
+                    SliverToBoxAdapter(child: SizedBox(height: 240)),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }
@@ -96,7 +97,6 @@ class _ComposeViewScaffold extends StatelessWidget {
   IconButton _leading(BuildContext context) {
     return IconButton(
       tooltip: 'Cancelar',
-      splashRadius: 20,
       icon: const Icon(Icons.arrow_back),
       onPressed: Navigator.of(context).pop,
     );
@@ -112,7 +112,6 @@ class _ComposeViewScaffold extends StatelessWidget {
       );
     }
     return FloatingActionButton.extended(
-      hoverColor: Colors.white10,
       label: const Text('SALVAR'),
       icon: const Icon(Icons.check),
       onPressed: () => context

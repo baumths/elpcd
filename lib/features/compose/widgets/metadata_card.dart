@@ -10,29 +10,20 @@ class MetadataCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 600,
-        child: Card(
-          elevation: 8,
-          margin: const EdgeInsets.fromLTRB(12, 4, 12, 4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-                title: Text(
-                  metadata.type,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              _MetadataFormField(metadata: metadata),
-            ],
+    return Card(
+      elevation: 8,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListTile(
+            title: Text(
+              metadata.type,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
+          _MetadataFormField(metadata: metadata),
+        ],
       ),
     );
   }
@@ -54,7 +45,6 @@ class _MetadataFormField extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'Metadados não preenchidos serão removidos.',
           suffixIcon: IconButton(
-            splashRadius: 20,
             tooltip: 'Remover',
             icon: const Icon(Icons.delete),
             onPressed: () {

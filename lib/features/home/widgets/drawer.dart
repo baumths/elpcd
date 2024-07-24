@@ -86,10 +86,16 @@ class _ChangeCodearqTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final repository = RepositoryProvider.of<HiveRepository>(context);
     return ListTile(
       title: const Text('Editar CODEARQ'),
-      trailing: Chip(
+      trailing: Badge(
+        largeSize: 32,
+        textColor: theme.colorScheme.onPrimary,
+        backgroundColor: theme.colorScheme.primary,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         label: ValueListenableBuilder(
           valueListenable: repository.listenToSettings(keys: ['codearq']),
           builder: (_, __, ___) {
@@ -97,13 +103,7 @@ class _ChangeCodearqTile extends StatelessWidget {
             if (codearq.length > 9) {
               codearq = '${codearq.substring(0, 10)}...';
             }
-            return Text(
-              codearq,
-              style: const TextStyle(
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-              ),
-            );
+            return Text(codearq);
           },
         ),
       ),
@@ -126,7 +126,6 @@ class _DarkModeSwitch extends StatelessWidget {
     final repository = RepositoryProvider.of<HiveRepository>(context);
     return SwitchListTile(
       title: const Text('Modo Noturno'),
-      activeColor: Theme.of(context).colorScheme.secondary,
       value: repository.isDarkMode,
       onChanged: (value) async {
         final homeController = context.read<HomeController>()

@@ -30,11 +30,9 @@ class HomeView extends StatelessWidget {
       const IconButton(
         icon: Icon(Icons.search),
         tooltip: 'Encontrar Classe',
-        splashRadius: 20,
         onPressed: null,
       ),
       IconButton(
-        splashRadius: 20,
         icon: Icon(expanded ? Icons.unfold_less : Icons.unfold_more),
         tooltip: expanded ? 'Recolher Classes' : 'Expandir Classes',
         onPressed: expanded ? controller.collapseAll : controller.expandAll,
@@ -48,7 +46,6 @@ class HomeView extends StatelessWidget {
       builder: (BuildContext context) => IconButton(
         icon: const Icon(Icons.segment),
         tooltip: 'Configurações',
-        splashRadius: 20,
         onPressed: Scaffold.of(context).openDrawer,
       ),
     );
@@ -56,7 +53,6 @@ class HomeView extends StatelessWidget {
 
   Widget _buildFAB(BuildContext context) {
     return FloatingActionButton.extended(
-      hoverColor: Colors.white10,
       label: const Text('NOVA CLASSE'),
       icon: const Icon(Icons.post_add),
       onPressed: () => Navigator.of(context).pushNamed(ComposeView.routeName),

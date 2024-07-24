@@ -34,7 +34,6 @@ class _ClasseNewChildButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      splashRadius: 20,
       icon: const Icon(Icons.add),
       tooltip: 'Nova Classe Subordinada',
       onPressed: () {
@@ -55,9 +54,8 @@ class _ClasseDeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      splashRadius: 20,
       tooltip: 'Apagar',
-      color: Colors.redAccent.shade700,
+      color: Theme.of(context).colorScheme.error,
       icon: const Icon(Icons.delete),
       onPressed: () async {
         final delete = await showDialog<bool>(
@@ -102,22 +100,17 @@ class _ClasseCodeChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final repository = RepositoryProvider.of<HiveRepository>(context);
-    return ValueListenableBuilder<Box<dynamic>>(
+    return ValueListenableBuilder(
       valueListenable: repository.listenToSettings(),
-      builder: (_, box, child) {
+      builder: (_, __, child) {
         return Tooltip(
           message: classe.referenceCode(repository),
           child: child,
         );
       },
       child: Chip(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
-        ),
+        padding: EdgeInsets.zero,
         label: Text(classe.code),
-        backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Colors.white.withOpacity(0.15)
-            : Colors.grey.withOpacity(0.5),
       ),
     );
   }

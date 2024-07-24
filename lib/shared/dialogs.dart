@@ -6,45 +6,24 @@ abstract class AppDialogs {
     required String title,
     required String btnText,
   }) {
-    final theme = Theme.of(context);
-    final cancelTextColor = theme.brightness == Brightness.dark
-        ? theme.colorScheme.secondary
-        : theme.colorScheme.primary;
     return AlertDialog(
-      elevation: 12,
-      title: Center(
-        child: Text(title, textAlign: TextAlign.center),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(4)),
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
-      ),
-      contentPadding: const EdgeInsets.fromLTRB(24, 12, 24, 4),
-      content: ButtonBar(
-        alignment: MainAxisAlignment.spaceBetween,
-        children: [
-          OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              foregroundColor: cancelTextColor,
-            ),
-            onPressed: () => Navigator.of(context).pop<bool>(false),
-            child: const Text('Cancelar'),
-          ),
-          Tooltip(
-            message: 'Impossível desfazer',
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: theme.colorScheme.error,
-                foregroundColor: theme.colorScheme.onError,
-              ),
-              onPressed: () => Navigator.of(context).pop<bool>(true),
-              child: Text(
-                btnText.toUpperCase(),
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ],
-      ),
+      actionsOverflowAlignment: OverflowBarAlignment.center,
+      actionsOverflowButtonSpacing: 8,
+      title: Text(title),
+      content: const Text('Essa ação não poderá ser desfeita.'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop<bool>(false),
+          child: const Text('Cancelar'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.of(context).pop<bool>(true),
+          child: Text(btnText),
+        ),
+      ],
     );
   }
 }

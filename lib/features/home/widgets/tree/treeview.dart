@@ -70,19 +70,14 @@ class _SetupTreeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSmallDisplay = MediaQuery.of(context).size.width < 600;
     return Consumer<TreeviewController>(
       builder: (_, controller, __) {
-        return Scrollbar(
-          radius: const Radius.circular(24),
-          thickness: 8,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 72),
-            child: TreeView(
-              indent: isSmallDisplay ? 8 : 24,
-              treeController: controller.treeController,
-              nodes: nodes,
-            ),
+        return SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 72),
+          child: TreeView(
+            indent: MediaQuery.sizeOf(context).width < 600 ? 8 : 24,
+            treeController: controller.treeController,
+            nodes: nodes,
           ),
         );
       },

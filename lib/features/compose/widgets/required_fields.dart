@@ -6,34 +6,49 @@ import '../bloc/compose_bloc.dart';
 class RequiredFields extends StatelessWidget {
   const RequiredFields({super.key});
 
+  static const codeFormFieldKey = GlobalObjectKey('Compose.codeFormField');
+  static const nameFormFieldKey = GlobalObjectKey('Compose.nameFormField');
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 600,
-        child: Card(
-          elevation: 4,
-          margin: const EdgeInsets.fromLTRB(12, 12, 12, 4),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Metadados Obrigatórios',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.secondary,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                const _CodeFormField(),
-                const SizedBox(height: 12),
-                const _NameFormField(),
-              ],
+    return Card(
+      elevation: 4,
+      margin: const EdgeInsets.fromLTRB(12, 12, 12, 4),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Metadados Obrigatórios',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
+            const SizedBox(height: 12),
+            if (MediaQuery.sizeOf(context).width >= 600)
+              const Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    flex: 3,
+                    child: _CodeFormField(key: codeFormFieldKey),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    flex: 7,
+                    child: _NameFormField(key: nameFormFieldKey),
+                  ),
+                ],
+              )
+            else ...[
+              const _CodeFormField(key: codeFormFieldKey),
+              const SizedBox(height: 12),
+              const _NameFormField(key: nameFormFieldKey),
+            ],
+          ],
         ),
       ),
     );
@@ -41,13 +56,13 @@ class RequiredFields extends StatelessWidget {
 }
 
 class _CodeFormField extends StatefulWidget {
-  const _CodeFormField();
+  const _CodeFormField({super.key});
 
   @override
-  __CodeFormFieldState createState() => __CodeFormFieldState();
+  _CodeFormFieldState createState() => _CodeFormFieldState();
 }
 
-class __CodeFormFieldState extends State<_CodeFormField> {
+class _CodeFormFieldState extends State<_CodeFormField> {
   final _textController = TextEditingController(text: '');
 
   @override
@@ -69,7 +84,7 @@ class __CodeFormFieldState extends State<_CodeFormField> {
         return TextFormField(
           controller: _textController,
           decoration: InputDecoration(
-            labelText: 'Código da Classe',
+            labelText: 'Código',
             errorText: state.codeInvalid ? 'Campo obrigatório' : null,
           ),
           onChanged: (value) {
@@ -82,13 +97,13 @@ class __CodeFormFieldState extends State<_CodeFormField> {
 }
 
 class _NameFormField extends StatefulWidget {
-  const _NameFormField();
+  const _NameFormField({super.key});
 
   @override
-  __NameFormFieldState createState() => __NameFormFieldState();
+  _NameFormFieldState createState() => _NameFormFieldState();
 }
 
-class __NameFormFieldState extends State<_NameFormField> {
+class _NameFormFieldState extends State<_NameFormField> {
   final _textController = TextEditingController(text: '');
 
   @override
@@ -108,11 +123,10 @@ class __NameFormFieldState extends State<_NameFormField> {
           p.status != c.status,
       builder: (_, state) {
         return TextFormField(
-          minLines: 1,
           maxLines: null,
-          controller: _textController,
+          keyboardType: TextInputType.text,
           decoration: InputDecoration(
-            labelText: 'Nome da Classe',
+            labelText: 'Nome',
             errorText: state.nameInvalid ? 'Campo obrigatório' : null,
           ),
           onChanged: (value) {

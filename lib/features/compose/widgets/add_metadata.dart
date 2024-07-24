@@ -8,16 +8,10 @@ class AddMetadata extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canAddMetadata = context.watch<MetadataCubit>().canAddMetadata;
-
-    return Center(
-      child: SizedBox(
-        width: 600,
-        child: canAddMetadata
-            ? const _AddMetadataButton()
-            : const _MetadataDivider(),
-      ),
-    );
+    if (context.watch<MetadataCubit>().canAddMetadata) {
+      return const _AddMetadataButton();
+    }
+    return const _MetadataDivider();
   }
 }
 
@@ -26,26 +20,13 @@ class _AddMetadataButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final color = theme.brightness == Brightness.dark
-        ? theme.colorScheme.secondary
-        : theme.colorScheme.primary;
-
-    return Container(
-      margin: const EdgeInsets.fromLTRB(24, 4, 24, 0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: ListTile(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-        ),
-        minLeadingWidth: 10,
-        contentPadding: const EdgeInsets.only(left: 24),
-        leading: Icon(Icons.add, color: color),
-        title: Text(
+        leading: const Icon(Icons.add),
+        title: const Text(
           'Adicionar Metadados',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         onTap: () async {
           final selected = await _metadadosSelector(context);
@@ -55,6 +36,10 @@ class _AddMetadataButton extends StatelessWidget {
                 .addMetadata(MetadataViewModel(type: selected));
           }
         },
+        selected: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
       ),
     );
   }
@@ -86,26 +71,19 @@ class _MetadataDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final color = theme.brightness == Brightness.dark
-        ? theme.colorScheme.secondary
-        : theme.colorScheme.primary;
-
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Expanded(child: Container(color: color, height: 1)),
-          const SizedBox(width: 4),
+          const Expanded(child: Divider(indent: 12, endIndent: 12)),
           Text(
             'Metadados Adicionais',
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.bold, color: color),
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: theme.colorScheme.secondary,
+            ),
           ),
-          const SizedBox(width: 4),
-          Expanded(child: Container(color: color, height: 1)),
+          const Expanded(child: Divider(indent: 12, endIndent: 12)),
         ],
       ),
     );
