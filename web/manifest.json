@@ -1,11 +1,11 @@
 {
-    "name": "Elaborador de PCD e TTD",
+    "name": "Elaborador de PCDs",
     "short_name": "ElPCD",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Ferramenta para criação de PCDs e TTDs",
+    "description": "Elaborador de Planos de Classificação de Documentos",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

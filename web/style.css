@@ -4,18 +4,18 @@
     box-sizing: border-box;
 }
 
-#wrapper {
+.elpcd-splash-animation {
     position: absolute;
-    background-color: #212121;
+    background-color: #11111b;
     width: 100%;
     height: 100vh;
     text-align: center;
 }
 
 .loading-dots > div {
-    width: 3rem;
-    height: 3rem;
-    background-color: #ff9800;
+    width: 2rem;
+    height: 2rem;
+    background-color: #b4befe;
     margin-top: 50vh;
     border-radius: 50%;
     display: inline-block;
