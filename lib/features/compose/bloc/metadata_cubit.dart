@@ -56,6 +56,4 @@ class MetadataViewModel {
 
   bool get isEmpty => content.isEmpty;
   bool get isNotEmpty => content.isNotEmpty;
-
-  Map<String, String> toMap() => {type: content};
 }

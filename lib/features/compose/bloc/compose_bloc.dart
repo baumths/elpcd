@@ -76,7 +76,7 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
   Map<String, String> metadataToMap(Set<MetadataViewModel> metadata) {
     return <String, String>{
       for (final md in metadata)
-        if (md.isNotEmpty) ...md.toMap()
+        if (md.isNotEmpty) md.type: md.content,
     };
   }
 
