@@ -13,7 +13,6 @@ extension ClasseX on Classe {
 }
 
 class HiveRepository {
-  static const kRootId = -1;
   final boxesDirectoryName = '.elpcd_database';
   final settingsBoxName = 'settings';
   final classesBoxName = 'classes';
@@ -73,7 +72,9 @@ class HiveRepository {
 
   List<Classe> fetch({bool parentsOnly = false}) {
     if (parentsOnly) {
-      return classesBox.values.where((p) => p.parentId == kRootId).toList();
+      return classesBox.values
+          .where((clazz) => clazz.parentId == Classe.rootId)
+          .toList();
     }
     return classesBox.values.toList();
   }
@@ -82,7 +83,7 @@ class HiveRepository {
 
   /// Recursively build Reference Code for [classe]
   String buildReferenceCode(Classe classe) {
-    if (classe.parentId == kRootId) {
+    if (classe.parentId == Classe.rootId) {
       return '$codearq ${classe.code}';
     }
     final parent = getClasseById(classe.parentId)!;

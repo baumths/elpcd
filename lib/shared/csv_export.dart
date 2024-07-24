@@ -38,7 +38,7 @@ class CsvExport {
   /// AtoM can index classes properly
   List<String> get _accessToMemoryRepositoryRow {
     final codearq = _repository.codearq;
-    final rootId = HiveRepository.kRootId.toString();
+    final rootId = Classe.rootId.toString();
     return [codearq, codearq, rootId, '', codearq, codearq, '', '', ''];
   }
 

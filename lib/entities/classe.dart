@@ -1,11 +1,11 @@
 import 'package:hive/hive.dart';
 
-import '../repositories/hive_repository.dart';
-
 part 'classe.g.dart';
 
 @HiveType(typeId: 0)
 class Classe extends HiveObject {
+  static const rootId = -1;
+
   Classe({
     required this.name,
     required this.code,
@@ -16,14 +16,14 @@ class Classe extends HiveObject {
   factory Classe.root() => Classe(
         name: '',
         code: '',
-        parentId: HiveRepository.kRootId,
+        parentId: rootId,
         metadata: <String, String>{},
       );
 
   factory Classe.fromParent(int? parentId) => Classe(
         name: '',
         code: '',
-        parentId: parentId ?? HiveRepository.kRootId,
+        parentId: parentId ?? rootId,
         metadata: <String, String>{},
       );
 
