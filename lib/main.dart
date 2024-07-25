@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'features/app/app.dart';
 import 'features/home/home_controller.dart';
-import 'features/home/widgets/tree/treeview.dart';
+import 'features/home/widgets/tree_view.dart';
 import 'repositories/hive_repository.dart';
 
 Future<void> main() async {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../compose/compose.dart';
 import 'widgets/drawer.dart';
-import 'widgets/tree/treeview.dart';
+import 'widgets/tree_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -19,7 +19,9 @@ class HomeView extends StatelessWidget {
       ),
       floatingActionButton: _buildFAB(context),
       drawer: const HomeDrawer(),
-      body: const Treeview(),
+      body: ClassesTreeView(
+        repository: RepositoryProvider.of(context),
+      ),
     );
   }
 

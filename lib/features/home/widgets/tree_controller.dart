@@ -1,4 +1,4 @@
-part of 'treeview.dart';
+part of 'tree_view.dart';
 
 class TreeviewController extends ChangeNotifier {
   TreeviewController({bool allNodesExpanded = false})

@@ -1,4 +1,4 @@
-part of 'treeview.dart';
+part of 'tree_view.dart';
 
 class TreeNodeWidget extends StatelessWidget {
   const TreeNodeWidget({super.key, required this.classe});

@@ -90,4 +90,10 @@ class HiveRepository {
 
     return '${buildReferenceCode(parent)}-${classe.code}';
   }
+
+  Iterable<Classe> getAllClasses() => classesBox.values;
+
+  Stream<Iterable<Classe>> watchAllClasses() {
+    return classesBox.watch().map((_) => classesBox.values);
+  }
 }
