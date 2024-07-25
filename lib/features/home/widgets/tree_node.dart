@@ -99,15 +99,9 @@ class _ClasseCodeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repository = RepositoryProvider.of<HiveRepository>(context);
-    return ValueListenableBuilder(
-      valueListenable: repository.listenToSettings(),
-      builder: (_, __, child) {
-        return Tooltip(
-          message: classe.referenceCode(repository),
-          child: child,
-        );
-      },
+    return Tooltip(
+      message: RepositoryProvider.of<HiveRepository>(context)
+          .buildReferenceCode(classe),
       child: Chip(
         padding: EdgeInsets.zero,
         label: Text(classe.code),
