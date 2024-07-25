@@ -125,6 +125,7 @@ class _NameFormFieldState extends State<_NameFormField> {
         return TextFormField(
           maxLines: null,
           keyboardType: TextInputType.text,
+          controller: _textController,
           decoration: InputDecoration(
             labelText: 'Nome',
             errorText: state.nameInvalid ? 'Campo obrigatório' : null,
