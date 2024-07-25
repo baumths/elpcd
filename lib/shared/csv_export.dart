@@ -57,7 +57,7 @@ class CsvExport {
     final rows = [
       csvHeader,
       _accessToMemoryRepositoryRow,
-      for (final classe in _repository.fetch()) toCsv(classe)
+      for (final classe in _repository.getAllClasses()) toCsv(classe)
     ];
     return const ListToCsvConverter().convert(rows);
   }

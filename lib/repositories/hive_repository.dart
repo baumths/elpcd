@@ -22,10 +22,6 @@ class HiveRepository {
   static late Box<Classe> classesBox;
   static late Box<Object> settingsBox;
 
-  ValueListenable<Box<Classe>> listenToClasses({List<Object>? keys}) {
-    return classesBox.listenable(keys: keys);
-  }
-
   ValueListenable<Box<Object>> listenToSettings({List<Object>? keys}) {
     return settingsBox.listenable(keys: keys);
   }
@@ -34,8 +30,6 @@ class HiveRepository {
       settingsBox.get('darkMode', defaultValue: true) as bool;
   String get codearq =>
       settingsBox.get('codearq', defaultValue: 'ElPCD') as String;
-
-  Classe? getClasseById(int id) => classesBox.get(id);
 
   Future<void> upsert(Classe classe) async {
     final isUpdating = classesBox.containsKey(classe.id);
@@ -46,30 +40,6 @@ class HiveRepository {
     await classe.save();
   }
 
-  static List<Classe> getChildrenOf(int? id) {
-    return classesBox.values.where((child) => child.parentId == id).toList();
-  }
-
-  static bool hasChildren(int? id) {
-    try {
-      classesBox.values.firstWhere(
-        (child) => child.parentId == id,
-      );
-    } on StateError {
-      return false;
-    }
-    return true;
-  }
-
-  List<Classe> fetch({bool parentsOnly = false}) {
-    if (parentsOnly) {
-      return classesBox.values
-          .where((clazz) => clazz.parentId == Classe.rootId)
-          .toList();
-    }
-    return classesBox.values.toList();
-  }
-
   Future<void> delete(Classe classe) async => classe.delete();
 
   /// Recursively build Reference Code for [classe]
@@ -77,8 +47,7 @@ class HiveRepository {
     if (classe.parentId == Classe.rootId) {
       return '$codearq ${classe.code}';
     }
-    final parent = getClasseById(classe.parentId)!;
-
+    final parent = classesBox.get(classe.parentId)!;
     return '${buildReferenceCode(parent)}-${classe.code}';
   }
 
