@@ -1,9 +1,14 @@
 part of 'tree_view.dart';
 
 class TreeNodeWidget extends StatelessWidget {
-  const TreeNodeWidget({super.key, required this.classe});
+  const TreeNodeWidget({
+    super.key,
+    required this.classe,
+    required this.hasChildren,
+  });
 
   final Classe classe;
+  final bool hasChildren;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class TreeNodeWidget extends StatelessWidget {
             _ClasseCodeChip(classe: classe),
             const SizedBox(width: 8),
             _ClasseTitle(classe: classe),
-            if (!classe.hasChildren) _ClasseDeleteButton(classe: classe),
+            if (!hasChildren) _ClasseDeleteButton(classe: classe),
             _ClasseNewChildButton(classe: classe),
             const SizedBox(width: 8),
           ],

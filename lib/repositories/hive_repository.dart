@@ -3,15 +3,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../entities/classe.dart';
 
-extension ClasseX on Classe {
-  bool get hasChildren => HiveRepository.hasChildren(id);
-  List<Classe> get children => HiveRepository.getChildrenOf(id);
-
-  String referenceCode(HiveRepository repository) {
-    return repository.buildReferenceCode(this);
-  }
-}
-
 class HiveRepository {
   final boxesDirectoryName = '.elpcd_database';
   final settingsBoxName = 'settings';

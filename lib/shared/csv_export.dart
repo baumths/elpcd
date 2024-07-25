@@ -46,7 +46,7 @@ class CsvExport {
   List<String> toCsv(Classe classe) {
     final metadata = AccessToMemoryMetadata(
       classe: classe,
-      referenceCode: classe.referenceCode(_repository),
+      referenceCode: _repository.buildReferenceCode(classe),
     );
     return metadata.convert();
   }

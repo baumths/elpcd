@@ -94,7 +94,10 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
         return TreeNode(
           key: ValueKey(clazz.id),
           children: buildChildren(clazz.id),
-          content: TreeNodeWidget(classe: clazz),
+          content: TreeNodeWidget(
+            classe: clazz,
+            hasChildren: classesByParentId[clazz.id]?.isNotEmpty ?? false,
+          ),
         );
       }).toList();
     }
