@@ -1,12 +1,11 @@
 import 'dart:async' show StreamSubscription;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
 import 'package:provider/provider.dart';
 
 import '../../../entities/classe.dart';
-import '../../../repositories/hive_repository.dart';
+import '../../../repositories/classes_repository.dart';
 import '../../../shared/dialogs.dart';
 import '../../compose/compose.dart';
 
@@ -16,7 +15,7 @@ part 'tree_node.dart';
 class ClassesTreeView extends StatefulWidget {
   const ClassesTreeView({super.key, required this.repository});
 
-  final HiveRepository repository;
+  final ClassesRepository repository;
 
   @override
   State<ClassesTreeView> createState() => _ClassesTreeViewState();

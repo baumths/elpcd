@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../repositories/classes_repository.dart';
 import '../../shared/show_snackbar.dart';
+import '../settings/settings_controller.dart';
 import 'backup_service.dart';
 
 class BackupExportTile extends StatelessWidget {
@@ -14,7 +16,8 @@ class BackupExportTile extends StatelessWidget {
       trailing: const Icon(Icons.download),
       onTap: () async {
         await BackupService.exportToJson(
-          settingsController: context.read(),
+          settingsController: context.read<SettingsController>(),
+          classesRepository: context.read<ClassesRepository>(),
         );
         if (context.mounted) {
           ShowSnackBar.info(

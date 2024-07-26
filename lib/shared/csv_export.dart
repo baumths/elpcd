@@ -4,7 +4,7 @@ import 'package:csv/csv.dart';
 import 'package:file_saver/file_saver.dart';
 
 import '../entities/classe.dart';
-import '../repositories/hive_repository.dart';
+import '../repositories/classes_repository.dart';
 
 /// Export classes as csv to be imported into the software
 /// AtoM - AccessToMemory [https://accesstomemory.org]
@@ -18,7 +18,7 @@ class CsvExport {
   final String fileName;
   final String codearq;
 
-  final HiveRepository _repository;
+  final ClassesRepository _repository;
 
   /// AtoM Standards
   List<String> get csvHeader => const <String>[

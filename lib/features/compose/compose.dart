@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../entities/classe.dart';
-import '../../repositories/hive_repository.dart';
+import '../../repositories/classes_repository.dart';
 import '../../shared/show_snackbar.dart';
 import '../home/home.dart';
 import 'bloc/compose_bloc.dart';
@@ -22,7 +22,7 @@ class ComposeView extends StatelessWidget {
 
     return BlocProvider<ComposeBloc>(
       create: (_) => ComposeBloc(
-        RepositoryProvider.of<HiveRepository>(context),
+        context.read<ClassesRepository>(),
       )..add(
           ComposeStarted(classe),
         ),

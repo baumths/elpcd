@@ -72,7 +72,7 @@ class _ClasseDeleteButton extends StatelessWidget {
           ),
         );
         if ((delete ?? false) && context.mounted) {
-          final repository = RepositoryProvider.of<HiveRepository>(context);
+          final repository = context.read<ClassesRepository>();
           await repository.delete(classe);
         }
       },
@@ -105,8 +105,7 @@ class _ClasseCodeChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: RepositoryProvider.of<HiveRepository>(context)
-          .buildReferenceCode(classe),
+      message: context.read<ClassesRepository>().buildReferenceCode(classe),
       child: Chip(
         padding: EdgeInsets.zero,
         label: Text(classe.code),

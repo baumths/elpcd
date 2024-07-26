@@ -2,6 +2,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../repositories/classes_repository.dart';
 import '../../shared/show_snackbar.dart';
 import '../settings/settings_controller.dart';
 import 'backup_service.dart';
@@ -15,6 +16,7 @@ class BackupImportTile extends StatelessWidget {
       title: const Text('Importar Backup JSON'),
       trailing: const Icon(Icons.upload),
       onTap: () async {
+        final classesRepository = context.read<ClassesRepository>();
         final settingsController = context.read<SettingsController>();
 
         final XFile? file = await openFile(
@@ -30,6 +32,7 @@ class BackupImportTile extends StatelessWidget {
         try {
           await BackupService.importFromJson(
             json: json,
+            classesRepository: classesRepository,
             settingsController: settingsController,
           );
 

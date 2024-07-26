@@ -3,11 +3,12 @@ import 'dart:convert' show jsonDecode, jsonEncode, utf8;
 import 'package:file_saver/file_saver.dart';
 
 import '../../entities/classe.dart';
-import '../../repositories/hive_repository.dart';
+import '../../repositories/classes_repository.dart';
 import '../settings/settings_controller.dart';
 
 abstract class BackupService {
   static Future<void> exportToJson({
+    required ClassesRepository classesRepository,
     required SettingsController settingsController,
   }) async {
     final dump = <String, Object?>{
@@ -16,7 +17,7 @@ abstract class BackupService {
         'darkMode': settingsController.darkMode,
       },
       'classes': <Map<String, Object?>>[
-        for (final clazz in HiveRepository.classesBox.values)
+        for (final clazz in classesRepository.getAllClasses())
           <String, Object?>{
             'id': clazz.id,
             'parentId': clazz.parentId,
@@ -39,6 +40,7 @@ abstract class BackupService {
 
   static Future<void> importFromJson({
     required String json,
+    required ClassesRepository classesRepository,
     required SettingsController settingsController,
   }) async {
     final object = jsonDecode(json);
@@ -67,8 +69,8 @@ abstract class BackupService {
           )..id = classMap['id'] as int,
       };
 
-      await HiveRepository.classesBox.clear();
-      await HiveRepository.classesBox.putAll(classes);
+      await classesRepository.clear();
+      await classesRepository.insertAll(classes);
     } on Exception {
       throw const BackupException('Não foi possível realizar a importação');
     }

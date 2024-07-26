@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../entities/classe.dart';
-import '../../../repositories/hive_repository.dart';
+import '../../../repositories/classes_repository.dart';
 import 'metadata_cubit.dart';
 
 part 'compose_event.dart';
@@ -17,7 +17,7 @@ class ComposeBloc extends Bloc<ComposeEvent, ComposeState> {
     on<SavePressed>(_onSavePressed);
   }
 
-  final HiveRepository _repository;
+  final ClassesRepository _repository;
 
   void _onStarted(ComposeStarted event, Emitter<ComposeState> emit) {
     if (event.classe != state.classe) {

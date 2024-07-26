@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../repositories/hive_repository.dart';
+import '../../../repositories/classes_repository.dart';
 import '../../../shared/csv_export.dart';
 import '../../backup/export.dart';
 import '../../backup/import.dart';
@@ -68,7 +67,7 @@ class _DownloadCsvTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repository = RepositoryProvider.of<HiveRepository>(context);
+    final classesRepository = context.read<ClassesRepository>();
     return ListTile(
       title: const Text('Download CSV'),
       trailing: const Icon(Icons.file_download),
@@ -77,7 +76,7 @@ class _DownloadCsvTile extends StatelessWidget {
           ..toggleSaving(value: true);
 
         await CsvExport(
-          repository,
+          classesRepository,
           codearq: context.read<SettingsController>().codearq,
         ).downloadCsvFile();
 
