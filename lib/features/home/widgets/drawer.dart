@@ -24,7 +24,10 @@ class HomeDrawer extends StatelessWidget {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 const _DrawerHeader(),
-                if (isSaving) const LinearProgressIndicator(),
+                if (isSaving)
+                  const LinearProgressIndicator()
+                else
+                  const SizedBox(height: 4),
                 const _ChangeCodearqTile(),
                 const _DarkModeSwitch(),
                 const Divider(),
@@ -68,14 +71,13 @@ class _DownloadCsvTile extends StatelessWidget {
       title: const Text('Download CSV'),
       trailing: const Icon(Icons.file_download),
       onTap: () async {
-        context.read<HomeController>().toggleSaving(value: true);
+        final homeController = context.read<HomeController>()
+          ..toggleSaving(value: true);
 
         //! Convert CsvExport into a bloc to show progress in UI
         await CsvExport(repository).downloadCsvFile();
 
-        if (context.mounted) {
-          context.read<HomeController>().toggleSaving(value: false);
-        }
+        homeController.toggleSaving(value: false);
       },
     );
   }
