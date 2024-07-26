@@ -6,8 +6,10 @@ import '../../../repositories/hive_repository.dart';
 import '../../../shared/csv_export.dart';
 import '../../backup/export.dart';
 import '../../backup/import.dart';
+import '../../settings/codearq.dart';
+import '../../settings/dark_mode.dart';
+import '../../settings/settings_controller.dart';
 import '../home_controller.dart';
-import 'codearq_editor.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key});
@@ -28,8 +30,8 @@ class HomeDrawer extends StatelessWidget {
                   const LinearProgressIndicator()
                 else
                   const SizedBox(height: 4),
-                const _ChangeCodearqTile(),
-                const _DarkModeSwitch(),
+                const CodearqListTile(),
+                const DarkModeSwitchListTile(),
                 const Divider(),
                 const _DownloadCsvTile(),
                 const Divider(),
@@ -74,64 +76,10 @@ class _DownloadCsvTile extends StatelessWidget {
         final homeController = context.read<HomeController>()
           ..toggleSaving(value: true);
 
-        await CsvExport(repository).downloadCsvFile();
-
-        homeController.toggleSaving(value: false);
-      },
-    );
-  }
-}
-
-class _ChangeCodearqTile extends StatelessWidget {
-  const _ChangeCodearqTile();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final repository = RepositoryProvider.of<HiveRepository>(context);
-    return ListTile(
-      title: const Text('Editar CODEARQ'),
-      trailing: Badge(
-        largeSize: 32,
-        textColor: theme.colorScheme.onPrimary,
-        backgroundColor: theme.colorScheme.primary,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        label: ValueListenableBuilder(
-          valueListenable: repository.listenToSettings(keys: ['codearq']),
-          builder: (_, __, ___) {
-            var codearq = repository.codearq;
-            if (codearq.length > 9) {
-              codearq = '${codearq.substring(0, 10)}...';
-            }
-            return Text(codearq);
-          },
-        ),
-      ),
-      onTap: () {
-        Navigator.of(context).pop(); // Close drawer
-        showModalBottomSheet(
-          context: context,
-          builder: (_) => const CodearqEditor(),
-        );
-      },
-    );
-  }
-}
-
-class _DarkModeSwitch extends StatelessWidget {
-  const _DarkModeSwitch();
-
-  @override
-  Widget build(BuildContext context) {
-    return SwitchListTile(
-      title: const Text('Modo Noturno'),
-      value: Theme.of(context).brightness == Brightness.dark,
-      onChanged: (value) async {
-        final homeController = context.read<HomeController>()
-          ..toggleSaving(value: true);
-
-        await HiveRepository.settingsBox.put('darkMode', value);
+        await CsvExport(
+          repository,
+          codearq: context.read<SettingsController>().codearq,
+        ).downloadCsvFile();
 
         homeController.toggleSaving(value: false);
       },

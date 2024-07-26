@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../entities/classe.dart';
 
 class HiveRepository {
   final boxesDirectoryName = '.elpcd_database';
-  final settingsBoxName = 'settings';
   final classesBoxName = 'classes';
 
   Future<void> initDatabase() async {
@@ -15,21 +13,10 @@ class HiveRepository {
       Hive.registerAdapter<Classe>(ClasseAdapter());
     }
 
-    settingsBox = await Hive.openBox<Object>(settingsBoxName);
     classesBox = await Hive.openBox<Classe>(classesBoxName);
   }
 
   static late Box<Classe> classesBox;
-  static late Box<Object> settingsBox;
-
-  ValueListenable<Box<Object>> listenToSettings({List<Object>? keys}) {
-    return settingsBox.listenable(keys: keys);
-  }
-
-  bool get isDarkMode =>
-      settingsBox.get('darkMode', defaultValue: true) as bool;
-  String get codearq =>
-      settingsBox.get('codearq', defaultValue: 'ElPCD') as String;
 
   Future<void> upsert(Classe classe) async {
     final isUpdating = classesBox.containsKey(classe.id);
@@ -45,7 +32,7 @@ class HiveRepository {
   /// Recursively build Reference Code for [classe]
   String buildReferenceCode(Classe classe) {
     if (classe.parentId == Classe.rootId) {
-      return '$codearq ${classe.code}';
+      return classe.code;
     }
     final parent = classesBox.get(classe.parentId)!;
     return '${buildReferenceCode(parent)}-${classe.code}';

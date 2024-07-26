@@ -4,13 +4,16 @@ import 'package:file_saver/file_saver.dart';
 
 import '../../entities/classe.dart';
 import '../../repositories/hive_repository.dart';
+import '../settings/settings_controller.dart';
 
 abstract class BackupService {
-  static Future<void> exportToJson() async {
+  static Future<void> exportToJson({
+    required SettingsController settingsController,
+  }) async {
     final dump = <String, Object?>{
       'settings': {
-        'codearq': HiveRepository.settingsBox.get('codearq') ?? 'ElPCD',
-        'darkMode': HiveRepository.settingsBox.get('darkMode') ?? true
+        'codearq': settingsController.codearq,
+        'darkMode': settingsController.darkMode,
       },
       'classes': <Map<String, Object?>>[
         for (final clazz in HiveRepository.classesBox.values)
@@ -34,7 +37,10 @@ abstract class BackupService {
     );
   }
 
-  static Future<void> importFromJson(String json) async {
+  static Future<void> importFromJson({
+    required String json,
+    required SettingsController settingsController,
+  }) async {
     final object = jsonDecode(json);
     if (object is! Map) {
       throw const BackupException('Formato Invalido');
@@ -44,11 +50,11 @@ abstract class BackupService {
       final settings = Map<String, Object?>.from(object['settings'] as Map);
 
       if (settings['darkMode'] case bool darkMode?) {
-        await HiveRepository.settingsBox.put('darkMode', darkMode);
+        settingsController.updateDarkMode(darkMode);
       }
 
       if (settings['codearq'] case String codearq?) {
-        await HiveRepository.settingsBox.put('codearq', codearq);
+        settingsController.updateCodearq(codearq);
       }
 
       final classes = <int, Classe>{

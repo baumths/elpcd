@@ -1,7 +1,9 @@
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../shared/show_snackbar.dart';
+import '../settings/settings_controller.dart';
 import 'backup_service.dart';
 
 class BackupImportTile extends StatelessWidget {
@@ -13,6 +15,8 @@ class BackupImportTile extends StatelessWidget {
       title: const Text('Importar Backup JSON'),
       trailing: const Icon(Icons.upload),
       onTap: () async {
+        final settingsController = context.read<SettingsController>();
+
         final XFile? file = await openFile(
           acceptedTypeGroups: const <XTypeGroup>[
             XTypeGroup(label: 'JSON', extensions: <String>['json']),
@@ -24,7 +28,10 @@ class BackupImportTile extends StatelessWidget {
         final json = await file.readAsString();
 
         try {
-          await BackupService.importFromJson(json);
+          await BackupService.importFromJson(
+            json: json,
+            settingsController: settingsController,
+          );
 
           if (context.mounted) {
             ShowSnackBar.info(context, 'Backup importado com sucesso');

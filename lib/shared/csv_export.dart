@@ -9,9 +9,14 @@ import '../repositories/hive_repository.dart';
 /// Export classes as csv to be imported into the software
 /// AtoM - AccessToMemory [https://accesstomemory.org]
 class CsvExport {
-  CsvExport(this._repository, {this.fileName = 'ElPCD'});
+  CsvExport(
+    this._repository, {
+    this.fileName = 'ElPCD',
+    this.codearq = 'ElPCD',
+  });
 
   final String fileName;
+  final String codearq;
 
   final HiveRepository _repository;
 
@@ -31,7 +36,6 @@ class CsvExport {
   /// All classes on the exported classification scheme will become
   /// subordinate to this Fonds when imported by AtoM.
   List<String> get _accessToMemoryFondsRow {
-    final codearq = _repository.codearq;
     return [
       codearq,
       Classe.rootId.toString(),

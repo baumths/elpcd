@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../shared/show_snackbar.dart';
 import 'backup_service.dart';
@@ -12,7 +13,9 @@ class BackupExportTile extends StatelessWidget {
       title: const Text('Exportar Backup JSON'),
       trailing: const Icon(Icons.download),
       onTap: () async {
-        await BackupService.exportToJson();
+        await BackupService.exportToJson(
+          settingsController: context.read(),
+        );
         if (context.mounted) {
           ShowSnackBar.info(
             context,
