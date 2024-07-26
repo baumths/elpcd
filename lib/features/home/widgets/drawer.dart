@@ -124,10 +124,9 @@ class _DarkModeSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repository = RepositoryProvider.of<HiveRepository>(context);
     return SwitchListTile(
       title: const Text('Modo Noturno'),
-      value: repository.isDarkMode,
+      value: Theme.of(context).brightness == Brightness.dark,
       onChanged: (value) async {
         final homeController = context.read<HomeController>()
           ..toggleSaving(value: true);
