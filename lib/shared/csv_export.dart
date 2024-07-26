@@ -47,7 +47,7 @@ class CsvExport {
 
   /// Converts classes from the database
   /// into the csv format to be written to a file
-  Future<String> _databaseToCsv() async {
+  String _databaseToCsv() {
     final rows = [
       csvHeader,
       _accessToMemoryFondsRow,
@@ -59,7 +59,7 @@ class CsvExport {
 
   /// Prepares the csv file and starts the download
   Future<void> downloadCsvFile() async {
-    final csv = await _databaseToCsv();
+    final csv = _databaseToCsv();
 
     await FileSaver.instance.saveFile(
       name: fileName,
