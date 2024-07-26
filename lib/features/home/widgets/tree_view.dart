@@ -48,7 +48,7 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
     }
 
     if (tree!.isEmpty) {
-      Center(
+      return Center(
         child: Text(
           'Crie uma Classe para começar',
           textAlign: TextAlign.center,
