@@ -29,7 +29,7 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
   @override
   void initState() {
     super.initState();
-    tree = buildTree(widget.repository.getAllClasses());
+    tree = buildTree(widget.repository.getAllClasses()) ?? <TreeNode>[];
     subscription = widget.repository.watchAllClasses().listen(onClassesChanged);
   }
 
