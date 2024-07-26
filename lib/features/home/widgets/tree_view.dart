@@ -52,7 +52,7 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
         child: Text(
           'Crie uma Classe para começar',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.displaySmall,
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
       );
     }
