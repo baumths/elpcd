@@ -12,7 +12,7 @@ abstract class ComposeEvent extends Equatable {
 
 class ComposeStarted extends ComposeEvent {
   ComposeStarted(Classe? classe)
-      : isEditing = classe != null,
+      : isEditing = classe != null && classe.id != null,
         classe = classe ?? Classe.root();
 
   final Classe classe;
