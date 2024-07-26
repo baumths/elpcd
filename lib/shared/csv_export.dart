@@ -31,6 +31,7 @@ class CsvExport {
         'scopeAndContent',
         'arrangement',
         'appraisal',
+        'archivistNote',
       ];
 
   /// All classes on the exported classification scheme will become
@@ -46,6 +47,7 @@ class CsvExport {
       '',
       '',
       '',
+      'Este Plano de Classificação de Documentos foi elaboarado pelo Software [ElPCD](https://elpcd.github.io).',
     ];
   }
 
@@ -94,6 +96,7 @@ class AccessToMemoryMetadata {
       scopeAndContent.join('\n'),
       arrangement.join('\n'),
       appraisal.join('\n'),
+      '',
     ];
   }
 
