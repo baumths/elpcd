@@ -23,7 +23,6 @@ class CsvExport {
 
   /// AtoM Standards
   List<String> get csvHeader => const <String>[
-        'referenceCode',
         'repository',
         'legacyId',
         'parentId',
@@ -38,17 +37,16 @@ class CsvExport {
   /// AtoM can index classes properly
   List<String> get _accessToMemoryRepositoryRow {
     final codearq = _repository.codearq;
-    final rootId = Classe.rootId.toString();
-    return [codearq, codearq, rootId, '', codearq, codearq, '', '', ''];
-  }
-
-  // Converts a single classe into a `List<String>` to be "joined" into csv
-  List<String> toCsv(Classe classe) {
-    final metadata = AccessToMemoryMetadata(
-      classe: classe,
-      referenceCode: _repository.buildReferenceCode(classe),
-    );
-    return metadata.convert();
+    return [
+      codearq,
+      Classe.rootId.toString(),
+      '',
+      codearq,
+      codearq,
+      '',
+      '',
+      '',
+    ];
   }
 
   /// Converts classes from the database
@@ -57,7 +55,8 @@ class CsvExport {
     final rows = [
       csvHeader,
       _accessToMemoryRepositoryRow,
-      for (final classe in _repository.getAllClasses()) toCsv(classe)
+      for (final classe in _repository.getAllClasses())
+        AccessToMemoryMetadata(classe).convert(),
     ];
     return const ListToCsvConverter().convert(rows);
   }
@@ -76,13 +75,9 @@ class CsvExport {
 }
 
 class AccessToMemoryMetadata {
-  AccessToMemoryMetadata({
-    required this.classe,
-    required this.referenceCode,
-  });
+  AccessToMemoryMetadata(this.classe);
 
   final Classe classe;
-  final String referenceCode;
 
   final scopeAndContent = <String>[];
   final arrangement = <String>[];
@@ -91,7 +86,6 @@ class AccessToMemoryMetadata {
   List<String> convert() {
     _mapMetadadosEArqBrasilToAtoMMetadata();
     return <String>[
-      referenceCode,
       '',
       classe.id.toString(),
       classe.parentId.toString(),
