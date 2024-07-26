@@ -49,14 +49,14 @@ abstract class BackupService {
     }
 
     try {
-      final settings = Map<String, Object?>.from(object['settings'] as Map);
+      if (object['settings'] case final Map settings?) {
+        if (settings['darkMode'] case bool darkMode?) {
+          settingsController.updateDarkMode(darkMode);
+        }
 
-      if (settings['darkMode'] case bool darkMode?) {
-        settingsController.updateDarkMode(darkMode);
-      }
-
-      if (settings['codearq'] case String codearq?) {
-        settingsController.updateCodearq(codearq);
+        if (settings['codearq'] case String codearq?) {
+          settingsController.updateCodearq(codearq);
+        }
       }
 
       final classes = <int, Classe>{

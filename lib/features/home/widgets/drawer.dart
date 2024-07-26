@@ -3,8 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../repositories/classes_repository.dart';
 import '../../../shared/csv_export.dart';
-import '../../backup/export.dart';
-import '../../backup/import.dart';
+import '../../backup/backup_section.dart';
 import '../../settings/codearq.dart';
 import '../../settings/dark_mode.dart';
 import '../../settings/settings_controller.dart';
@@ -34,8 +33,7 @@ class HomeDrawer extends StatelessWidget {
                 const Divider(),
                 const _DownloadCsvTile(),
                 const Divider(),
-                const BackupExportTile(),
-                const BackupImportTile(),
+                const BackupSection(),
               ],
             ),
           ),
