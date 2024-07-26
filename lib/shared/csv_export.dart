@@ -6,12 +6,6 @@ import 'package:file_saver/file_saver.dart';
 import '../entities/classe.dart';
 import '../repositories/hive_repository.dart';
 
-// ignore_for_file: unsafe_html
-
-//! Refactor into its own feature, this way it would be possible to track
-//! progress and display to the user using BloC.
-//! And it would be nice to refactor the `downloadCsvFile`, it is too crouded
-
 /// Export classes as csv to be imported into the software
 /// AtoM - AccessToMemory [https://accesstomemory.org]
 class CsvExport {

@@ -74,7 +74,6 @@ class _DownloadCsvTile extends StatelessWidget {
         final homeController = context.read<HomeController>()
           ..toggleSaving(value: true);
 
-        //! Convert CsvExport into a bloc to show progress in UI
         await CsvExport(repository).downloadCsvFile();
 
         homeController.toggleSaving(value: false);
