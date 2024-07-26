@@ -33,9 +33,9 @@ class CsvExport {
         'appraisal',
       ];
 
-  /// Generate parent of all other classes so that
-  /// AtoM can index classes properly
-  List<String> get _accessToMemoryRepositoryRow {
+  /// All classes on the exported classification scheme will become
+  /// subordinate to this Fonds when imported by AtoM.
+  List<String> get _accessToMemoryFondsRow {
     final codearq = _repository.codearq;
     return [
       codearq,
@@ -54,7 +54,7 @@ class CsvExport {
   Future<String> _databaseToCsv() async {
     final rows = [
       csvHeader,
-      _accessToMemoryRepositoryRow,
+      _accessToMemoryFondsRow,
       for (final classe in _repository.getAllClasses())
         AccessToMemoryMetadata(classe).convert(),
     ];
