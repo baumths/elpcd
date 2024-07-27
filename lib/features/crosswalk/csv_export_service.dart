@@ -1,43 +1,49 @@
-import 'dart:convert' as convert;
-
 import 'package:csv/csv.dart';
-import 'package:file_saver/file_saver.dart';
 
-import '../entities/classe.dart';
-import '../repositories/classes_repository.dart';
+import '../../entities/classe.dart';
+import '../../repositories/classes_repository.dart';
 
 /// Export classes as csv to be imported into the software
 /// AtoM - AccessToMemory [https://accesstomemory.org]
-class CsvExport {
-  CsvExport(
-    this._repository, {
+class CsvExportService {
+  CsvExportService({
+    required this.classesRepository,
     required this.codearq,
     required this.fondsArchivistNode,
-    this.fileName = 'ElPCD',
   });
 
   final String codearq;
   final String fondsArchivistNode;
-  final String fileName;
 
-  final ClassesRepository _repository;
+  final ClassesRepository classesRepository;
 
-  /// AtoM Standards
-  List<String> get csvHeader => const <String>[
-        'repository',
-        'legacyId',
-        'parentId',
-        'identifier',
-        'title',
-        'scopeAndContent',
-        'arrangement',
-        'appraisal',
-        'archivistNote',
-      ];
+  /// Converts classes from the database into a simplified version of
+  /// AtoM's ISAD(G) CSV Template.
+  String export() {
+    return const ListToCsvConverter().convert([
+      _header,
+      _fonds,
+      for (final classe in classesRepository.getAllClasses())
+        AccessToMemoryMetadata(classe).convert(applyIdPrefix: _applyIdPrefix),
+    ]);
+  }
+
+  /// AtoM ISAD(G) CSV Template (simplified).
+  final List<String> _header = const <String>[
+    'repository',
+    'legacyId',
+    'parentId',
+    'identifier',
+    'title',
+    'scopeAndContent',
+    'arrangement',
+    'appraisal',
+    'archivistNote',
+  ];
 
   /// All classes on the exported classification scheme will become
   /// subordinate to this Fonds when imported by AtoM.
-  List<String> get _accessToMemoryFondsRow {
+  List<String> get _fonds {
     return [
       codearq,
       _applyIdPrefix(Classe.rootId),
@@ -49,30 +55,6 @@ class CsvExport {
       '',
       fondsArchivistNode,
     ];
-  }
-
-  /// Converts classes from the database
-  /// into the csv format to be written to a file
-  String _databaseToCsv() {
-    final rows = [
-      csvHeader,
-      _accessToMemoryFondsRow,
-      for (final classe in _repository.getAllClasses())
-        AccessToMemoryMetadata(classe).convert(applyIdPrefix: _applyIdPrefix),
-    ];
-    return const ListToCsvConverter().convert(rows);
-  }
-
-  /// Prepares the csv file and starts the download
-  Future<void> downloadCsvFile() async {
-    final csv = _databaseToCsv();
-
-    await FileSaver.instance.saveFile(
-      name: fileName,
-      bytes: convert.utf8.encode(csv),
-      ext: 'csv',
-      mimeType: MimeType.csv,
-    );
   }
 
   String _applyIdPrefix(int? id) => 'ElPCD_$id';
