@@ -23,12 +23,12 @@ class ClassesTreeView extends StatefulWidget {
 
 class _ClassesTreeViewState extends State<ClassesTreeView> {
   StreamSubscription<Iterable<Classe>>? subscription;
-  List<TreeNode>? tree;
+  late List<TreeNode> tree = <TreeNode>[];
 
   @override
   void initState() {
     super.initState();
-    tree = buildTree(widget.repository.getAllClasses()) ?? <TreeNode>[];
+    tree = buildTree(widget.repository.getAllClasses());
     subscription = widget.repository.watchAllClasses().listen(onClassesChanged);
   }
 
@@ -36,17 +36,12 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
   void dispose() {
     subscription?.cancel();
     subscription = null;
-    tree = null;
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (tree == null) {
-      return const SizedBox.shrink();
-    }
-
-    if (tree!.isEmpty) {
+    if (tree.isEmpty) {
       return Center(
         child: Text(
           'Crie uma Classe para começar',
@@ -61,7 +56,7 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
         return SingleChildScrollView(
           padding: const EdgeInsets.only(bottom: 72),
           child: TreeView(
-            nodes: tree!,
+            nodes: tree,
             treeController: controller.treeController,
             indent: MediaQuery.sizeOf(context).width < 600 ? 8 : 24,
           ),
@@ -77,7 +72,7 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
     });
   }
 
-  List<TreeNode>? buildTree(Iterable<Classe> classes) {
+  List<TreeNode> buildTree(Iterable<Classe> classes) {
     final classesByParentId = <int, List<Classe>>{};
 
     for (final clazz in classes) {
@@ -101,6 +96,6 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
       }).toList();
     }
 
-    return buildChildren(Classe.rootId);
+    return buildChildren(Classe.rootId) ?? <TreeNode>[];
   }
 }
