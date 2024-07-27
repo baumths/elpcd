@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../localization.dart';
 import '../bloc/metadata_cubit.dart';
 
 class MetadataCard extends StatelessWidget {
@@ -36,6 +37,7 @@ class _MetadataFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
       child: TextFormField(
@@ -43,9 +45,9 @@ class _MetadataFormField extends StatelessWidget {
         maxLines: null,
         initialValue: metadata.content,
         decoration: InputDecoration(
-          hintText: 'Metadados não preenchidos serão removidos.',
+          hintText: l10n.metadataLeftEmptyWillBeDeletedTextFieldHintText,
           suffixIcon: IconButton(
-            tooltip: 'Remover',
+            tooltip: l10n.deleteButtonText,
             icon: const Icon(Icons.delete),
             onPressed: () {
               context.read<MetadataCubit>().deleteMetadata(metadata);

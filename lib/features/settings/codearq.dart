@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../localization.dart';
 import 'settings_controller.dart';
 
 class CodearqListTile extends StatelessWidget {
@@ -13,7 +14,7 @@ class CodearqListTile extends StatelessWidget {
       (controller) => controller.codearq,
     );
     return ListTile(
-      title: const Text('Editar CODEARQ'),
+      title: Text(AppLocalizations.of(context).editCodearqButtonText),
       trailing: Badge(
         largeSize: 32,
         textColor: theme.colorScheme.onPrimary,
@@ -66,13 +67,14 @@ class _CodearqEditorState extends State<CodearqEditor> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Padding(
       padding: MediaQuery.viewInsetsOf(context) + const EdgeInsets.all(8),
       child: Row(
         children: [
           IconButton(
             icon: const Icon(Icons.close),
-            tooltip: 'Cancelar',
+            tooltip: l10n.cancelButtonText,
             onPressed: widget.onDismissed,
           ),
           const SizedBox(width: 8),
@@ -90,7 +92,7 @@ class _CodearqEditorState extends State<CodearqEditor> {
           ),
           TextButton(
             onPressed: () => widget.onSubmitted(textController.text),
-            child: const Text('SALVAR'),
+            child: Text(l10n.saveButtonText.toUpperCase()),
           ),
         ],
       ),

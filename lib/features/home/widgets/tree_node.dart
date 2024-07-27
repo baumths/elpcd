@@ -40,7 +40,7 @@ class _ClasseNewChildButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.add),
-      tooltip: 'Nova Classe Subordinada',
+      tooltip: AppLocalizations.of(context).newSubordinateClassButtonText,
       onPressed: () {
         Navigator.of(context).pushNamed(
           ComposeView.routeName,
@@ -58,8 +58,9 @@ class _ClasseDeleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return IconButton(
-      tooltip: 'Apagar',
+      tooltip: l10n.deleteButtonText,
       color: Theme.of(context).colorScheme.error,
       icon: const Icon(Icons.delete),
       onPressed: () async {
@@ -67,8 +68,8 @@ class _ClasseDeleteButton extends StatelessWidget {
           context: context,
           builder: (ctx) => AppDialogs.warning(
             context: ctx,
-            title: 'Tem certeza?',
-            btnText: 'Apagar',
+            title: l10n.areYouSureDialogTitle,
+            btnText: l10n.deleteButtonText,
           ),
         );
         if ((delete ?? false) && context.mounted) {

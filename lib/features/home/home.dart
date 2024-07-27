@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../localization.dart';
 import '../compose/compose.dart';
 import 'widgets/drawer.dart';
 import 'widgets/tree_view.dart';
@@ -13,7 +14,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ElPCD'),
+        title: Text(AppLocalizations.of(context).appTitle),
         leading: _buildDrawerButton(),
         actions: _buildActions(context),
       ),
@@ -28,15 +29,18 @@ class HomeView extends StatelessWidget {
   List<Widget> _buildActions(BuildContext context) {
     final controller = context.watch<TreeviewController>();
     final expanded = controller.allNodesExpanded;
+    final l10n = AppLocalizations.of(context);
     return [
-      const IconButton(
-        icon: Icon(Icons.search),
-        tooltip: 'Encontrar Classe',
+      IconButton(
+        icon: const Icon(Icons.search),
+        tooltip: l10n.findClassTooltipMessage,
         onPressed: null,
       ),
       IconButton(
         icon: Icon(expanded ? Icons.unfold_less : Icons.unfold_more),
-        tooltip: expanded ? 'Recolher Classes' : 'Expandir Classes',
+        tooltip: expanded
+            ? l10n.collapseAllClassesTooltipMessage
+            : l10n.expandAllClassesTooltipMessage,
         onPressed: expanded ? controller.collapseAll : controller.expandAll,
       ),
       const SizedBox(width: 8),
@@ -47,7 +51,7 @@ class HomeView extends StatelessWidget {
     return Builder(
       builder: (BuildContext context) => IconButton(
         icon: const Icon(Icons.segment),
-        tooltip: 'Configurações',
+        tooltip: AppLocalizations.of(context).settingsButtonText,
         onPressed: Scaffold.of(context).openDrawer,
       ),
     );
@@ -55,7 +59,7 @@ class HomeView extends StatelessWidget {
 
   Widget _buildFAB(BuildContext context) {
     return FloatingActionButton.extended(
-      label: const Text('NOVA CLASSE'),
+      label: Text(AppLocalizations.of(context).newClassButtonText),
       icon: const Icon(Icons.post_add),
       onPressed: () => Navigator.of(context).pushNamed(ComposeView.routeName),
     );

@@ -2,6 +2,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
 import '../../shared/show_snackbar.dart';
 import '../settings/settings_controller.dart';
@@ -12,14 +13,15 @@ class BackupSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const ListTile(
-          title: Text('Backup JSON'),
+        ListTile(
+          title: Text(l10n.backupSectionTitle),
           trailing: Tooltip(
-            message: 'Funcionalidade em desenvolvimento',
-            child: Badge(
+            message: l10n.wipFeatureTooltipMessage,
+            child: const Badge(
               label: Text(
                 'WIP',
                 style: TextStyle(
@@ -36,14 +38,14 @@ class BackupSection extends StatelessWidget {
             children: [
               Expanded(
                 child: FilledButton.tonal(
-                  child: const Text('Importar'),
+                  child: Text(l10n.importButtonText),
                   onPressed: () => import(context),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: FilledButton.tonal(
-                  child: const Text('Exportar'),
+                  child: Text(l10n.exportButtonText),
                   onPressed: () => export(context),
                 ),
               ),
@@ -55,6 +57,7 @@ class BackupSection extends StatelessWidget {
   }
 
   Future<void> import(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
     final classesRepository = context.read<ClassesRepository>();
     final settingsController = context.read<SettingsController>();
 
@@ -68,6 +71,8 @@ class BackupSection extends StatelessWidget {
 
     final json = await file.readAsString();
 
+    String? snackBarText;
+
     try {
       await BackupService.importFromJson(
         json: json,
@@ -75,17 +80,14 @@ class BackupSection extends StatelessWidget {
         settingsController: settingsController,
       );
 
-      if (context.mounted) {
-        ShowSnackBar.info(context, 'Backup importado com sucesso');
-        Scaffold.maybeOf(context)?.closeDrawer();
-      }
-    } on BackupException catch (e) {
-      if (context.mounted) {
-        ShowSnackBar.error(
-          context,
-          e.message,
-          duration: 10,
-        );
+      snackBarText = l10n.backupSuccessfullyImportedSnackbarText;
+    } on FormatException {
+      snackBarText = l10n.backupImportFormatExceptionText;
+    } on BackupException {
+      snackBarText = l10n.backupImportFailureText;
+    } finally {
+      if (snackBarText != null && context.mounted) {
+        ShowSnackBar.error(context, snackBarText, duration: 5);
         Scaffold.maybeOf(context)?.closeDrawer();
       }
     }
@@ -99,7 +101,7 @@ class BackupSection extends StatelessWidget {
     if (context.mounted) {
       ShowSnackBar.info(
         context,
-        'O arquivo exportado pode ser importado novamente pelo ElPCD.',
+        AppLocalizations.of(context).backupSuccessfullyExportedSnackbarText,
       );
       Scaffold.maybeOf(context)?.closeDrawer();
     }

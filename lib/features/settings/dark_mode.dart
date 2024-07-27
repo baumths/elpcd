@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../localization.dart';
 import 'settings_controller.dart';
 
 class DarkModeSwitchListTile extends StatelessWidget {
@@ -12,7 +13,7 @@ class DarkModeSwitchListTile extends StatelessWidget {
       (controller) => controller.darkMode,
     );
     return SwitchListTile(
-      title: const Text('Modo Noturno'),
+      title: Text(AppLocalizations.of(context).darkModeButtonText),
       value: darkMode,
       onChanged: (bool value) {
         context.read<SettingsController>().updateDarkMode(value);

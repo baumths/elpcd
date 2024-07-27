@@ -5,6 +5,7 @@ import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
 import 'package:provider/provider.dart';
 
 import '../../../entities/classe.dart';
+import '../../../localization.dart';
 import '../../../repositories/classes_repository.dart';
 import '../../../shared/dialogs.dart';
 import '../../compose/compose.dart';
@@ -44,7 +45,7 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
     if (tree.isEmpty) {
       return Center(
         child: Text(
-          'Crie uma Classe para começar',
+          AppLocalizations.of(context).emptyClassesExplorerBodyText,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineLarge,
         ),

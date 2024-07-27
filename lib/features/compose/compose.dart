@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../entities/classe.dart';
+import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
 import '../../shared/show_snackbar.dart';
 import '../home/home.dart';
@@ -35,7 +36,10 @@ class ComposeView extends StatelessWidget {
             );
           }
           if (state.status == ComposeStatus.failure) {
-            ShowSnackBar.error(context, 'Não foi possível salvar a Classe');
+            ShowSnackBar.error(
+              context,
+              AppLocalizations.of(context).unableToSaveClassSnackbarText,
+            );
           }
         },
         buildWhen: (p, c) => p.isSaving != c.isSaving,
@@ -63,7 +67,12 @@ class _ComposeViewScaffold extends StatelessWidget {
         title: BlocBuilder<ComposeBloc, ComposeState>(
           buildWhen: (p, c) => p.isEditing != c.isEditing,
           builder: (_, state) {
-            return Text(state.isEditing ? 'Editando Classe' : 'Nova Classe');
+            final l10n = AppLocalizations.of(context);
+            return Text(
+              state.isEditing
+                  ? l10n.editingClassComposeHeader
+                  : l10n.newClassComposeHeader,
+            );
           },
         ),
         leading: _leading(context),
@@ -96,7 +105,7 @@ class _ComposeViewScaffold extends StatelessWidget {
 
   IconButton _leading(BuildContext context) {
     return IconButton(
-      tooltip: 'Cancelar',
+      tooltip: AppLocalizations.of(context).cancelButtonText,
       icon: const Icon(Icons.arrow_back),
       onPressed: Navigator.of(context).pop,
     );
@@ -112,7 +121,7 @@ class _ComposeViewScaffold extends StatelessWidget {
       );
     }
     return FloatingActionButton.extended(
-      label: const Text('SALVAR'),
+      label: Text(AppLocalizations.of(context).saveButtonText.toUpperCase()),
       icon: const Icon(Icons.check),
       onPressed: () => context
           .read<ComposeBloc>()

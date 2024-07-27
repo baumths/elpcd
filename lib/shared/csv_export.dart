@@ -11,12 +11,14 @@ import '../repositories/classes_repository.dart';
 class CsvExport {
   CsvExport(
     this._repository, {
+    required this.codearq,
+    required this.fondsArchivistNode,
     this.fileName = 'ElPCD',
-    this.codearq = 'ElPCD',
   });
 
-  final String fileName;
   final String codearq;
+  final String fondsArchivistNode;
+  final String fileName;
 
   final ClassesRepository _repository;
 
@@ -45,7 +47,7 @@ class CsvExport {
       '',
       '',
       '',
-      'Este Plano de Classificação de Documentos foi elaboarado pelo Software [ElPCD](https://elpcd.github.io).',
+      fondsArchivistNode,
     ];
   }
 

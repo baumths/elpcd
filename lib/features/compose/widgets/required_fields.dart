@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../localization.dart';
 import '../bloc/compose_bloc.dart';
 
 class RequiredFields extends StatelessWidget {
@@ -20,7 +21,7 @@ class RequiredFields extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Metadados Obrigatórios',
+              AppLocalizations.of(context).mandatoryMetadataSectionHeader,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.secondary,
                 fontSize: 16,
@@ -73,6 +74,7 @@ class _CodeFormFieldState extends State<_CodeFormField> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocConsumer<ComposeBloc, ComposeState>(
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (_, state) => _textController.text = state.code,
@@ -84,8 +86,10 @@ class _CodeFormFieldState extends State<_CodeFormField> {
         return TextFormField(
           controller: _textController,
           decoration: InputDecoration(
-            labelText: 'Código',
-            errorText: state.codeInvalid ? 'Campo obrigatório' : null,
+            labelText: l10n.classCodeTextFieldLabel,
+            errorText: state.codeInvalid
+                ? l10n.mandatoryFieldTextFieldErrorText
+                : null,
           ),
           onChanged: (value) {
             context.read<ComposeBloc>().add(CodeChanged(code: value.trim()));
@@ -114,6 +118,7 @@ class _NameFormFieldState extends State<_NameFormField> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return BlocConsumer<ComposeBloc, ComposeState>(
       listenWhen: (p, c) => p.isEditing != c.isEditing,
       listener: (_, state) => _textController.text = state.name,
@@ -127,8 +132,10 @@ class _NameFormFieldState extends State<_NameFormField> {
           keyboardType: TextInputType.text,
           controller: _textController,
           decoration: InputDecoration(
-            labelText: 'Nome',
-            errorText: state.nameInvalid ? 'Campo obrigatório' : null,
+            labelText: l10n.classNameTextFieldLabel,
+            errorText: state.nameInvalid
+                ? l10n.mandatoryFieldTextFieldErrorText
+                : null,
           ),
           onChanged: (value) {
             context.read<ComposeBloc>().add(NameChanged(name: value.trim()));

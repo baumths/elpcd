@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../localization.dart';
 import '../compose/compose.dart';
 import '../home/home.dart';
 import '../settings/settings_controller.dart';
@@ -15,9 +16,11 @@ class ElPCDApp extends StatelessWidget {
       (controller) => controller.darkMode,
     );
     return MaterialApp(
-      title: 'ElPCD',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.themeData(darkMode: darkMode),
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       initialRoute: HomeView.routeName,
       routes: {
         HomeView.routeName: (_) => const HomeView(),

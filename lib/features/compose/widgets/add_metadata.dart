@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../localization.dart';
 import '../bloc/metadata_cubit.dart';
 
 class AddMetadata extends StatelessWidget {
@@ -24,9 +25,9 @@ class _AddMetadataButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: ListTile(
         leading: const Icon(Icons.add),
-        title: const Text(
-          'Adicionar Metadados',
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          AppLocalizations.of(context).addMetadataButtonText,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         onTap: () async {
           final selected = await _metadadosSelector(context);
@@ -50,7 +51,7 @@ class _AddMetadataButton extends StatelessWidget {
       context: context,
       builder: (context) {
         return SimpleDialog(
-          title: const Text('Selecione um Metadado'),
+          title: Text(AppLocalizations.of(context).selectAMetadataDialogHeader),
           children: [
             for (final type in kMetadadosEArqBrasil)
               if (!isPresent(type))
@@ -77,7 +78,7 @@ class _MetadataDivider extends StatelessWidget {
         children: [
           const Expanded(child: Divider(indent: 12, endIndent: 12)),
           Text(
-            'Metadados Adicionais',
+            AppLocalizations.of(context).additionalMetadataSectionHeader,
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: theme.colorScheme.secondary,

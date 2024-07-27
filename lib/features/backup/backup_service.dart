@@ -45,7 +45,7 @@ abstract class BackupService {
   }) async {
     final object = jsonDecode(json);
     if (object is! Map) {
-      throw const BackupException('Formato Invalido');
+      throw const FormatException();
     }
 
     try {
@@ -72,12 +72,11 @@ abstract class BackupService {
       await classesRepository.clear();
       await classesRepository.insertAll(classes);
     } on Exception {
-      throw const BackupException('Não foi possível realizar a importação');
+      throw const BackupException();
     }
   }
 }
 
 class BackupException implements Exception {
-  const BackupException(this.message);
-  final String message;
+  const BackupException();
 }

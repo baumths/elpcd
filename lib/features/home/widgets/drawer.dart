@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../localization.dart';
 import '../../../repositories/classes_repository.dart';
 import '../../../shared/csv_export.dart';
 import '../../backup/backup_section.dart';
@@ -67,7 +68,7 @@ class _DownloadCsvTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final classesRepository = context.read<ClassesRepository>();
     return ListTile(
-      title: const Text('Download CSV'),
+      title: Text(AppLocalizations.of(context).csvDownloadButtonText),
       trailing: const Icon(Icons.file_download),
       onTap: () async {
         final homeController = context.read<HomeController>()
@@ -76,6 +77,8 @@ class _DownloadCsvTile extends StatelessWidget {
         await CsvExport(
           classesRepository,
           codearq: context.read<SettingsController>().codearq,
+          fondsArchivistNode:
+              AppLocalizations.of(context).csvExportFondsArchivistNote,
         ).downloadCsvFile();
 
         homeController.toggleSaving(value: false);
