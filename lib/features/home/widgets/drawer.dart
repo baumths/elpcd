@@ -13,7 +13,15 @@ class HomeDrawer extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: const <Widget>[
-          _DrawerHeader(),
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              image: DecorationImage(
+                image: AssetImage('assets/gedalogo_270x270.png'),
+              ),
+            ),
+            child: SizedBox.shrink(),
+          ),
           CodearqListTile(),
           DarkModeSwitchListTile(),
           Divider(),
@@ -22,23 +30,6 @@ class HomeDrawer extends StatelessWidget {
           BackupSection(),
         ],
       ),
-    );
-  }
-}
-
-class _DrawerHeader extends StatelessWidget {
-  const _DrawerHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    return const DrawerHeader(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        image: DecorationImage(
-          image: AssetImage('assets/gedalogo_270x270.png'),
-        ),
-      ),
-      child: SizedBox.shrink(),
     );
   }
 }
