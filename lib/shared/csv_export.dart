@@ -38,7 +38,7 @@ class CsvExport {
   List<String> get _accessToMemoryFondsRow {
     return [
       codearq,
-      Classe.rootId.toString(),
+      _applyIdPrefix(Classe.rootId),
       '',
       codearq,
       codearq,
@@ -56,7 +56,7 @@ class CsvExport {
       csvHeader,
       _accessToMemoryFondsRow,
       for (final classe in _repository.getAllClasses())
-        AccessToMemoryMetadata(classe).convert(),
+        AccessToMemoryMetadata(classe).convert(applyIdPrefix: _applyIdPrefix),
     ];
     return const ListToCsvConverter().convert(rows);
   }
@@ -72,6 +72,8 @@ class CsvExport {
       mimeType: MimeType.csv,
     );
   }
+
+  String _applyIdPrefix(int? id) => 'ElPCD_$id';
 }
 
 class AccessToMemoryMetadata {
@@ -83,12 +85,12 @@ class AccessToMemoryMetadata {
   final arrangement = <String>[];
   final appraisal = <String>[];
 
-  List<String> convert() {
+  List<String> convert({required String Function(int?) applyIdPrefix}) {
     _mapMetadadosEArqBrasilToAtoMMetadata();
     return <String>[
       '',
-      classe.id.toString(),
-      classe.parentId.toString(),
+      applyIdPrefix(classe.id),
+      applyIdPrefix(classe.parentId),
       classe.code,
       classe.name,
       scopeAndContent.join('\n'),
