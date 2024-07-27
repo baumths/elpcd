@@ -21,8 +21,11 @@ class BackupSection extends StatelessWidget {
             message: 'Funcionalidade em desenvolvimento',
             child: Badge(
               label: Text(
-                'ALPHA',
-                style: TextStyle(fontWeight: FontWeight.w900),
+                'WIP',
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 1.5,
+                ),
               ),
             ),
           ),
