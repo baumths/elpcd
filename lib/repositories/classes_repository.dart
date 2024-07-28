@@ -18,7 +18,10 @@ class ClassesRepository {
 
   Future<void> delete(Classe classe) async => classe.delete();
 
-  Future<void> clear() => _box.clear();
+  Future<void> clear() async {
+    await _box.clear();
+    await _box.compact();
+  }
 
   Iterable<Classe> getAllClasses() => _box.values;
 

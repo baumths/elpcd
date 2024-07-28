@@ -71,7 +71,7 @@ class BackupSection extends StatelessWidget {
 
     final json = await file.readAsString();
 
-    String? snackBarText;
+    String? errorMessage;
 
     try {
       await BackupService.importFromJson(
@@ -80,14 +80,22 @@ class BackupSection extends StatelessWidget {
         settingsController: settingsController,
       );
 
-      snackBarText = l10n.backupSuccessfullyImportedSnackbarText;
+      if (context.mounted) {
+        ShowSnackBar.info(
+          context,
+          l10n.backupSuccessfullyImportedSnackbarText,
+          duration: 5,
+        );
+      }
     } on FormatException {
-      snackBarText = l10n.backupImportFormatExceptionText;
+      errorMessage = l10n.backupImportFormatExceptionText;
     } on BackupException {
-      snackBarText = l10n.backupImportFailureText;
+      errorMessage = l10n.backupImportFailureText;
     } finally {
-      if (snackBarText != null && context.mounted) {
-        ShowSnackBar.error(context, snackBarText, duration: 5);
+      if (context.mounted) {
+        if (errorMessage != null) {
+          ShowSnackBar.error(context, errorMessage, duration: 5);
+        }
         Scaffold.maybeOf(context)?.closeDrawer();
       }
     }
