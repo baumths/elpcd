@@ -22,11 +22,11 @@ class ComposeView extends StatelessWidget {
     final classe = ModalRoute.of(context)!.settings.arguments as Classe?;
 
     return BlocProvider<ComposeBloc>(
-      create: (_) => ComposeBloc(
-        context.read<ClassesRepository>(),
-      )..add(
-          ComposeStarted(classe),
-        ),
+      create: (_) {
+        return ComposeBloc(
+          context.read<ClassesRepository>(),
+        )..add(ComposeStarted(classe));
+      },
       child: BlocListener<ComposeBloc, ComposeState>(
         listenWhen: (p, c) => p.status != c.status,
         listener: (_, state) {
