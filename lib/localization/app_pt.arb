@@ -30,9 +30,11 @@
   "newClassButtonText": "Nova Classe",
   "newClassComposeHeader": "Nova Classe",
   "newSubordinateClassButtonText": "Nova Classe Subordinada",
+  "opdsBlogButtonTooltip": "Observatório da Preservação Digital Sistêmica",
   "saveButtonText": "Salvar",
   "selectAMetadataDialogHeader": "Selecione um Metadado",
   "settingsButtonText": "Configurações",
+  "sourceCodeButtonTooltip": "Código Fonte",
   "unableToSaveClassSnackbarText": "Não foi possível salvar a Classe",
   "wipFeatureTooltipMessage": "Funcionalidade em desenvolvimento"
 }
