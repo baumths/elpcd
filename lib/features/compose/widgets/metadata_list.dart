@@ -20,17 +20,13 @@ class MetadataSliverList extends StatelessWidget {
           context.read<MetadataCubit>().setInitialMetadata(state.metadata);
         },
         child: BlocBuilder<MetadataCubit, Set<MetadataViewModel>>(
-          builder: (_, metadata) {
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (_, index) => MetadataCard(
-                  key: ValueKey(metadata.elementAt(index).type),
-                  metadata: metadata.elementAt(index),
-                ),
-                childCount: metadata.length,
-              ),
-            );
-          },
+          builder: (_, metadata) => SliverList.builder(
+            itemCount: metadata.length,
+            itemBuilder: (_, index) => MetadataCard(
+              key: ValueKey(metadata.elementAt(index).type),
+              metadata: metadata.elementAt(index),
+            ),
+          ),
         ),
       ),
     );
