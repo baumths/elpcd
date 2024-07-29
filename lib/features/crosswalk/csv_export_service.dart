@@ -90,13 +90,13 @@ class AccessToMemoryMetadata {
     for (final md in classe.metadata.entries) {
       final eArqBrasilType = md.key;
       final content = md.value;
-      _mapEArqBrasilToAtom(eArqBrasilType).add('$eArqBrasilType: $content');
+      _mapEArqBrasilToAtom(eArqBrasilType)?.add('$eArqBrasilType: $content');
     }
   }
 
   /// Takes a `kMetadadosEArqBrasil` type and returns
   /// the list its content belongs to in `AtoMMetadata` types
-  List<String> _mapEArqBrasilToAtom(String type) {
+  List<String>? _mapEArqBrasilToAtom(String type) {
     return {
       'Registro de Abertura': scopeAndContent,
       'Registro de Desativação': scopeAndContent,
@@ -114,6 +114,6 @@ class AccessToMemoryMetadata {
       'Destinação Final': appraisal,
       'Registro de Alteração': appraisal,
       'Observações': appraisal,
-    }[type]!;
+    }[type];
   }
 }
