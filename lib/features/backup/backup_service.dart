@@ -1,41 +1,31 @@
-import 'dart:convert' show jsonDecode, jsonEncode, utf8;
-
-import 'package:file_saver/file_saver.dart';
+import 'dart:convert' show jsonDecode, jsonEncode;
 
 import '../../entities/classe.dart';
 import '../../repositories/classes_repository.dart';
 import '../settings/settings_controller.dart';
 
 abstract class BackupService {
-  static Future<void> exportToJson({
+  static String exportToJson({
     required ClassesRepository classesRepository,
     required SettingsController settingsController,
-  }) async {
-    final dump = <String, Object?>{
+  }) {
+    return jsonEncode({
       'settings': {
         'codearq': settingsController.codearq,
         'darkMode': settingsController.darkMode,
       },
       'classes': <Map<String, Object?>>[
         for (final clazz in classesRepository.getAllClasses())
-          <String, Object?>{
-            'id': clazz.id,
-            'parentId': clazz.parentId,
-            'code': clazz.code,
-            'name': clazz.name,
-            'metadata': clazz.metadata,
-          }
+          if (clazz.id != null)
+            <String, Object?>{
+              'id': clazz.id,
+              'parentId': clazz.parentId,
+              'code': clazz.code,
+              'name': clazz.name,
+              'metadata': clazz.metadata,
+            }
       ],
-    };
-
-    final json = jsonEncode(dump);
-
-    await FileSaver.instance.saveFile(
-      name: 'elpcd_backup',
-      bytes: utf8.encode(json),
-      ext: 'json',
-      mimeType: MimeType.json,
-    );
+    });
   }
 
   static Future<void> importFromJson({
@@ -45,35 +35,63 @@ abstract class BackupService {
   }) async {
     final object = jsonDecode(json);
     if (object is! Map) {
-      throw const FormatException();
+      throw const BackupException();
     }
 
-    try {
-      if (object['settings'] case final Map settings?) {
-        if (settings['darkMode'] case bool darkMode?) {
-          settingsController.updateDarkMode(darkMode);
-        }
-
-        if (settings['codearq'] case String codearq?) {
-          settingsController.updateCodearq(codearq);
-        }
-      }
-
-      final classes = <int, Classe>{
-        for (final classMap in object['classes'] as List)
-          classMap['id'] as int: Classe(
-            parentId: classMap['parentId'] as int,
-            code: classMap['code'] as String,
-            name: classMap['name'] as String,
-            metadata: Map<String, String>.from(classMap['metadata'] as Map),
-          )..id = classMap['id'] as int,
+    if (object['classes'] case final List classesMaps?) {
+      final classesById = <int, Classe>{
+        for (final classMap in classesMaps)
+          if (_classFromJson(classMap) case final Classe classe)
+            classe.id!: classe,
       };
 
       await classesRepository.clear();
-      await classesRepository.insertAll(classes);
-    } on Exception {
+      await classesRepository.insertAll(classesById);
+    } else {
       throw const BackupException();
     }
+
+    if (object['settings'] case final Map settings?) {
+      if (settings['darkMode'] case bool darkMode?) {
+        settingsController.updateDarkMode(darkMode);
+      }
+
+      if (settings['codearq'] case String codearq?) {
+        settingsController.updateCodearq(codearq);
+      }
+    }
+  }
+
+  static Classe _classFromJson(Object? value) {
+    if (value
+        case {
+          'id': int(),
+          'parentId': int(),
+          'name': String(),
+          'code': String(),
+        }) {
+      return Classe(
+        parentId: value['parentId'] as int,
+        name: value['name'] as String,
+        code: value['code'] as String,
+        metadata: _metadataFromJson(value['metadata']),
+      )..id = value['id'] as int;
+    }
+    throw const BackupException();
+  }
+
+  static Map<String, String> _metadataFromJson(Object? value) {
+    if (value is Map?) {
+      if (value == null) {
+        return <String, String>{};
+      }
+      try {
+        return Map<String, String>.from(value);
+      } on TypeError {
+        throw const BackupException();
+      }
+    }
+    throw const BackupException();
   }
 }
 

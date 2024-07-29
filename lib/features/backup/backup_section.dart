@@ -1,3 +1,6 @@
+import 'dart:convert' show utf8;
+
+import 'package:file_saver/file_saver.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -102,10 +105,18 @@ class BackupSection extends StatelessWidget {
   }
 
   Future<void> export(BuildContext context) async {
-    await BackupService.exportToJson(
+    final json = BackupService.exportToJson(
       settingsController: context.read<SettingsController>(),
       classesRepository: context.read<ClassesRepository>(),
     );
+
+    await FileSaver.instance.saveFile(
+      name: 'elpcd_backup',
+      bytes: utf8.encode(json),
+      ext: 'json',
+      mimeType: MimeType.json,
+    );
+
     if (context.mounted) {
       ShowSnackBar.info(
         context,
