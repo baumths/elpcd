@@ -56,7 +56,7 @@ class Header extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              AppLocalizations.of(context).appTitle,
+              l10n.appTitle,
               style: theme.textTheme.headlineLarge,
             ),
           ),
@@ -74,7 +74,7 @@ class Header extends StatelessWidget {
             onPressed: () => launch(blogUrl),
             tooltip: l10n.opdsBlogButtonTooltip,
             icon: VectorGraphic(
-              loader: const AssetBytesLoader('assets/opds_icon.svg'),
+              loader: const AssetBytesLoader('assets/opds-icon.svg'),
               height: 24,
               colorFilter: colorFilter,
             ),

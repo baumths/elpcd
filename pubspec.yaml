@@ -37,7 +37,7 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - path: assets/opds_icon.svg
+    - path: assets/opds-icon.svg
       transformers:
         - package: vector_graphics_compiler
     - path: assets/github-mark.svg
