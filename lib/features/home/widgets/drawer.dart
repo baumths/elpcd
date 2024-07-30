@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:vector_graphics/vector_graphics_compat.dart';
 
 import '../../../localization.dart';
 import '../../backup/backup_section.dart';
@@ -63,8 +63,8 @@ class Header extends StatelessWidget {
           IconButton(
             tooltip: l10n.sourceCodeButtonTooltip,
             onPressed: () => launch(sourceCodeUrl),
-            icon: SvgPicture.asset(
-              'assets/github-mark.svg',
+            icon: VectorGraphic(
+              loader: const AssetBytesLoader('assets/github-mark.svg'),
               height: 24,
               colorFilter: colorFilter,
             ),
@@ -73,8 +73,8 @@ class Header extends StatelessWidget {
           IconButton(
             onPressed: () => launch(blogUrl),
             tooltip: l10n.opdsBlogButtonTooltip,
-            icon: SvgPicture.asset(
-              'assets/opds_icon.svg',
+            icon: VectorGraphic(
+              loader: const AssetBytesLoader('assets/opds_icon.svg'),
               height: 24,
               colorFilter: colorFilter,
             ),
