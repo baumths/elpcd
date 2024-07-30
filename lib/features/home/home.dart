@@ -87,7 +87,9 @@ class CreateClassFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
-      label: Text(AppLocalizations.of(context).newClassButtonText),
+      label: Text(
+        AppLocalizations.of(context).newClassButtonText.toUpperCase(),
+      ),
       icon: const Icon(Icons.post_add),
       onPressed: () => Navigator.of(context).pushNamed(ComposeView.routeName),
     );
