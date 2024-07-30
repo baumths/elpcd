@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 
 import '../localization.dart';
 
-abstract class AppDialogs {
-  static Widget warning({
-    required BuildContext context,
-    required String title,
-    required String btnText,
-  }) {
+class WarningDialog extends StatelessWidget {
+  const WarningDialog({
+    super.key,
+    required this.title,
+    required this.confirmButtonText,
+    required this.onConfirm,
+    required this.onCancel,
+  });
+
+  final String title;
+  final String confirmButtonText;
+  final VoidCallback onConfirm;
+  final VoidCallback onCancel;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return AlertDialog(
       shape: const RoundedRectangleBorder(
@@ -19,12 +29,12 @@ abstract class AppDialogs {
       content: Text(l10n.actionCannotBeUndoneWarning),
       actions: [
         TextButton(
-          onPressed: () => Navigator.of(context).pop<bool>(false),
+          onPressed: onCancel,
           child: Text(l10n.cancelButtonText),
         ),
         TextButton(
-          onPressed: () => Navigator.of(context).pop<bool>(true),
-          child: Text(btnText),
+          onPressed: onConfirm,
+          child: Text(confirmButtonText),
         ),
       ],
     );

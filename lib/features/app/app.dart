@@ -6,6 +6,7 @@ import '../compose/compose.dart';
 import '../home/home.dart';
 import '../settings/settings_controller.dart';
 import 'app_theme.dart';
+import 'navigator.dart';
 
 class ElPCDApp extends StatelessWidget {
   const ElPCDApp({super.key});
@@ -21,10 +22,11 @@ class ElPCDApp extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      initialRoute: HomeView.routeName,
+      navigatorKey: navigatorKey,
+      initialRoute: AppRoutes.home.routeName,
       routes: {
-        HomeView.routeName: (_) => const HomeView(),
-        ComposeView.routeName: (_) => const ComposeView(),
+        AppRoutes.home.routeName: (_) => const HomeView(),
+        AppRoutes.classEditor.routeName: (_) => const ComposeView(),
       },
     );
   }

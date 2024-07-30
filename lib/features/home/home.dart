@@ -3,13 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
-import '../compose/compose.dart';
+import '../app/navigator.dart' as navigator;
 import 'widgets/drawer.dart';
 import 'widgets/tree_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
-  static const routeName = '/';
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +90,7 @@ class CreateClassFloatingActionButton extends StatelessWidget {
         AppLocalizations.of(context).newClassButtonText.toUpperCase(),
       ),
       icon: const Icon(Icons.post_add),
-      onPressed: () => Navigator.of(context).pushNamed(ComposeView.routeName),
+      onPressed: () => navigator.showClassEditor(),
     );
   }
 }

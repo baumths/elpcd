@@ -14,8 +14,7 @@ class TreeNodeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
-        onTap: () => Navigator.of(context)
-            .pushNamed(ComposeView.routeName, arguments: classe),
+        onTap: () => navigator.showClassEditor(classe: classe),
         child: Row(
           children: <Widget>[
             _ClasseCodeChip(classe: classe),
@@ -41,12 +40,9 @@ class _ClasseNewChildButton extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.add),
       tooltip: AppLocalizations.of(context).newSubordinateClassButtonText,
-      onPressed: () {
-        Navigator.of(context).pushNamed(
-          ComposeView.routeName,
-          arguments: Classe.fromParent(classe.id),
-        );
-      },
+      onPressed: () => navigator.showClassEditor(
+        classe: Classe.fromParent(classe.id),
+      ),
     );
   }
 }
@@ -64,13 +60,9 @@ class _ClasseDeleteButton extends StatelessWidget {
       color: Theme.of(context).colorScheme.error,
       icon: const Icon(Icons.delete),
       onPressed: () async {
-        final delete = await showDialog<bool>(
-          context: context,
-          builder: (ctx) => AppDialogs.warning(
-            context: ctx,
-            title: l10n.areYouSureDialogTitle,
-            btnText: l10n.deleteButtonText,
-          ),
+        final delete = await navigator.showWarningDialog(
+          title: l10n.areYouSureDialogTitle,
+          confirmButtonText: l10n.deleteButtonText,
         );
         if ((delete ?? false) && context.mounted) {
           final repository = context.read<ClassesRepository>();

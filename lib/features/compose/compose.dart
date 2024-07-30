@@ -5,7 +5,7 @@ import '../../entities/classe.dart';
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
 import '../../shared/show_snackbar.dart';
-import '../home/home.dart';
+import '../app/navigator.dart' as navigator;
 import 'bloc/compose_bloc.dart';
 import 'bloc/metadata_cubit.dart';
 import 'widgets/add_metadata.dart';
@@ -14,8 +14,6 @@ import 'widgets/required_fields.dart';
 
 class ComposeView extends StatelessWidget {
   const ComposeView({super.key});
-
-  static const routeName = '/compose';
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +29,7 @@ class ComposeView extends StatelessWidget {
         listenWhen: (p, c) => p.status != c.status,
         listener: (_, state) {
           if (state.status == ComposeStatus.success) {
-            Navigator.of(context).popUntil(
-              ModalRoute.withName(HomeView.routeName),
-            );
+            navigator.closeClassEditor();
           }
           if (state.status == ComposeStatus.failure) {
             ShowSnackBar.error(
@@ -97,7 +93,7 @@ class DismissChangesIconButton extends StatelessWidget {
     return IconButton(
       tooltip: AppLocalizations.of(context).cancelButtonText,
       icon: const Icon(Icons.arrow_back),
-      onPressed: () => Navigator.pop(context),
+      onPressed: () => navigator.closeClassEditor(),
     );
   }
 }

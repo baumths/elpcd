@@ -7,8 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../entities/classe.dart';
 import '../../../localization.dart';
 import '../../../repositories/classes_repository.dart';
-import '../../../shared/dialogs.dart';
-import '../../compose/compose.dart';
+import '../../app/navigator.dart' as navigator;
 
 part 'tree_controller.dart';
 part 'tree_node.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../localization.dart';
+import '../app/navigator.dart' as navigator;
 import 'settings_controller.dart';
 
 class CodearqListTile extends StatelessWidget {
@@ -25,16 +26,8 @@ class CodearqListTile extends StatelessWidget {
           codearq.length > 9 ? '${codearq.substring(0, 10)}...' : codearq,
         ),
       ),
-      onTap: () => showModalBottomSheet(
-        context: context,
-        builder: (context) => CodearqEditor(
-          codearq: codearq,
-          onSubmitted: (String value) {
-            context.read<SettingsController>().updateCodearq(value);
-            Navigator.pop(context);
-          },
-          onDismissed: () => Navigator.pop(context),
-        ),
+      onTap: () => navigator.showCodearqEditor(
+        context.read<SettingsController>(),
       ),
     );
   }
