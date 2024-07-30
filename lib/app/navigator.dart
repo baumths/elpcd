@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../entities/classe.dart';
 import '../../shared/dialogs.dart';
-import '../settings/codearq.dart';
-import '../settings/settings_controller.dart';
+import '../features/settings/codearq.dart';
+import '../features/settings/settings_controller.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 

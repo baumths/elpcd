@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
 import 'package:provider/provider.dart';
 
+import '../../../app/navigator.dart' as navigator;
 import '../../../entities/classe.dart';
 import '../../../localization.dart';
 import '../../../repositories/classes_repository.dart';
-import '../../app/navigator.dart' as navigator;
 
 part 'tree_controller.dart';
 part 'tree_node.dart';

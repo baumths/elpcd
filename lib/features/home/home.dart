@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
-import '../app/navigator.dart' as navigator;
 import 'widgets/drawer.dart';
 import 'widgets/tree_view.dart';
 

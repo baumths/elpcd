@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../app/navigator.dart' as navigator;
 import '../../entities/classe.dart';
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
 import '../../shared/snackbars.dart';
-import '../app/navigator.dart' as navigator;
 import 'bloc/compose_bloc.dart';
 import 'bloc/metadata_cubit.dart';
 import 'widgets/add_metadata.dart';

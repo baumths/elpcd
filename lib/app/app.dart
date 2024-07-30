@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../localization.dart';
-import '../compose/compose.dart';
-import '../home/home.dart';
-import '../settings/settings_controller.dart';
+import '../features/compose/compose.dart';
+import '../features/home/home.dart';
+import '../features/settings/settings_controller.dart';
 import 'app_theme.dart';
 import 'navigator.dart';
 

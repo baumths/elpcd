@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
-import '../app/navigator.dart' as navigator;
 import 'settings_controller.dart';
 
 class CodearqListTile extends StatelessWidget {
