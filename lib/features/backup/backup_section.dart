@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
-import '../../shared/show_snackbar.dart';
+import '../../shared/snackbars.dart';
 import '../settings/settings_controller.dart';
 import 'backup_service.dart';
 
@@ -84,11 +84,7 @@ class BackupSection extends StatelessWidget {
       );
 
       if (context.mounted) {
-        ShowSnackBar.info(
-          context,
-          l10n.backupSuccessfullyImportedSnackbarText,
-          duration: 5,
-        );
+        showInfoSnackBar(context, l10n.backupSuccessfullyImportedSnackbarText);
       }
     } on FormatException {
       errorMessage = l10n.backupImportFormatExceptionText;
@@ -97,7 +93,7 @@ class BackupSection extends StatelessWidget {
     } finally {
       if (context.mounted) {
         if (errorMessage != null) {
-          ShowSnackBar.error(context, errorMessage, duration: 5);
+          showErrorSnackBar(context, errorMessage);
         }
         Scaffold.maybeOf(context)?.closeDrawer();
       }
@@ -118,7 +114,7 @@ class BackupSection extends StatelessWidget {
     );
 
     if (context.mounted) {
-      ShowSnackBar.info(
+      showInfoSnackBar(
         context,
         AppLocalizations.of(context).backupSuccessfullyExportedSnackbarText,
       );

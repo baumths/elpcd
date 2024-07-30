@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../entities/classe.dart';
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
-import '../../shared/show_snackbar.dart';
+import '../../shared/snackbars.dart';
 import '../app/navigator.dart' as navigator;
 import 'bloc/compose_bloc.dart';
 import 'bloc/metadata_cubit.dart';
@@ -32,7 +32,7 @@ class ComposeView extends StatelessWidget {
             navigator.closeClassEditor();
           }
           if (state.status == ComposeStatus.failure) {
-            ShowSnackBar.error(
+            showErrorSnackBar(
               context,
               AppLocalizations.of(context).unableToSaveClassSnackbarText,
             );
