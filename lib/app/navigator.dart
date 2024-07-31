@@ -30,7 +30,7 @@ void showClassEditor({Classe? classe}) {
 }
 
 void showInstitutionCodeEditor(SettingsController settings) {
-  showModalBottomSheet(
+  showModalBottomSheet<void>(
     context: navigatorKey.currentContext!,
     builder: (context) => InstitutionCodeEditor(
       institutionCode: settings.institutionCode,

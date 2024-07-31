@@ -38,7 +38,7 @@ abstract class BackupService {
       throw const BackupException();
     }
 
-    if (object['classes'] case final List classesMaps?) {
+    if (object['classes'] case final List<Object?> classesMaps?) {
       final classesById = <int, Classe>{
         for (final classMap in classesMaps)
           if (_classFromJson(classMap) case final Classe classe)
@@ -51,7 +51,7 @@ abstract class BackupService {
       throw const BackupException();
     }
 
-    if (object['settings'] case final Map settings?) {
+    if (object['settings'] case final Map<Object?, Object?> settings?) {
       if (settings['darkMode'] case bool darkMode?) {
         settingsController.updateDarkMode(darkMode);
       }
