@@ -8,11 +8,11 @@ import '../../repositories/classes_repository.dart';
 class CsvExportService {
   CsvExportService({
     required this.classesRepository,
-    required this.codearq,
+    required this.institutionCode,
     required this.fondsArchivistNode,
   });
 
-  final String codearq;
+  final String institutionCode;
   final String fondsArchivistNode;
 
   final ClassesRepository classesRepository;
@@ -45,11 +45,11 @@ class CsvExportService {
   /// subordinate to this Fonds when imported by AtoM.
   List<String> get _fonds {
     return [
-      codearq,
+      institutionCode,
       _applyIdPrefix(Classe.rootId),
       '',
-      codearq,
-      codearq,
+      institutionCode,
+      institutionCode,
       '',
       '',
       '',

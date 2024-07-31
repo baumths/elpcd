@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../entities/classe.dart';
 import '../../shared/dialogs.dart';
-import '../features/settings/codearq.dart';
+import '../features/settings/institution_code.dart';
 import '../features/settings/settings_controller.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -29,13 +29,13 @@ void showClassEditor({Classe? classe}) {
   );
 }
 
-void showCodearqEditor(SettingsController settings) {
+void showInstitutionCodeEditor(SettingsController settings) {
   showModalBottomSheet(
     context: navigatorKey.currentContext!,
-    builder: (context) => CodearqEditor(
-      codearq: settings.codearq,
+    builder: (context) => InstitutionCodeEditor(
+      institutionCode: settings.institutionCode,
       onSubmitted: (String value) {
-        settings.updateCodearq(value);
+        settings.updateInstitutionCode(value);
         pop();
       },
       onDismissed: () => pop(),

@@ -1,31 +1,31 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
-const defaultCodearq = 'ElPCD';
+const defaultInstitutionCode = 'ElPCD';
 const defaultDarkMode = true;
 
 class SettingsController with ChangeNotifier {
   SettingsController(this._box) {
-    _codearq = _box.get('codearq') as String? ?? defaultCodearq;
+    _institutionCode = _box.get('codearq') as String? ?? defaultInstitutionCode;
     _darkMode = _box.get('darkMode') as bool? ?? defaultDarkMode;
   }
 
   final Box<Object> _box;
 
-  String get codearq => _codearq;
-  String _codearq = defaultCodearq;
+  String get institutionCode => _institutionCode;
+  String _institutionCode = defaultInstitutionCode;
 
   bool get darkMode => _darkMode;
   bool _darkMode = defaultDarkMode;
 
-  void updateCodearq(String value) {
+  void updateInstitutionCode(String value) {
     value = value.trim();
-    if (value == codearq) {
+    if (value == institutionCode) {
       return;
     }
-    _codearq = value.isEmpty ? defaultCodearq : value;
+    _institutionCode = value.isEmpty ? defaultInstitutionCode : value;
     notifyListeners();
-    _box.put('codearq', codearq);
+    _box.put('codearq', institutionCode);
   }
 
   void updateDarkMode(bool value) {

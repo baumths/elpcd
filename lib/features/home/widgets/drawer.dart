@@ -5,8 +5,8 @@ import 'package:vector_graphics/vector_graphics_compat.dart';
 import '../../../localization.dart';
 import '../../backup/backup_section.dart';
 import '../../crosswalk/csv_export_list_tile.dart';
-import '../../settings/codearq.dart';
 import '../../settings/dark_mode.dart';
+import '../../settings/institution_code.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key});
@@ -18,7 +18,7 @@ class HomeDrawer extends StatelessWidget {
         children: const <Widget>[
           Header(),
           Divider(),
-          CodearqListTile(),
+          InstitutionCodeListTile(),
           DarkModeSwitchListTile(),
           Divider(),
           CsvExportListTile(),

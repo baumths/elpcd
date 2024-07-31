@@ -5,17 +5,17 @@ import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
 import 'settings_controller.dart';
 
-class CodearqListTile extends StatelessWidget {
-  const CodearqListTile({super.key});
+class InstitutionCodeListTile extends StatelessWidget {
+  const InstitutionCodeListTile({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final codearq = context.select<SettingsController, String>(
-      (controller) => controller.codearq,
+    final code = context.select<SettingsController, String>(
+      (controller) => controller.institutionCode,
     );
     return ListTile(
-      title: Text(AppLocalizations.of(context).editCodearqButtonText),
+      title: Text(AppLocalizations.of(context).editInstitutionCodeButtonText),
       trailing: Badge(
         largeSize: 32,
         textColor: theme.colorScheme.onPrimary,
@@ -23,34 +23,35 @@ class CodearqListTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         label: Text(
-          codearq.length > 9 ? '${codearq.substring(0, 10)}...' : codearq,
+          code.length > 9 ? '${code.substring(0, 10)}...' : code,
         ),
       ),
-      onTap: () => navigator.showCodearqEditor(
+      onTap: () => navigator.showInstitutionCodeEditor(
         context.read<SettingsController>(),
       ),
     );
   }
 }
 
-class CodearqEditor extends StatefulWidget {
-  const CodearqEditor({
+class InstitutionCodeEditor extends StatefulWidget {
+  const InstitutionCodeEditor({
     super.key,
-    required this.codearq,
+    required this.institutionCode,
     required this.onSubmitted,
     required this.onDismissed,
   });
 
-  final String codearq;
+  final String institutionCode;
   final ValueChanged<String> onSubmitted;
   final VoidCallback onDismissed;
 
   @override
-  State<CodearqEditor> createState() => _CodearqEditorState();
+  State<InstitutionCodeEditor> createState() => _InstitutionCodeEditorState();
 }
 
-class _CodearqEditorState extends State<CodearqEditor> {
-  late final textController = TextEditingController(text: widget.codearq);
+class _InstitutionCodeEditorState extends State<InstitutionCodeEditor> {
+  late final textController =
+      TextEditingController(text: widget.institutionCode);
 
   @override
   void dispose() {
@@ -77,7 +78,7 @@ class _CodearqEditorState extends State<CodearqEditor> {
               controller: textController,
               onSubmitted: widget.onSubmitted,
               decoration: const InputDecoration(
-                hintText: defaultCodearq,
+                hintText: defaultInstitutionCode,
                 hintStyle: TextStyle(fontStyle: FontStyle.italic),
                 border: InputBorder.none,
               ),

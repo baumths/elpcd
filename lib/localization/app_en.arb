@@ -17,7 +17,7 @@
   "csvExportFondsArchivistNote": "This Classification Scheme was created using the [ElPCD](https://elpcd.github.io) software.",
   "darkModeButtonText": "Dark Mode",
   "deleteButtonText": "Delete",
-  "editCodearqButtonText": "Edit Institution Code",
+  "editInstitutionCodeButtonText": "Edit Institution Code",
   "editingClassComposeHeader": "Editing Class",
   "emptyClassesExplorerBodyText": "Start by creating a New Class",
   "expandAllClassesTooltipMessage": "Expand Classes",

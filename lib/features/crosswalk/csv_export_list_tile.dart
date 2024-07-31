@@ -45,7 +45,7 @@ class _CsvExportListTileState extends State<CsvExportListTile> {
 
     final csv = CsvExportService(
       classesRepository: context.read<ClassesRepository>(),
-      codearq: context.read<SettingsController>().codearq,
+      institutionCode: context.read<SettingsController>().institutionCode,
       fondsArchivistNode: l10n.csvExportFondsArchivistNote,
     ).export();
 

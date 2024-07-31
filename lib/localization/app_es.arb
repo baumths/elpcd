@@ -17,7 +17,7 @@
   "csvExportFondsArchivistNote": "Este Quadro de Clasificación Documental fue creado en el software [ElPCD](https://elpcd.github.io).",
   "darkModeButtonText": "Modo Oscuro",
   "deleteButtonText": "Borrar",
-  "editCodearqButtonText": "Editar Código Custodiante",
+  "editInstitutionCodeButtonText": "Editar Código Custodiante",
   "editingClassComposeHeader": "Clase en edición",
   "emptyClassesExplorerBodyText": "Empieza por crear una Nueva Clase",
   "expandAllClassesTooltipMessage": "Abrir Clases",

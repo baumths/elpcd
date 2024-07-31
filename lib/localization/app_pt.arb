@@ -17,7 +17,7 @@
   "csvExportFondsArchivistNote": "Este Plano de Classificação de Documentos foi elaborado no Software [ElPCD](https://elpcd.github.io).",
   "darkModeButtonText": "Modo Escuro",
   "deleteButtonText": "Apagar",
-  "editCodearqButtonText": "Editar CODEARQ",
+  "editInstitutionCodeButtonText": "Editar CODEARQ",
   "editingClassComposeHeader": "Editando Classe",
   "emptyClassesExplorerBodyText": "Crie uma Classe para começar",
   "expandAllClassesTooltipMessage": "Expandir Classes",

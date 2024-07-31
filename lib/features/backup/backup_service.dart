@@ -11,7 +11,7 @@ abstract class BackupService {
   }) {
     return jsonEncode({
       'settings': {
-        'codearq': settingsController.codearq,
+        'institutionCode': settingsController.institutionCode,
         'darkMode': settingsController.darkMode,
       },
       'classes': <Map<String, Object?>>[
@@ -56,8 +56,8 @@ abstract class BackupService {
         settingsController.updateDarkMode(darkMode);
       }
 
-      if (settings['codearq'] case String codearq?) {
-        settingsController.updateCodearq(codearq);
+      if (settings['institutionCode'] case String institutionCode?) {
+        settingsController.updateInstitutionCode(institutionCode);
       }
     }
   }
