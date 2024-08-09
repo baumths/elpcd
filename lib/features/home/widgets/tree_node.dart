@@ -14,9 +14,10 @@ class TreeNodeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
-        onTap: () => navigator.showClassEditor(classe: classe),
+        onTap: () => navigator.showClassEditor(classId: classe.id),
         child: Row(
           children: <Widget>[
+            // TODO: adjust widgets to handle empty class name and/or code
             _ClasseCodeChip(classe: classe),
             const SizedBox(width: 8),
             _ClasseTitle(classe: classe),
@@ -40,9 +41,7 @@ class _ClasseNewChildButton extends StatelessWidget {
     return IconButton(
       icon: const Icon(Icons.add),
       tooltip: AppLocalizations.of(context).newSubordinateClassButtonText,
-      onPressed: () => navigator.showClassEditor(
-        classe: Classe.fromParent(classe.id),
-      ),
+      onPressed: () => navigator.showClassEditor(parentId: classe.id),
     );
   }
 }
@@ -98,7 +97,9 @@ class _ClasseCodeChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: context.read<ClassesRepository>().buildReferenceCode(classe),
+      message: classe.id == null
+          ? null
+          : context.read<ClassesRepository>().buildReferenceCode(classe.id!),
       child: Chip(
         padding: EdgeInsets.zero,
         label: Text(classe.code),

@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../entities/classe.dart';
 import '../../shared/dialogs.dart';
+import '../features/class_editor/class_editor_screen.dart';
 import '../features/settings/institution_code.dart';
 import '../features/settings/settings_controller.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
-
-enum AppRoutes {
-  classEditor('/compose'),
-  home('/'),
-  ;
-
-  const AppRoutes(this.routeName);
-  final String routeName;
-}
 
 void pop<T extends Object?>([T? result]) {
   navigatorKey.currentState!.pop<T>(result);
@@ -22,11 +13,10 @@ void pop<T extends Object?>([T? result]) {
 
 void closeClassEditor() => pop();
 
-void showClassEditor({Classe? classe}) {
-  navigatorKey.currentState!.pushNamed(
-    AppRoutes.classEditor.routeName,
-    arguments: classe,
-  );
+void showClassEditor({int? classId, int? parentId}) {
+  navigatorKey.currentState!.push(MaterialPageRoute<void>(
+    builder: (_) => ClassEditorScreen(classId: classId, parentId: parentId),
+  ));
 }
 
 void showInstitutionCodeEditor(SettingsController settings) {

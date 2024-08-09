@@ -7,13 +7,19 @@ class ClassesRepository {
 
   final Box<Classe> _box;
 
-  /// Recursively build Reference Code for [classe]
-  String buildReferenceCode(Classe classe) {
-    if (classe.parentId == Classe.rootId) {
-      return classe.code;
+  String buildReferenceCode(int classId) {
+    Classe? current = getClassById(classId);
+
+    if (current == null) return '';
+
+    final codes = <String>[];
+
+    while (current != null) {
+      codes.add(current.code);
+      current = getClassById(current.parentId);
     }
-    final parent = _box.get(classe.parentId)!;
-    return '${buildReferenceCode(parent)}-${classe.code}';
+
+    return (StringBuffer()..writeAll(codes.reversed, '-')).toString();
   }
 
   Future<void> delete(Classe classe) async => classe.delete();
@@ -22,6 +28,8 @@ class ClassesRepository {
     await _box.clear();
     await _box.compact();
   }
+
+  Classe? getClassById(int id) => _box.get(id);
 
   Iterable<Classe> getAllClasses() => _box.values;
 
