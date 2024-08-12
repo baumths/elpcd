@@ -13,12 +13,14 @@ class ClassEditor {
 
   final ClassesRepository _repository;
 
+  int? get editingClassId => _editingClassId;
   int? _editingClassId;
 
   int get parentId => _parentId;
   int _parentId;
 
-  late Map<String, String> _metadata = {};
+  @visibleForTesting
+  late Map<String, String> metadata = {};
 
   void init({int? editingClassId}) {
     if (editingClassId != null) {
@@ -30,7 +32,7 @@ class ClassEditor {
     if (_repository.getClassById(classId) case final Classe clazz?) {
       _editingClassId = classId;
       _parentId = clazz.parentId;
-      _metadata = <String, String>{
+      metadata = <String, String>{
         ...clazz.metadata,
         EarqBrasilMetadata.nome.key: clazz.name,
         EarqBrasilMetadata.codigo.key: clazz.code,
@@ -39,13 +41,13 @@ class ClassEditor {
     }
   }
 
-  String? valueOf(EarqBrasilMetadata metadata) => _metadata[metadata.key];
+  String? valueOf(EarqBrasilMetadata entry) => metadata[entry.key];
 
-  void updateValueOf(EarqBrasilMetadata metadata, String value) {
-    _metadata[metadata.key] = value;
+  void updateValueOf(EarqBrasilMetadata entry, String value) {
+    metadata[entry.key] = value;
   }
 
-  void save() {
+  Classe save() {
     Classe? clazz;
 
     if (_editingClassId != null) {
@@ -53,26 +55,27 @@ class ClassEditor {
     }
 
     clazz ??= Classe.fromParent(parentId);
-    updateClassMetadata(clazz);
+    applyMetadata(clazz);
 
     _repository.upsert(clazz);
+    return clazz;
   }
 
   @visibleForTesting
-  void updateClassMetadata(Classe clazz) {
+  void applyMetadata(Classe clazz) {
     // Only used to display class hierarchy, should not be persisted.
-    _metadata.remove(EarqBrasilMetadata.subordinacao.key);
+    metadata.remove(EarqBrasilMetadata.subordinacao.key);
 
-    clazz.name = _metadata.remove(EarqBrasilMetadata.nome.key)?.trim() ?? '';
-    clazz.code = _metadata.remove(EarqBrasilMetadata.codigo.key)?.trim() ?? '';
+    clazz.name = metadata.remove(EarqBrasilMetadata.nome.key)?.trim() ?? '';
+    clazz.code = metadata.remove(EarqBrasilMetadata.codigo.key)?.trim() ?? '';
 
-    for (final metadata in EarqBrasilMetadata.values) {
-      final value = _metadata.remove(metadata.key)?.trim();
+    for (final entry in EarqBrasilMetadata.values) {
+      final value = metadata.remove(entry.key)?.trim();
 
       if (value == null || value.isEmpty) {
-        clazz.metadata.remove(metadata.key);
+        clazz.metadata.remove(entry.key);
       } else {
-        clazz.metadata[metadata.key] = value;
+        clazz.metadata[entry.key] = value;
       }
     }
   }
