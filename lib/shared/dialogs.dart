@@ -9,12 +9,14 @@ class WarningDialog extends StatelessWidget {
     required this.confirmButtonText,
     required this.onConfirm,
     required this.onCancel,
+    this.content,
   });
 
   final String title;
   final String confirmButtonText;
   final VoidCallback onConfirm;
   final VoidCallback onCancel;
+  final String? content;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class WarningDialog extends StatelessWidget {
       actionsOverflowAlignment: OverflowBarAlignment.center,
       actionsOverflowButtonSpacing: 8,
       title: Text(title),
-      content: Text(l10n.actionCannotBeUndoneWarning),
+      content: Text(content ?? l10n.actionCannotBeUndoneWarning),
       actions: [
         TextButton(
           onPressed: onCancel,
