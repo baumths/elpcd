@@ -9,6 +9,7 @@
   "backupSuccessfullyImportedSnackbarText": "Backup importado com sucesso",
   "cancelButtonText": "Cancelar",
   "collapseAllClassesTooltipMessage": "Recolher Classes",
+  "confirmImportDialogContent": "Os dados existentes serão perdidos.",
   "csvDownloadButtonText": "Download CSV",
   "csvExportFondsArchivistNote": "Este Plano de Classificação de Documentos foi elaborado no Software [ElPCD](https://elpcd.github.io).",
   "darkModeButtonText": "Modo Escuro",

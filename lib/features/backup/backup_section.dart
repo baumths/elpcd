@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
+import '../../shared/dialogs.dart';
 import '../../shared/snackbars.dart';
 import '../settings/settings_controller.dart';
 import 'backup_service.dart';
@@ -59,7 +60,27 @@ class BackupSection extends StatelessWidget {
     );
   }
 
+  Future<bool?> showConfirmImportDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => WarningDialog(
+        title: l10n.areYouSureDialogTitle,
+        content: l10n.confirmImportDialogContent,
+        confirmButtonText: l10n.importButtonText,
+        onConfirm: () => Navigator.pop(context, true),
+        onCancel: () => Navigator.pop(context, false),
+      ),
+    );
+  }
+
   Future<void> import(BuildContext context) async {
+    final confirmed = (await showConfirmImportDialog(context)) ?? false;
+
+    if (!confirmed || !context.mounted) {
+      return;
+    }
+
     final l10n = AppLocalizations.of(context);
     final classesRepository = context.read<ClassesRepository>();
     final settingsController = context.read<SettingsController>();

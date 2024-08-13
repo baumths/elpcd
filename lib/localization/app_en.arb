@@ -9,6 +9,7 @@
   "backupSuccessfullyImportedSnackbarText": "Backup imported successfully",
   "cancelButtonText": "Cancel",
   "collapseAllClassesTooltipMessage": "Collapse Classes",
+  "confirmImportDialogContent": "Existing data will be lost.",
   "csvDownloadButtonText": "CSV Download",
   "csvExportFondsArchivistNote": "This Classification Scheme was created using the [ElPCD](https://elpcd.github.io) software.",
   "darkModeButtonText": "Dark Mode",

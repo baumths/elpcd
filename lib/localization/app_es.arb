@@ -9,6 +9,7 @@
   "backupSuccessfullyImportedSnackbarText": "Backup importado con éxito",
   "cancelButtonText": "Cancelar",
   "collapseAllClassesTooltipMessage": "Encerrar Clases",
+  "confirmImportDialogContent": "Los datos existentes se perderán.",
   "csvDownloadButtonText": "Download CSV",
   "csvExportFondsArchivistNote": "Este Quadro de Clasificación Documental fue creado en el software [ElPCD](https://elpcd.github.io).",
   "darkModeButtonText": "Modo Oscuro",
