@@ -25,6 +25,8 @@ class ClassEditor {
   void init({int? editingClassId}) {
     if (editingClassId != null) {
       edit(editingClassId);
+    } else if (parentId != Classe.rootId) {
+      updateSubordination(parentId);
     }
   }
 

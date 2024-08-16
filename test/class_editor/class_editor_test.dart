@@ -25,6 +25,19 @@ void main() {
     expect(subject.parentId, Classe.rootId);
   });
 
+  group('init()', () {
+    test('updates EarqBrasilMetadata.subordinacao for new classes', () {
+      final subject = createSubject(parentId: 0);
+      when(() => repository.buildReferenceCode(0)).thenReturn('T-00');
+
+      expect(subject.valueOf(EarqBrasilMetadata.subordinacao), isNull);
+
+      subject.init();
+
+      expect(subject.valueOf(EarqBrasilMetadata.subordinacao), 'T-00');
+    });
+  });
+
   group('edit()', () {
     const parentCode = 'T';
     late ClassEditor subject;
