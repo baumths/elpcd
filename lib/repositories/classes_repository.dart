@@ -15,7 +15,7 @@ class ClassesRepository {
     final codes = <String>[];
 
     while (current != null) {
-      codes.add(current.code);
+      codes.add(current.code.isEmpty ? '?' : current.code);
       current = getClassById(current.parentId);
     }
 
