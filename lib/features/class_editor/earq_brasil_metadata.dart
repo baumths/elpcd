@@ -1,3 +1,5 @@
+import '../../localization.dart';
+
 enum EarqBrasilMetadata {
   // Identification & Hierarchy
   nome('Nome da Classe'),
@@ -27,4 +29,26 @@ enum EarqBrasilMetadata {
 
   const EarqBrasilMetadata(this.key);
   final String key;
+
+  static Map<String, String> createKeyToLabelMap(AppLocalizations l10n) {
+    return <String, String>{
+      nome.key: l10n.earqBrasilNomeLabel,
+      codigo.key: l10n.earqBrasilCodigoLabel,
+      subordinacao.key: l10n.earqBrasilSubordinacaoLabel,
+      abertura.key: l10n.earqBrasilAberturaLabel,
+      desativacao.key: l10n.earqBrasilDesativacaoLabel,
+      reativacao.key: l10n.earqBrasilReativacaoLabel,
+      mudancaNome.key: l10n.earqBrasilMudancaNomeLabel,
+      deslocamento.key: l10n.earqBrasilDeslocamentoLabel,
+      extincao.key: l10n.earqBrasilExtincaoLabel,
+      indicadorAtiva.key: l10n.earqBrasilIndicadorAtivaLabel,
+      prazoCorrente.key: l10n.earqBrasilPrazoCorrenteLabel,
+      eventoCorrente.key: l10n.earqBrasilEventoCorrenteLabel,
+      prazoIntermediaria.key: l10n.earqBrasilPrazoIntermediariaLabel,
+      eventoIntermediaria.key: l10n.earqBrasilEventoIntermediariaLabel,
+      destinacao.key: l10n.earqBrasilDestinacaoLabel,
+      alteracao.key: l10n.earqBrasilAlteracaoLabel,
+      observacoes.key: l10n.earqBrasilObservacoesLabel,
+    };
+  }
 }

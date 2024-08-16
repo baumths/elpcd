@@ -55,10 +55,12 @@ class AtomIsadCsvBuilder {
   const AtomIsadCsvBuilder({
     required this.institutionCode,
     required this.fondsArchivistNode,
+    required this.metadataLabels,
   });
 
   final String institutionCode;
   final String fondsArchivistNode;
+  final Map<String, String> metadataLabels;
 
   /// Converts the result of [buildTable] to a CSV string.
   String buildCsv(Iterable<Classe> classes) {
@@ -151,7 +153,7 @@ class AtomIsadCsvBuilder {
     final buf = StringBuffer();
     for (final String key in keys) {
       if (metadata[key] case final String value?) {
-        buf.write(key);
+        buf.write(metadataLabels[key] ?? key);
         buf.write(': ');
         buf.writeln(value);
       }

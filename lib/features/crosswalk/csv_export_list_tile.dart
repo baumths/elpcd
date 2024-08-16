@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
+import '../class_editor/earq_brasil_metadata.dart';
 import '../settings/settings_controller.dart';
 import 'atom_isad_csv_builder.dart';
 
@@ -46,6 +47,7 @@ class _CsvExportListTileState extends State<CsvExportListTile> {
     final csv = AtomIsadCsvBuilder(
       institutionCode: context.read<SettingsController>().institutionCode,
       fondsArchivistNode: l10n.csvExportFondsArchivistNote,
+      metadataLabels: EarqBrasilMetadata.createKeyToLabelMap(l10n),
     ).buildCsv(
       context.read<ClassesRepository>().getAllClasses(),
     );
