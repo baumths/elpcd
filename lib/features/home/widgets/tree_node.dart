@@ -3,106 +3,71 @@ part of 'tree_view.dart';
 class TreeNodeWidget extends StatelessWidget {
   const TreeNodeWidget({
     super.key,
-    required this.classe,
+    required this.clazz,
     required this.hasChildren,
   });
 
-  final Classe classe;
+  final Classe clazz;
   final bool hasChildren;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     return Expanded(
       child: InkWell(
-        onTap: () => navigator.showClassEditor(classId: classe.id),
+        onTap: () => navigator.showClassEditor(classId: clazz.id),
+        borderRadius: const BorderRadius.horizontal(left: Radius.circular(6)),
         child: Row(
           children: <Widget>[
-            // TODO: adjust widgets to handle empty class name and/or code
-            _ClasseCodeChip(classe: classe),
             const SizedBox(width: 8),
-            _ClasseTitle(classe: classe),
-            if (!hasChildren) _ClasseDeleteButton(classe: classe),
-            _ClasseNewChildButton(classe: classe),
+            Expanded(
+              child: Text.rich(
+                TextSpan(
+                  children: <InlineSpan>[
+                    if (clazz.code.isNotEmpty) ...[
+                      TextSpan(
+                        text: clazz.code,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const TextSpan(text: ' - '),
+                    ],
+                    if (clazz.name.isEmpty)
+                      TextSpan(
+                        text: AppLocalizations.of(context).unnamedClass,
+                        style: const TextStyle(fontStyle: FontStyle.italic),
+                      )
+                    else
+                      TextSpan(text: clazz.name),
+                  ],
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (!hasChildren)
+              IconButton(
+                tooltip: l10n.deleteButtonText,
+                color: theme.colorScheme.error,
+                icon: const Icon(Icons.delete),
+                onPressed: () async {
+                  final delete = await navigator.showWarningDialog(
+                    title: l10n.areYouSureDialogTitle,
+                    confirmButtonText: l10n.deleteButtonText,
+                  );
+                  if ((delete ?? false) && context.mounted) {
+                    final repository = context.read<ClassesRepository>();
+                    await repository.delete(clazz);
+                  }
+                },
+              ),
+            IconButton(
+              icon: const Icon(Icons.add),
+              tooltip: l10n.newSubordinateClassButtonText,
+              onPressed: () => navigator.showClassEditor(parentId: clazz.id),
+            ),
             const SizedBox(width: 8),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _ClasseNewChildButton extends StatelessWidget {
-  const _ClasseNewChildButton({required this.classe});
-
-  final Classe classe;
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.add),
-      tooltip: AppLocalizations.of(context).newSubordinateClassButtonText,
-      onPressed: () => navigator.showClassEditor(parentId: classe.id),
-    );
-  }
-}
-
-class _ClasseDeleteButton extends StatelessWidget {
-  const _ClasseDeleteButton({required this.classe});
-
-  final Classe classe;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return IconButton(
-      tooltip: l10n.deleteButtonText,
-      color: Theme.of(context).colorScheme.error,
-      icon: const Icon(Icons.delete),
-      onPressed: () async {
-        final delete = await navigator.showWarningDialog(
-          title: l10n.areYouSureDialogTitle,
-          confirmButtonText: l10n.deleteButtonText,
-        );
-        if ((delete ?? false) && context.mounted) {
-          final repository = context.read<ClassesRepository>();
-          await repository.delete(classe);
-        }
-      },
-    );
-  }
-}
-
-class _ClasseTitle extends StatelessWidget {
-  const _ClasseTitle({required this.classe});
-
-  final Classe classe;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Text(
-        classe.name,
-        style: Theme.of(context).textTheme.titleMedium,
-        overflow: TextOverflow.ellipsis,
-      ),
-    );
-  }
-}
-
-class _ClasseCodeChip extends StatelessWidget {
-  const _ClasseCodeChip({required this.classe});
-
-  final Classe classe;
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      message: classe.id == null
-          ? null
-          : context.read<ClassesRepository>().buildReferenceCode(classe.id!),
-      child: Chip(
-        padding: EdgeInsets.zero,
-        label: Text(classe.code),
       ),
     );
   }

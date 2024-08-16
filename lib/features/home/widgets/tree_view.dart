@@ -53,12 +53,15 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
 
     return Consumer<TreeviewController>(
       builder: (_, controller, __) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 72),
-          child: TreeView(
-            nodes: tree,
-            treeController: controller.treeController,
-            indent: MediaQuery.sizeOf(context).width < 600 ? 8 : 24,
+        return DefaultTextStyle(
+          style: Theme.of(context).textTheme.titleMedium!,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 72),
+            child: TreeView(
+              nodes: tree,
+              treeController: controller.treeController,
+              indent: MediaQuery.sizeOf(context).width < 600 ? 12 : 40,
+            ),
           ),
         );
       },
@@ -89,7 +92,7 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
           key: ValueKey(clazz.id),
           children: buildChildren(clazz.id),
           content: TreeNodeWidget(
-            classe: clazz,
+            clazz: clazz,
             hasChildren: classesByParentId[clazz.id]?.isNotEmpty ?? false,
           ),
         );
