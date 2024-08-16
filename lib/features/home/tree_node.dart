@@ -1,7 +1,7 @@
 part of 'tree_view.dart';
 
-class TreeNodeWidget extends StatelessWidget {
-  const TreeNodeWidget({
+class ClassesTreeViewNode extends StatelessWidget {
+  const ClassesTreeViewNode({
     super.key,
     required this.clazz,
     required this.hasChildren,
