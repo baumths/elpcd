@@ -19,7 +19,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         Provider(lazy: false, create: (_) => ClassesRepository(classesBox)),
-        ChangeNotifierProvider(create: (_) => TreeviewController()),
+        ChangeNotifierProvider(create: (_) => ClassesTreeViewController()),
         ChangeNotifierProvider(create: (_) => SettingsController(settingsBox)),
       ],
       child: const ElPCDApp(),

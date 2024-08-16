@@ -51,7 +51,7 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
       );
     }
 
-    return Consumer<TreeviewController>(
+    return Consumer<ClassesTreeViewController>(
       builder: (_, controller, __) {
         return DefaultTextStyle(
           style: Theme.of(context).textTheme.titleMedium!,

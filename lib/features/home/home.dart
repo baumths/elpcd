@@ -62,7 +62,7 @@ class AllClassesExpandedToggleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<TreeviewController>();
+    final controller = context.watch<ClassesTreeViewController>();
 
     if (controller.allNodesExpanded) {
       return IconButton(
