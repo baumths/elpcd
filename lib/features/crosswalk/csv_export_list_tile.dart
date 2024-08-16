@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
 import '../settings/settings_controller.dart';
-import 'csv_export_service.dart';
+import 'atom_isad_csv_builder.dart';
 
 class CsvExportListTile extends StatefulWidget {
   const CsvExportListTile({super.key});
@@ -43,11 +43,12 @@ class _CsvExportListTileState extends State<CsvExportListTile> {
       isExporting = true;
     });
 
-    final csv = CsvExportService(
-      classesRepository: context.read<ClassesRepository>(),
+    final csv = AtomIsadCsvBuilder(
       institutionCode: context.read<SettingsController>().institutionCode,
       fondsArchivistNode: l10n.csvExportFondsArchivistNote,
-    ).export();
+    ).buildCsv(
+      context.read<ClassesRepository>().getAllClasses(),
+    );
 
     await FileSaver.instance.saveFile(
       bytes: utf8.encode(csv),
