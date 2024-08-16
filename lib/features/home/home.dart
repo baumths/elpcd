@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
-import 'widgets/drawer.dart';
-import 'widgets/tree_view.dart';
+import 'drawer.dart';
+import 'tree_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
