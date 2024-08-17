@@ -24,7 +24,7 @@ class BackupSection extends StatelessWidget {
         ListTile(
           title: Text(l10n.backupSectionTitle),
           trailing: Tooltip(
-            message: l10n.wipFeatureTooltipMessage,
+            message: l10n.wipFeatureTooltip,
             child: const Badge(
               label: Text(
                 'WIP',

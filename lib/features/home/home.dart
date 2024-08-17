@@ -55,14 +55,14 @@ class AllClassesExpandedToggleButton extends StatelessWidget {
     if (controller.allNodesExpanded) {
       return IconButton(
         icon: const Icon(Icons.unfold_less),
-        tooltip: AppLocalizations.of(context).collapseAllClassesTooltipMessage,
+        tooltip: AppLocalizations.of(context).collapseAllClassesButtonText,
         onPressed: controller.collapseAll,
       );
     }
 
     return IconButton(
       icon: const Icon(Icons.unfold_more),
-      tooltip: AppLocalizations.of(context).expandAllClassesTooltipMessage,
+      tooltip: AppLocalizations.of(context).expandAllClassesButtonText,
       onPressed: controller.expandAll,
     );
   }

@@ -8,7 +8,7 @@
   "backupSuccessfullyExportedSnackbarText": "O arquivo exportado pode ser importado pelo ElPCD",
   "backupSuccessfullyImportedSnackbarText": "Backup importado com sucesso",
   "cancelButtonText": "Cancelar",
-  "collapseAllClassesTooltipMessage": "Recolher Classes",
+  "collapseAllClassesButtonText": "Recolher Classes",
   "confirmImportDialogContent": "Os dados existentes serão perdidos.",
   "csvDownloadButtonText": "Download CSV",
   "csvExportFondsArchivistNote": "Este Plano de Classificação de Documentos foi elaborado no Software [ElPCD](https://elpcd.github.io).",
@@ -52,7 +52,7 @@
   "earqBrasilSubordinacaoLabel": "Subordinação",
   "editInstitutionCodeButtonText": "Editar CODEARQ",
   "emptyClassesExplorerBodyText": "Crie uma Classe para começar",
-  "expandAllClassesTooltipMessage": "Expandir Classes",
+  "expandAllClassesButtonText": "Expandir Classes",
   "exportButtonText": "Exportar",
   "importButtonText": "Importar",
   "newClassButtonText": "Nova Classe",
@@ -64,5 +64,5 @@
   "sourceCodeButtonTooltip": "Código Fonte",
   "unableToSaveClassSnackbarText": "Não foi possível salvar a Classe",
   "unnamedClass": "Classe sem nome",
-  "wipFeatureTooltipMessage": "Funcionalidade em desenvolvimento"
+  "wipFeatureTooltip": "Funcionalidade em desenvolvimento"
 }

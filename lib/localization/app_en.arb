@@ -8,7 +8,7 @@
   "backupSuccessfullyExportedSnackbarText": "The exported file can be imported by ElPCD",
   "backupSuccessfullyImportedSnackbarText": "Backup imported successfully",
   "cancelButtonText": "Cancel",
-  "collapseAllClassesTooltipMessage": "Collapse Classes",
+  "collapseAllClassesButtonText": "Collapse Classes",
   "confirmImportDialogContent": "Existing data will be lost.",
   "csvDownloadButtonText": "CSV Download",
   "csvExportFondsArchivistNote": "This Classification Scheme was created using the [ElPCD](https://elpcd.github.io) software.",
@@ -52,7 +52,7 @@
   "earqBrasilSubordinacaoLabel": "Subordination",
   "editInstitutionCodeButtonText": "Edit Institution Code",
   "emptyClassesExplorerBodyText": "Start by creating a New Class",
-  "expandAllClassesTooltipMessage": "Expand Classes",
+  "expandAllClassesButtonText": "Expand Classes",
   "exportButtonText": "Export",
   "importButtonText": "Import",
   "newClassButtonText": "New Class",
@@ -64,5 +64,5 @@
   "sourceCodeButtonTooltip": "Source Code",
   "unableToSaveClassSnackbarText": "Unable to save the Class",
   "unnamedClass": "Unnamed Class",
-  "wipFeatureTooltipMessage": "This feature is a work in progress"
+  "wipFeatureTooltip": "This feature is a work in progress"
 }
