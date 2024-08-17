@@ -5,6 +5,7 @@ import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
 import 'drawer.dart';
+import 'search_classes_button.dart';
 import 'tree_view.dart';
 
 class HomeView extends StatelessWidget {
@@ -17,7 +18,7 @@ class HomeView extends StatelessWidget {
         title: Text(AppLocalizations.of(context).appTitle),
         leading: const OpenSettingsMenuButton(),
         actions: const [
-          FindClassButton(),
+          SearchClassesButton(),
           AllClassesExpandedToggleButton(),
           SizedBox(width: 8),
         ],
@@ -40,19 +41,6 @@ class OpenSettingsMenuButton extends StatelessWidget {
       icon: const Icon(Icons.segment),
       tooltip: AppLocalizations.of(context).settingsButtonText,
       onPressed: () => Scaffold.of(context).openDrawer(),
-    );
-  }
-}
-
-class FindClassButton extends StatelessWidget {
-  const FindClassButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.search),
-      tooltip: AppLocalizations.of(context).findClassTooltipMessage,
-      onPressed: null,
     );
   }
 }
