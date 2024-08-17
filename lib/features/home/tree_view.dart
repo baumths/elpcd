@@ -8,6 +8,7 @@ import '../../../app/navigator.dart' as navigator;
 import '../../../entities/classe.dart';
 import '../../../localization.dart';
 import '../../../repositories/classes_repository.dart';
+import 'class_title.dart';
 
 class ClassesTreeViewController extends ChangeNotifier {
   final treeController = TreeController(allNodesExpanded: false);
@@ -138,27 +139,7 @@ class ClassesTreeViewNode extends StatelessWidget {
           children: <Widget>[
             const SizedBox(width: 8),
             Expanded(
-              child: Text.rich(
-                TextSpan(
-                  children: <InlineSpan>[
-                    if (clazz.code.isNotEmpty) ...[
-                      TextSpan(
-                        text: clazz.code,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const TextSpan(text: ' - '),
-                    ],
-                    if (clazz.name.isEmpty)
-                      TextSpan(
-                        text: AppLocalizations.of(context).unnamedClass,
-                        style: const TextStyle(fontStyle: FontStyle.italic),
-                      )
-                    else
-                      TextSpan(text: clazz.name),
-                  ],
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
+              child: ClassTitle(clazz: clazz),
             ),
             if (!hasChildren)
               IconButton(
