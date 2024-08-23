@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
-import '../../repositories/classes_repository.dart';
+import '../shared/classes_store.dart';
 import 'drawer.dart';
 import 'search_classes_button.dart';
 import 'tree_view.dart';
@@ -26,7 +26,7 @@ class HomeView extends StatelessWidget {
       floatingActionButton: const CreateClassFloatingActionButton(),
       drawer: const HomeDrawer(),
       body: ClassesTreeView(
-        repository: RepositoryProvider.of<ClassesRepository>(context),
+        classesStore: context.read<ClassesStore>(),
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'dart:async' show StreamSubscription;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +5,8 @@ import 'package:provider/provider.dart';
 import '../../../app/navigator.dart' as navigator;
 import '../../../entities/classe.dart';
 import '../../../localization.dart';
-import '../../../repositories/classes_repository.dart';
+import '../../repositories/classes_repository.dart';
+import '../shared/classes_store.dart';
 import 'class_title.dart';
 
 class ClassesTreeViewController extends ChangeNotifier {
@@ -27,29 +26,28 @@ class ClassesTreeViewController extends ChangeNotifier {
 }
 
 class ClassesTreeView extends StatefulWidget {
-  const ClassesTreeView({super.key, required this.repository});
+  const ClassesTreeView({super.key, required this.classesStore});
 
-  final ClassesRepository repository;
+  final ClassesStore classesStore;
 
   @override
   State<ClassesTreeView> createState() => _ClassesTreeViewState();
 }
 
 class _ClassesTreeViewState extends State<ClassesTreeView> {
-  StreamSubscription<Iterable<Classe>>? subscription;
   late List<TreeNode> tree = <TreeNode>[];
 
   @override
   void initState() {
     super.initState();
-    tree = buildTree(widget.repository.getAllClasses());
-    subscription = widget.repository.watchAllClasses().listen(onClassesChanged);
+    tree = buildTree();
+    widget.classesStore.addListener(classesStoreListener);
   }
 
   @override
   void dispose() {
-    subscription?.cancel();
-    subscription = null;
+    tree.clear();
+    widget.classesStore.removeListener(classesStoreListener);
     super.dispose();
   }
 
@@ -82,38 +80,30 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
     );
   }
 
-  void onClassesChanged(Iterable<Classe> classes) {
-    if (!mounted) return;
-    setState(() {
-      tree = buildTree(classes);
-    });
-  }
-
-  List<TreeNode> buildTree(Iterable<Classe> classes) {
-    final classesByParentId = <int, List<Classe>>{};
-
-    for (final clazz in classes) {
-      classesByParentId.update(
-        clazz.parentId,
-        (children) => children..add(clazz),
-        ifAbsent: () => <Classe>[clazz],
-      );
-    }
-
-    List<TreeNode>? buildChildren(int? parentId) {
-      return classesByParentId[parentId]?.map((clazz) {
+  List<TreeNode> buildTree() {
+    List<TreeNode>? traverse(int? id) {
+      return widget.classesStore.getSubclasses(id)?.map((Classe clazz) {
+        final children = traverse(clazz.id);
         return TreeNode(
           key: ValueKey(clazz.id),
-          children: buildChildren(clazz.id),
+          children: children,
           content: ClassesTreeViewNode(
             clazz: clazz,
-            hasChildren: classesByParentId[clazz.id]?.isNotEmpty ?? false,
+            hasChildren: children?.isNotEmpty ?? false,
           ),
         );
       }).toList();
     }
 
-    return buildChildren(Classe.rootId) ?? <TreeNode>[];
+    return traverse(Classe.rootId) ?? <TreeNode>[];
+  }
+
+  void classesStoreListener() {
+    if (mounted) {
+      setState(() {
+        tree = buildTree();
+      });
+    }
   }
 }
 
