@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
 import '../shared/classes_store.dart';
+import '../temporality_table/temporality_table.dart';
 import 'drawer.dart';
 import 'search_classes_button.dart';
 import 'tree_view.dart';
@@ -18,6 +19,7 @@ class HomeView extends StatelessWidget {
         title: Text(AppLocalizations.of(context).appTitle),
         leading: const OpenSettingsMenuButton(),
         actions: const [
+          ShowTemporalityTableIconButton(),
           SearchClassesButton(),
           AllClassesExpandedToggleButton(),
           SizedBox(width: 8),

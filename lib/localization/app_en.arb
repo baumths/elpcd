@@ -62,6 +62,13 @@
   "searchClassesButtonText": "Search Classes",
   "settingsButtonText": "Settings",
   "sourceCodeButtonTooltip": "Source Code",
+  "temporalityTableHeaderClassification": "Classification",
+  "temporalityTableHeaderCurrentAge": "Current Age",
+  "temporalityTableHeaderDisposal": "Disposal",
+  "temporalityTableHeaderIntermediateAge": "Intermediate Age",
+  "temporalityTableHeaderNotes": "Notes",
+  "temporalityTableHeaderRententionPeriod": "Retention Period",
+  "temporalityTableTitle": "Retention And Disposal Table",
   "unableToSaveClassSnackbarText": "Unable to save the Class",
   "unnamedClass": "Unnamed Class",
   "wipFeatureTooltip": "This feature is a work in progress"

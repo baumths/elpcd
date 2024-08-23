@@ -4,6 +4,7 @@ import '../../shared/dialogs.dart';
 import '../features/class_editor/class_editor_screen.dart';
 import '../features/settings/institution_code.dart';
 import '../features/settings/settings_controller.dart';
+import '../features/temporality_table/temporality_table.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -31,6 +32,12 @@ void showInstitutionCodeEditor(SettingsController settings) {
       onDismissed: () => pop(),
     ),
   );
+}
+
+void showTemporalityTable() {
+  navigatorKey.currentState!.push(MaterialPageRoute<void>(
+    builder: (_) => const TemporalityTableScreen(),
+  ));
 }
 
 Future<bool?> showWarningDialog({

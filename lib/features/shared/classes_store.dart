@@ -42,6 +42,8 @@ class ClassesStore with ChangeNotifier {
 
   List<Classe>? getSubclasses(int? parentId) => _classesByParentId[parentId];
 
+  bool get isEmpty => _classesByParentId.isEmpty;
+
   @override
   void dispose() {
     _subscription?.cancel();

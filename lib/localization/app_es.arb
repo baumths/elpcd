@@ -62,6 +62,13 @@
   "searchClassesButtonText": "Buscar Clases",
   "settingsButtonText": "Configuraciones",
   "sourceCodeButtonTooltip": "Código Fuente",
+  "temporalityTableHeaderClassification": "Classificação",
+  "temporalityTableHeaderCurrentAge": "Idade Corrente",
+  "temporalityTableHeaderDisposal": "Destinação",
+  "temporalityTableHeaderIntermediateAge": "Idade Intermediária",
+  "temporalityTableHeaderNotes": "Observações",
+  "temporalityTableHeaderRententionPeriod": "Prazo de Guarda",
+  "temporalityTableTitle": "Tabela de Temporalidade",
   "unableToSaveClassSnackbarText": "No fue posible guardar la Clase",
   "unnamedClass": "Clase sin nombre",
   "wipFeatureTooltip": "Funcionalidad en desarollo"
