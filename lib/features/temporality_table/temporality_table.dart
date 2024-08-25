@@ -26,13 +26,10 @@ class ShowTemporalityTableIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canShow = context.select<ClassesStore, bool>(
-      (ClassesStore store) => !store.isEmpty,
-    );
     return IconButton(
       icon: const Icon(Icons.table_chart_outlined),
       tooltip: AppLocalizations.of(context).temporalityTableTitle,
-      onPressed: canShow ? navigator.showTemporalityTable : null,
+      onPressed: navigator.showTemporalityTable,
     );
   }
 }

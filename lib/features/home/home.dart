@@ -18,12 +18,7 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).appTitle),
         leading: const OpenSettingsMenuButton(),
-        actions: const [
-          ShowTemporalityTableIconButton(),
-          SearchClassesButton(),
-          AllClassesExpandedToggleButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [HomeActionButtons(), SizedBox(width: 8)],
       ),
       floatingActionButton: const CreateClassFloatingActionButton(),
       drawer: const HomeDrawer(),
@@ -47,29 +42,6 @@ class OpenSettingsMenuButton extends StatelessWidget {
   }
 }
 
-class AllClassesExpandedToggleButton extends StatelessWidget {
-  const AllClassesExpandedToggleButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = context.watch<ClassesTreeViewController>();
-
-    if (controller.allNodesExpanded) {
-      return IconButton(
-        icon: const Icon(Icons.unfold_less),
-        tooltip: AppLocalizations.of(context).collapseAllClassesButtonText,
-        onPressed: controller.collapseAll,
-      );
-    }
-
-    return IconButton(
-      icon: const Icon(Icons.unfold_more),
-      tooltip: AppLocalizations.of(context).expandAllClassesButtonText,
-      onPressed: controller.expandAll,
-    );
-  }
-}
-
 class CreateClassFloatingActionButton extends StatelessWidget {
   const CreateClassFloatingActionButton({super.key});
 
@@ -82,5 +54,27 @@ class CreateClassFloatingActionButton extends StatelessWidget {
       icon: const Icon(Icons.post_add),
       onPressed: () => navigator.showClassEditor(),
     );
+  }
+}
+
+class HomeActionButtons extends StatelessWidget {
+  const HomeActionButtons({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final bool hasClasses = context.select<ClassesStore, bool>(
+      (ClassesStore store) => !store.isEmpty,
+    );
+
+    if (hasClasses) {
+      return const Row(
+        children: [
+          ShowTemporalityTableIconButton(),
+          SearchClassesButton(),
+        ],
+      );
+    }
+
+    return const SizedBox.shrink();
   }
 }
