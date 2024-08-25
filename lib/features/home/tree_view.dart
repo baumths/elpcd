@@ -1,6 +1,7 @@
+import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
-import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
 import 'package:provider/provider.dart';
+import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
 import '../../../app/navigator.dart' as navigator;
 import '../../../entities/classe.dart';
@@ -9,45 +10,43 @@ import '../../repositories/classes_repository.dart';
 import '../shared/class_title.dart';
 import '../shared/classes_store.dart';
 
-class ClassesTreeViewController extends ChangeNotifier {
-  final treeController = TreeController(allNodesExpanded: false);
+class ClassesTreeViewController {
+  final treeController = TreeViewController();
 
-  bool get allNodesExpanded => treeController.allNodesExpanded;
+  final Map<int, bool> _expansionStates = <int, bool>{};
 
-  void expandAll() {
-    treeController.expandAll();
-    notifyListeners();
-  }
+  bool isExpanded(int? id) => _expansionStates[id] ?? false;
 
-  void collapseAll() {
-    treeController.collapseAll();
-    notifyListeners();
+  @protected
+  void updateExpansionState(int? id, bool state) {
+    if (id == null) return;
+    _expansionStates[id] = state;
   }
 }
 
-class ClassesTreeView extends StatefulWidget {
-  const ClassesTreeView({super.key, required this.classesStore});
+class ClassesExplorer extends StatefulWidget {
+  const ClassesExplorer({super.key, required this.classesStore});
 
   final ClassesStore classesStore;
 
   @override
-  State<ClassesTreeView> createState() => _ClassesTreeViewState();
+  State<ClassesExplorer> createState() => _ClassesExplorerState();
 }
 
-class _ClassesTreeViewState extends State<ClassesTreeView> {
-  late List<TreeNode> tree = <TreeNode>[];
+class _ClassesExplorerState extends State<ClassesExplorer> {
+  late List<TreeViewNode<Classe>> tree = <TreeViewNode<Classe>>[];
 
   @override
   void initState() {
     super.initState();
     tree = buildTree();
-    widget.classesStore.addListener(classesStoreListener);
+    widget.classesStore.addListener(rebuildTree);
   }
 
   @override
   void dispose() {
     tree.clear();
-    widget.classesStore.removeListener(classesStoreListener);
+    widget.classesStore.removeListener(rebuildTree);
     super.dispose();
   }
 
@@ -63,42 +62,29 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
       );
     }
 
-    return Consumer<ClassesTreeViewController>(
-      builder: (_, controller, __) {
-        return DefaultTextStyle(
-          style: Theme.of(context).textTheme.titleMedium!,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 72),
-            child: TreeView(
-              nodes: tree,
-              treeController: controller.treeController,
-              indent: MediaQuery.sizeOf(context).width < 600 ? 12 : 40,
-            ),
-          ),
-        );
-      },
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.titleMedium!,
+      child: ClassesTreeView(tree: tree),
     );
   }
 
-  List<TreeNode> buildTree() {
-    List<TreeNode>? traverse(int? id) {
+  List<TreeViewNode<Classe>> buildTree() {
+    final controller = context.read<ClassesTreeViewController>();
+
+    List<TreeViewNode<Classe>>? traverse(int? id) {
       return widget.classesStore.getSubclasses(id)?.map((Classe clazz) {
-        final children = traverse(clazz.id);
-        return TreeNode(
-          key: ValueKey(clazz.id),
-          children: children,
-          content: ClassesTreeViewNode(
-            clazz: clazz,
-            hasChildren: children?.isNotEmpty ?? false,
-          ),
+        return TreeViewNode<Classe>(
+          clazz,
+          children: traverse(clazz.id),
+          expanded: controller.isExpanded(clazz.id),
         );
       }).toList();
     }
 
-    return traverse(Classe.rootId) ?? <TreeNode>[];
+    return traverse(Classe.rootId) ?? <TreeViewNode<Classe>>[];
   }
 
-  void classesStoreListener() {
+  void rebuildTree() {
     if (mounted) {
       setState(() {
         tree = buildTree();
@@ -107,55 +93,142 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
   }
 }
 
-class ClassesTreeViewNode extends StatelessWidget {
-  const ClassesTreeViewNode({
-    super.key,
-    required this.clazz,
-    required this.hasChildren,
-  });
+class ClassesTreeView extends StatefulWidget {
+  const ClassesTreeView({super.key, required this.tree});
 
-  final Classe clazz;
-  final bool hasChildren;
+  final List<TreeViewNode<Classe>> tree;
+
+  static const Curve defaultAnimationCurve = Easing.standard;
+  static const Duration defaultAnimationDuration = Durations.medium2;
+
+  @override
+  State<ClassesTreeView> createState() => _ClassesTreeViewState();
+}
+
+class _ClassesTreeViewState extends State<ClassesTreeView> {
+  final Map<int, Map<Type, GestureRecognizerFactory>> _gestureRecognizers = {};
+  int? hoveredClassId;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final controller = context.read<ClassesTreeViewController>();
+
+    return TreeView(
+      tree: widget.tree,
+      controller: controller.treeController,
+      treeNodeBuilder: (_, TreeViewNode<Classe> node, __) {
+        return ClassesTreeViewNode(node: node);
+      },
+      treeRowBuilder: (TreeViewNode<Classe> node) {
+        return TreeRow(
+          extent: const FixedSpanExtent(40),
+          cursor: SystemMouseCursors.click,
+          onEnter: (_) => onCursorEnter(node.content.id),
+          onExit: (_) => onCursorExit(node.content.id),
+          recognizerFactories: gesturesOf(node.content.id),
+          backgroundDecoration: hoveredClassId == node.content.id
+              ? SpanDecoration(color: theme.hoverColor)
+              : null,
+        );
+      },
+      onNodeToggle: (TreeViewNode<Classe> node) {
+        controller.updateExpansionState(node.content.id, node.isExpanded);
+      },
+      indentation: TreeViewIndentationType.custom(20),
+      toggleAnimationStyle: AnimationStyle(
+        curve: ClassesTreeView.defaultAnimationCurve,
+        duration: ClassesTreeView.defaultAnimationDuration,
+      ),
+    );
+  }
+
+  Map<Type, GestureRecognizerFactory> gesturesOf(int? classId) {
+    if (classId == null) return const {};
+
+    return _gestureRecognizers[classId] ??= {
+      TapGestureRecognizer: TreeViewTapGestureRecognizer(classId),
+    };
+  }
+
+  void onCursorEnter(int? id) {
+    if (id == hoveredClassId) return;
+    setState(() {
+      hoveredClassId = id;
+    });
+  }
+
+  void onCursorExit(int? id) {
+    if (id == hoveredClassId) {
+      setState(() {
+        hoveredClassId = null;
+      });
+    }
+  }
+}
+
+class TreeViewTapGestureRecognizer
+    extends GestureRecognizerFactory<TapGestureRecognizer> {
+  const TreeViewTapGestureRecognizer(this.classId);
+
+  final int? classId;
+
+  @override
+  TapGestureRecognizer constructor() => TapGestureRecognizer();
+
+  @override
+  void initializer(TapGestureRecognizer instance) =>
+      instance..onTap = () => navigator.showClassEditor(classId: classId);
+}
+
+class ClassesTreeViewNode extends StatelessWidget {
+  const ClassesTreeViewNode({super.key, required this.node});
+
+  final TreeViewNode<Classe> node;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    return Expanded(
-      child: InkWell(
-        onTap: () => navigator.showClassEditor(classId: clazz.id),
-        borderRadius: const BorderRadius.horizontal(left: Radius.circular(6)),
-        child: Row(
-          children: <Widget>[
-            const SizedBox(width: 8),
-            Expanded(
-              child: ClassTitle(clazz: clazz),
-            ),
-            if (!hasChildren)
-              IconButton(
-                tooltip: l10n.deleteButtonText,
-                color: theme.colorScheme.error,
-                icon: const Icon(Icons.delete),
-                onPressed: () async {
-                  final delete = await navigator.showWarningDialog(
-                    title: l10n.areYouSureDialogTitle,
-                    confirmButtonText: l10n.deleteButtonText,
-                  );
-                  if ((delete ?? false) && context.mounted) {
-                    final repository = context.read<ClassesRepository>();
-                    await repository.delete(clazz);
-                  }
-                },
-              ),
-            IconButton(
-              icon: const Icon(Icons.add),
-              tooltip: l10n.newSubordinateClassButtonText,
-              onPressed: () => navigator.showClassEditor(parentId: clazz.id),
-            ),
-            const SizedBox(width: 8),
-          ],
+    return Row(
+      children: <Widget>[
+        IconButton(
+          icon: AnimatedRotation(
+            turns: node.isExpanded ? 0.25 : 0.0,
+            curve: ClassesTreeView.defaultAnimationCurve,
+            duration: ClassesTreeView.defaultAnimationDuration,
+            child: const Icon(Icons.arrow_right_rounded),
+          ),
+          onPressed: node.children.isEmpty
+              ? null
+              : () => TreeViewController.of(context).toggleNode(node),
         ),
-      ),
+        ClassTitle(clazz: node.content),
+        const SizedBox(width: 8),
+        if (node.children.isEmpty)
+          IconButton(
+            tooltip: l10n.deleteButtonText,
+            color: theme.colorScheme.error,
+            icon: const Icon(Icons.delete),
+            onPressed: () async {
+              final delete = await navigator.showWarningDialog(
+                title: l10n.areYouSureDialogTitle,
+                confirmButtonText: l10n.deleteButtonText,
+              );
+              if ((delete ?? false) && context.mounted) {
+                final repository = context.read<ClassesRepository>();
+                await repository.delete(node.content);
+              }
+            },
+          ),
+        IconButton(
+          icon: const Icon(Icons.add),
+          tooltip: l10n.newSubordinateClassButtonText,
+          onPressed: () => navigator.showClassEditor(
+            parentId: node.content.id,
+          ),
+        ),
+      ],
     );
   }
 }

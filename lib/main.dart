@@ -25,7 +25,7 @@ Future<void> main() async {
             repository: context.read<ClassesRepository>(),
           ),
         ),
-        ChangeNotifierProvider(create: (_) => ClassesTreeViewController()),
+        Provider(create: (_) => ClassesTreeViewController()),
         ChangeNotifierProvider(create: (_) => SettingsController(settingsBox)),
       ],
       child: const ElPCDApp(),

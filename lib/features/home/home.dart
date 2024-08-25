@@ -22,7 +22,7 @@ class HomeView extends StatelessWidget {
       ),
       floatingActionButton: const CreateClassFloatingActionButton(),
       drawer: const HomeDrawer(),
-      body: ClassesTreeView(
+      body: ClassesExplorer(
         classesStore: context.read<ClassesStore>(),
       ),
     );
