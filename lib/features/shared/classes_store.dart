@@ -7,7 +7,8 @@ import '../../entities/classe.dart';
 import '../../repositories/classes_repository.dart';
 
 class ClassesStore with ChangeNotifier {
-  ClassesStore({required ClassesRepository repository}) {
+  ClassesStore({required ClassesRepository repository})
+      : _repository = repository {
     _mapParentsToChildren(repository.getAllClasses());
     _subscription = repository
         .watchAllClasses()
@@ -18,6 +19,7 @@ class ClassesStore with ChangeNotifier {
         .listen(_onClassesChanged);
   }
 
+  final ClassesRepository _repository;
   StreamSubscription<Iterable<Classe>>? _subscription;
   late var _classesByParentId = <int, List<Classe>>{};
 
@@ -41,6 +43,10 @@ class ClassesStore with ChangeNotifier {
   }
 
   List<Classe>? getSubclasses(int? parentId) => _classesByParentId[parentId];
+
+  Future<void> delete(Classe clazz) async {
+    await _repository.delete(clazz);
+  }
 
   bool get isEmpty => _classesByParentId.isEmpty;
 
