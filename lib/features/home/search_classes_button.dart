@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
-import '../shared/class_title.dart';
+import '../../shared/class_title.dart';
 
 class SearchClassesButton extends StatelessWidget {
   const SearchClassesButton({super.key});

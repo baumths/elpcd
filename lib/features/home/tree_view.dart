@@ -6,9 +6,8 @@ import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 import '../../../app/navigator.dart' as navigator;
 import '../../../entities/classe.dart';
 import '../../../localization.dart';
-import '../../repositories/classes_repository.dart';
-import '../shared/class_title.dart';
-import '../shared/classes_store.dart';
+import '../../shared/class_title.dart';
+import '../../shared/classes_store.dart';
 
 class ClassesTreeViewController {
   final treeController = TreeViewController();

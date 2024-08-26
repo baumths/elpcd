@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
-import '../shared/classes_store.dart';
+import '../../shared/classes_store.dart';
 import '../temporality_table/temporality_table.dart';
 import 'drawer.dart';
 import 'search_classes_button.dart';

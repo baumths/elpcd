@@ -6,8 +6,8 @@ import 'app/app.dart';
 import 'entities/classe.dart';
 import 'features/home/tree_view.dart';
 import 'features/settings/settings_controller.dart';
-import 'features/shared/classes_store.dart';
 import 'repositories/classes_repository.dart';
+import 'shared/classes_store.dart';
 
 Future<void> main() async {
   await Hive.initFlutter('.elpcd_database');

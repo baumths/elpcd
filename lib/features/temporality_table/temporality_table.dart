@@ -5,9 +5,9 @@ import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 import '../../app/navigator.dart' as navigator;
 import '../../entities/classe.dart';
 import '../../localization.dart';
+import '../../shared/class_title.dart';
+import '../../shared/classes_store.dart';
 import '../class_editor/earq_brasil_metadata.dart';
-import '../shared/class_title.dart';
-import '../shared/classes_store.dart';
 
 extension type TemporalityTableItem(Classe clazz) {
   String _valueOf(EarqBrasilMetadata entry) => clazz.metadata[entry.key] ?? '';

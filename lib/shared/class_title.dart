@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../entities/classe.dart';
-import '../../localization.dart';
+import '../entities/classe.dart';
+import '../localization.dart';
 
 class ClassTitle extends StatelessWidget {
   const ClassTitle({super.key, required this.clazz});
