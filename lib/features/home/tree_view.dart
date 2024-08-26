@@ -191,8 +191,6 @@ class ClassesTreeViewNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     return Row(
       children: <Widget>[
         IconButton(
@@ -206,32 +204,106 @@ class ClassesTreeViewNode extends StatelessWidget {
               ? null
               : () => TreeViewController.of(context).toggleNode(node),
         ),
-        ClassTitle(clazz: node.content),
-        const SizedBox(width: 8),
-        if (node.children.isEmpty)
-          IconButton(
-            tooltip: l10n.deleteButtonText,
-            color: theme.colorScheme.error,
-            icon: const Icon(Icons.delete),
-            onPressed: () async {
-              final delete = await navigator.showWarningDialog(
-                title: l10n.areYouSureDialogTitle,
-                confirmButtonText: l10n.deleteButtonText,
-              );
-              if ((delete ?? false) && context.mounted) {
-                final repository = context.read<ClassesRepository>();
-                await repository.delete(node.content);
-              }
-            },
-          ),
-        IconButton(
-          icon: const Icon(Icons.add),
-          tooltip: l10n.newSubordinateClassButtonText,
-          onPressed: () => navigator.showClassEditor(
-            parentId: node.content.id,
-          ),
+        ClassActionsMenuButton(
+          clazz: node.content,
+          canDelete: node.children.isEmpty,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: ClassTitle(clazz: node.content),
         ),
       ],
     );
+  }
+}
+
+class ClassActionsMenuButton extends StatelessWidget {
+  const ClassActionsMenuButton({
+    super.key,
+    required this.clazz,
+    required this.canDelete,
+  });
+
+  final Classe clazz;
+  final bool canDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final store = context.read<ClassesStore>();
+
+    if (MediaQuery.sizeOf(context).width >= 600) {
+      return MenuAnchor(
+        builder: (BuildContext context, MenuController menu, _) {
+          return IconButton(
+            icon: const Icon(Icons.more_vert),
+            tooltip: l10n.classActionsButtonText,
+            onPressed: () => menu.isOpen ? menu.close() : menu.open(),
+          );
+        },
+        menuChildren: <Widget>[
+          MenuItemButton(
+            onPressed: onAddSubordinateClassPressed,
+            leadingIcon: const Icon(Icons.add),
+            child: Text(l10n.newSubordinateClassButtonText),
+          ),
+          MenuItemButton(
+            onPressed: canDelete ? () => onDeletePressed(l10n, store) : null,
+            leadingIcon: const Icon(Icons.delete),
+            child: Text(l10n.deleteButtonText),
+          ),
+        ],
+      );
+    }
+
+    return IconButton(
+      icon: const Icon(Icons.more_vert),
+      tooltip: l10n.classActionsButtonText,
+      onPressed: () {
+        showModalBottomSheet<void>(
+          context: context,
+          showDragHandle: true,
+          builder: (BuildContext context) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                MenuItemButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    onAddSubordinateClassPressed();
+                  },
+                  leadingIcon: const Icon(Icons.add),
+                  child: Text(l10n.newSubordinateClassButtonText),
+                ),
+                MenuItemButton(
+                  onPressed: canDelete
+                      ? () {
+                          Navigator.pop(context);
+                          onDeletePressed(l10n, store);
+                        }
+                      : null,
+                  leadingIcon: const Icon(Icons.delete),
+                  child: Text(l10n.deleteButtonText),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void onAddSubordinateClassPressed() {
+    navigator.showClassEditor(parentId: clazz.id);
+  }
+
+  void onDeletePressed(AppLocalizations l10n, ClassesStore store) async {
+    final bool? delete = await navigator.showWarningDialog(
+      title: l10n.areYouSureDialogTitle,
+      confirmButtonText: l10n.deleteButtonText,
+    );
+    if (delete ?? false) {
+      await store.delete(clazz);
+    }
   }
 }
