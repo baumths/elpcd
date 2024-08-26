@@ -118,7 +118,10 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
       tree: widget.tree,
       controller: controller.treeController,
       treeNodeBuilder: (_, TreeViewNode<Classe> node, __) {
-        return ClassesTreeViewNode(node: node);
+        return ClassesTreeViewNode(
+          key: ValueKey(node.content.id ?? Object()),
+          node: node,
+        );
       },
       treeRowBuilder: (TreeViewNode<Classe> node) {
         return TreeRow(
