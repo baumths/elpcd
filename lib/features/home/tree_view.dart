@@ -67,6 +67,14 @@ class _ClassesExplorerState extends State<ClassesExplorer> {
     );
   }
 
+  void rebuildTree() {
+    if (mounted) {
+      setState(() {
+        tree = buildTree();
+      });
+    }
+  }
+
   List<TreeViewNode<Classe>> buildTree() {
     final controller = context.read<ClassesTreeViewController>();
 
@@ -81,14 +89,6 @@ class _ClassesExplorerState extends State<ClassesExplorer> {
     }
 
     return traverse(Classe.rootId) ?? <TreeViewNode<Classe>>[];
-  }
-
-  void rebuildTree() {
-    if (mounted) {
-      setState(() {
-        tree = buildTree();
-      });
-    }
   }
 }
 
