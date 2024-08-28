@@ -8,7 +8,6 @@
   "backupSuccessfullyExportedSnackbarText": "El archivo exportado podrá ser importado por ElPCD",
   "backupSuccessfullyImportedSnackbarText": "Backup importado con éxito",
   "cancelButtonText": "Cancelar",
-  "classActionsButtonText": "Acciones de la Clase",
   "collapseAllClassesButtonText": "Encerrar Clases",
   "confirmImportDialogContent": "Los datos existentes se perderán.",
   "csvDownloadButtonText": "Download CSV",

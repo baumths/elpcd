@@ -236,7 +236,6 @@ class ClassActionsMenuButton extends StatelessWidget {
         builder: (BuildContext context, MenuController menu, _) {
           return IconButton(
             icon: const Icon(Icons.more_vert),
-            tooltip: l10n.classActionsButtonText,
             onPressed: () => menu.isOpen ? menu.close() : menu.open(),
           );
         },
@@ -257,7 +256,6 @@ class ClassActionsMenuButton extends StatelessWidget {
 
     return IconButton(
       icon: const Icon(Icons.more_vert),
-      tooltip: l10n.classActionsButtonText,
       onPressed: () {
         showModalBottomSheet<void>(
           context: context,

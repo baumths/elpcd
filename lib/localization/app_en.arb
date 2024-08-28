@@ -8,7 +8,6 @@
   "backupSuccessfullyExportedSnackbarText": "The exported file can be imported by ElPCD",
   "backupSuccessfullyImportedSnackbarText": "Backup imported successfully",
   "cancelButtonText": "Cancel",
-  "classActionsButtonText": "Class Actions",
   "collapseAllClassesButtonText": "Collapse Classes",
   "confirmImportDialogContent": "Existing data will be lost.",
   "csvDownloadButtonText": "CSV Download",
