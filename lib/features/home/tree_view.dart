@@ -85,10 +85,16 @@ class _ClassesExplorerState extends State<ClassesExplorer> {
           children: traverse(clazz.id),
           expanded: controller.isExpanded(clazz.id),
         );
-      }).toList();
+      }).toList()
+        ?..sort(compareNodes);
     }
 
     return traverse(Classe.rootId) ?? <TreeViewNode<Classe>>[];
+  }
+
+  int compareNodes(TreeViewNode<Classe> a, TreeViewNode<Classe> b) {
+    return (a.content.code + a.content.name)
+        .compareTo(b.content.code + b.content.name);
   }
 }
 
