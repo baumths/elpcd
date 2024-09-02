@@ -25,6 +25,15 @@ dependencies:
   url_launcher: ^6.3.0
   vector_graphics: ^1.1.11+1
 
+dependency_overrides:
+  # Remove once https://github.com/flutter/packages/pull/7474 is merged and a
+  # new version of two_dimensional_scrollables is released.
+  two_dimensional_scrollables:
+    git:
+      url: git@github.com:Mairramer/packages.git
+      ref: fix/treesliver-collapsing-not-working
+      path: packages/two_dimensional_scrollables
+
 dev_dependencies:
   flutter_lints: ^4.0.0
   flutter_test:
