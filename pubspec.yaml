@@ -30,7 +30,7 @@ dependency_overrides:
   # new version of two_dimensional_scrollables is released.
   two_dimensional_scrollables:
     git:
-      url: git@github.com:Mairramer/packages.git
+      url: https://github.com/Mairramer/packages.git
       ref: fix/treesliver-collapsing-not-working
       path: packages/two_dimensional_scrollables
 
