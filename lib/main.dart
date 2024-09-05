@@ -1,5 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
 import 'app/app.dart';
@@ -10,7 +13,12 @@ import 'repositories/classes_repository.dart';
 import 'shared/classes_store.dart';
 
 Future<void> main() async {
-  await Hive.initFlutter('.elpcd_database');
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (!kIsWeb) {
+    Hive.init('.elpcd_database');
+  }
+
   Hive.registerAdapter<Classe>(ClasseAdapter());
 
   final classesBox = await Hive.openBox<Classe>('classes');
