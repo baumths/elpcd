@@ -34,7 +34,7 @@ class Header extends StatelessWidget {
   const Header({super.key});
 
   static const sourceCodeUrl = 'https://github.com/baumths/elpcd';
-  static const blogUrl = 'https://documentosdigitais.blogspot.com';
+  static const blogUrl = 'https://documentosarquivisticosdigitais.blogspot.com';
 
   static Future<void> launch(String url) async {
     if (await canLaunchUrlString(url)) {
