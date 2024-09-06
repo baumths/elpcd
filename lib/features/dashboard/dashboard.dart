@@ -9,19 +9,19 @@ import '../explorer/search_classes_button.dart';
 import '../temporality_table/temporality_table.dart';
 import 'drawer.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class Dashboard extends StatelessWidget {
+  const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).appTitle),
-        leading: const OpenSettingsMenuButton(),
-        actions: const [HomeActionButtons(), SizedBox(width: 8)],
+        leading: const OpenDashboardDrawerButton(),
+        actions: const [DashboardActionButtons(), SizedBox(width: 8)],
       ),
       floatingActionButton: const CreateClassFloatingActionButton(),
-      drawer: const HomeDrawer(),
+      drawer: const DashboardDrawer(),
       body: ClassesExplorer(
         classesStore: context.read<ClassesStore>(),
       ),
@@ -29,8 +29,8 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class OpenSettingsMenuButton extends StatelessWidget {
-  const OpenSettingsMenuButton({super.key});
+class OpenDashboardDrawerButton extends StatelessWidget {
+  const OpenDashboardDrawerButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +57,8 @@ class CreateClassFloatingActionButton extends StatelessWidget {
   }
 }
 
-class HomeActionButtons extends StatelessWidget {
-  const HomeActionButtons({super.key});
+class DashboardActionButtons extends StatelessWidget {
+  const DashboardActionButtons({super.key});
 
   @override
   Widget build(BuildContext context) {

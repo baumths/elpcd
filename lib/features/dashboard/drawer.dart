@@ -8,8 +8,8 @@ import '../crosswalk/csv_export_list_tile.dart';
 import '../settings/dark_mode.dart';
 import '../settings/institution_code.dart';
 
-class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({super.key});
+class DashboardDrawer extends StatelessWidget {
+  const DashboardDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
