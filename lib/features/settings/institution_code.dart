@@ -10,24 +10,22 @@ class InstitutionCodeListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final code = context.select<SettingsController, String>(
       (controller) => controller.institutionCode,
     );
     return ListTile(
-      title: Text(AppLocalizations.of(context).editInstitutionCodeButtonText),
-      trailing: Badge(
-        largeSize: 32,
-        textColor: theme.colorScheme.onPrimary,
-        backgroundColor: theme.colorScheme.primary,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        label: Text(
-          code.length > 9 ? '${code.substring(0, 10)}...' : code,
-        ),
+      title: Text(AppLocalizations.of(context).institutionCodeTitle),
+      subtitle: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Text(code),
       ),
+      trailing: const Icon(Icons.edit),
       onTap: () => navigator.showInstitutionCodeEditor(
         context.read<SettingsController>(),
+      ),
+      subtitleTextStyle: TextStyle(
+        color: Theme.of(context).colorScheme.primary,
+        fontWeight: FontWeight.bold,
       ),
     );
   }

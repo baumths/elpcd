@@ -19,6 +19,7 @@ class DashboardDrawer extends StatelessWidget {
           Header(),
           Divider(),
           InstitutionCodeListTile(),
+          Divider(),
           DarkModeSwitchListTile(),
           Divider(),
           CsvExportListTile(),
