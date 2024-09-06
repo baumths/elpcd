@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 import '../../../app/navigator.dart' as navigator;
 import '../../../entities/classe.dart';
@@ -37,15 +38,7 @@ class _ClassesExplorerState extends State<ClassesExplorer> {
 
   @override
   Widget build(BuildContext context) {
-    if (tree.isEmpty) {
-      return Center(
-        child: Text(
-          AppLocalizations.of(context).emptyClassesExplorerBodyText,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headlineLarge,
-        ),
-      );
-    }
+    if (tree.isEmpty) return const EmptyExplorer();
 
     return DefaultTextStyle(
       style: Theme.of(context).textTheme.titleMedium!,
@@ -81,6 +74,39 @@ class _ClassesExplorerState extends State<ClassesExplorer> {
   int compareNodes(TreeViewNode<Classe> a, TreeViewNode<Classe> b) {
     return (a.content.code + a.content.name)
         .compareTo(b.content.code + b.content.name);
+  }
+}
+
+class EmptyExplorer extends StatelessWidget {
+  const EmptyExplorer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            VectorGraphic(
+              width: 128,
+              loader: const AssetBytesLoader('assets/create-new-folder.svg'),
+              colorFilter: ColorFilter.mode(
+                theme.colorScheme.onSurface,
+                BlendMode.srcIn,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              AppLocalizations.of(context).emptyClassesExplorerBodyText,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.headlineMedium,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
