@@ -19,6 +19,7 @@ class Dashboard extends StatelessWidget {
         title: Text(AppLocalizations.of(context).appTitle),
         leading: const OpenDashboardDrawerButton(),
         actions: const [DashboardActionButtons(), SizedBox(width: 8)],
+        titleSpacing: 0,
       ),
       floatingActionButton: const CreateClassFloatingActionButton(),
       drawer: const DashboardDrawer(),
