@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
 import '../../shared/classes_store.dart';
+import '../explorer/explorer.dart';
+import '../explorer/search_classes_button.dart';
 import '../temporality_table/temporality_table.dart';
 import 'drawer.dart';
-import 'search_classes_button.dart';
-import 'tree_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});

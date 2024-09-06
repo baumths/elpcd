@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'app/app.dart';
 import 'entities/classe.dart';
-import 'features/home/tree_view.dart';
+import 'features/explorer/explorer.dart';
 import 'features/settings/settings_controller.dart';
 import 'repositories/classes_repository.dart';
 import 'shared/classes_store.dart';

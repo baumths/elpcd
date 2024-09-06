@@ -9,20 +9,6 @@ import '../../../localization.dart';
 import '../../shared/class_title.dart';
 import '../../shared/classes_store.dart';
 
-class ClassesTreeViewController {
-  final treeController = TreeViewController();
-
-  final Map<int, bool> _expansionStates = <int, bool>{};
-
-  bool isExpanded(int? id) => _expansionStates[id] ?? false;
-
-  @protected
-  void updateExpansionState(int? id, bool state) {
-    if (id == null) return;
-    _expansionStates[id] = state;
-  }
-}
-
 class ClassesExplorer extends StatefulWidget {
   const ClassesExplorer({super.key, required this.classesStore});
 
@@ -95,6 +81,20 @@ class _ClassesExplorerState extends State<ClassesExplorer> {
   int compareNodes(TreeViewNode<Classe> a, TreeViewNode<Classe> b) {
     return (a.content.code + a.content.name)
         .compareTo(b.content.code + b.content.name);
+  }
+}
+
+class ClassesTreeViewController {
+  final treeController = TreeViewController();
+
+  final Map<int, bool> _expansionStates = <int, bool>{};
+
+  bool isExpanded(int? id) => _expansionStates[id] ?? false;
+
+  @protected
+  void updateExpansionState(int? id, bool state) {
+    if (id == null) return;
+    _expansionStates[id] = state;
   }
 }
 
