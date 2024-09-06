@@ -161,14 +161,15 @@ class HierarchySection extends StatelessWidget {
                   final code = context.select<SettingsController, String>(
                     (controller) => controller.institutionCode,
                   );
-                  final value = editor.valueOf(EarqBrasilMetadata.subordinacao);
+                  var value = editor.valueOf(EarqBrasilMetadata.subordinacao);
+                  value = value?.isEmpty ?? true ? code : '$code-$value';
 
                   // TODO: add parent selector dialog
 
                   return EarqBrasilFormField(
                     label: l10n.earqBrasilSubordinacaoLabel,
                     helperText: l10n.earqBrasilSubordinacaoDefinition,
-                    initialValue: value == null ? code : '$code-$value',
+                    initialValue: value,
                     readOnly: true,
                   );
                 },
