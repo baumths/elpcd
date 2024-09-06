@@ -48,11 +48,11 @@ class CreateClassFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.extended(
+      onPressed: () => navigator.showClassEditor(),
+      icon: const Icon(Icons.add),
       label: Text(
         AppLocalizations.of(context).newClassButtonText.toUpperCase(),
       ),
-      icon: const Icon(Icons.post_add),
-      onPressed: () => navigator.showClassEditor(),
     );
   }
 }
