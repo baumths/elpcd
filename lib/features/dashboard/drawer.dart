@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vector_graphics/vector_graphics_compat.dart';
 
 import '../../../localization.dart';
@@ -33,12 +33,12 @@ class DashboardDrawer extends StatelessWidget {
 class Header extends StatelessWidget {
   const Header({super.key});
 
-  static final sourceCodeUrl = Uri.parse('https://github.com/baumths/elpcd');
-  static final blogUrl = Uri.parse('https://documentosdigitais.blogspot.com');
+  static const sourceCodeUrl = 'https://github.com/baumths/elpcd';
+  static const blogUrl = 'https://documentosdigitais.blogspot.com';
 
-  static Future<void> launch(Uri url) async {
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
+  static Future<void> launch(String url) async {
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     }
   }
 
