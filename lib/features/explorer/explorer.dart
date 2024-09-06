@@ -89,12 +89,15 @@ class EmptyExplorer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            VectorGraphic(
-              width: 128,
-              loader: const AssetBytesLoader('assets/create-new-folder.svg'),
-              colorFilter: ColorFilter.mode(
-                theme.colorScheme.onSurface,
-                BlendMode.srcIn,
+            SizedBox.square(
+              dimension: 128,
+              child: VectorGraphic(
+                width: 128,
+                loader: const AssetBytesLoader('assets/create-new-folder.svg'),
+                colorFilter: ColorFilter.mode(
+                  theme.colorScheme.onSurface,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
             const SizedBox(height: 24),
