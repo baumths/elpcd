@@ -54,12 +54,12 @@ final Set<String> _scopeAndContentKeys = <String>{
 class AtomIsadCsvBuilder {
   const AtomIsadCsvBuilder({
     required this.institutionCode,
-    required this.fondsArchivistNode,
+    required this.fondsArchivistNote,
     required this.metadataLabels,
   });
 
   final String institutionCode;
-  final String fondsArchivistNode;
+  final String fondsArchivistNote;
   final Map<String, String> metadataLabels;
 
   /// Converts the result of [buildTable] to a CSV string.
@@ -103,7 +103,7 @@ class AtomIsadCsvBuilder {
       scopeAndContent: '',
       arrangement: '',
       appraisal: '',
-      archivistNote: fondsArchivistNode,
+      archivistNote: fondsArchivistNote,
     );
   }
 

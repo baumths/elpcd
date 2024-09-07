@@ -46,7 +46,7 @@ class _CsvExportListTileState extends State<CsvExportListTile> {
 
     final csv = AtomIsadCsvBuilder(
       institutionCode: context.read<SettingsController>().institutionCode,
-      fondsArchivistNode: l10n.csvExportFondsArchivistNote,
+      fondsArchivistNote: l10n.csvExportFondsArchivistNote,
       metadataLabels: EarqBrasilMetadata.createKeyToLabelMap(l10n),
     ).buildCsv(
       context.read<ClassesRepository>().getAllClasses(),
