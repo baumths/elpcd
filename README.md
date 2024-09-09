@@ -11,7 +11,7 @@ Transparência Ativa de Documentos e Informações)
 
 ## METADADOS
 
-### 3.1 Descrição de classe:
+### 3.1 Descrição da classe:
 - 3.1.1 Nome da Classe
 - 3.1.2 Código da Classe
 - 3.1.3 Subordinação da Classe
