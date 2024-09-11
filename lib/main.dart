@@ -19,7 +19,9 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        Provider(lazy: false, create: (_) => ClassesRepository(classesBox)),
+        Provider<ClassesRepository>.value(
+          value: HiveClassesRepository(classesBox),
+        ),
         ChangeNotifierProvider(
           create: (context) => ClassesStore(
             repository: context.read<ClassesRepository>(),
