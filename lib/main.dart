@@ -18,7 +18,9 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        Provider.value(value: SqliteClassesRepository(sqliteDatabase)),
+        Provider<ClassesRepository>.value(
+          value: SqliteClassesRepository(sqliteDatabase),
+        ),
         ChangeNotifierProvider(
           create: (context) => ClassesStore(
             repository: context.read<ClassesRepository>(),
