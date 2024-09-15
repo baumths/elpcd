@@ -252,6 +252,7 @@ class TemporalitySection extends StatelessWidget {
             label: l10n.earqBrasilObservacoesLabel,
             helperText: l10n.earqBrasilObservacoesDefinition,
             initialValue: editor.valueOf(EarqBrasilMetadata.observacoes),
+            maxLines: null,
             onChanged: (value) =>
                 editor.updateValueOf(EarqBrasilMetadata.observacoes, value),
           ),
@@ -267,6 +268,7 @@ class EarqBrasilFormField extends StatefulWidget {
     required this.label,
     this.helperText = '',
     this.readOnly = false,
+    this.maxLines = 1,
     this.initialValue,
     this.onChanged,
   });
@@ -274,6 +276,7 @@ class EarqBrasilFormField extends StatefulWidget {
   final String label;
   final String helperText;
   final bool readOnly;
+  final int? maxLines;
   final String? initialValue;
   final ValueChanged<String>? onChanged;
 
@@ -299,6 +302,7 @@ class _EarqBrasilFormFieldState extends State<EarqBrasilFormField> {
         initialValue: widget.initialValue,
         onChanged: widget.onChanged,
         readOnly: widget.readOnly,
+        maxLines: widget.maxLines,
         decoration: InputDecoration(
           labelText: widget.label,
           helper: showHelperText ? Text(widget.helperText) : null,
