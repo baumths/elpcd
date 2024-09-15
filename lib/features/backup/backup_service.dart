@@ -10,19 +10,17 @@ abstract class BackupService {
     required SettingsController settingsController,
   }) {
     return jsonEncode({
-      'settings': {
+      if (settingsController.institutionCode != defaultInstitutionCode)
         'institutionCode': settingsController.institutionCode,
-        'darkMode': settingsController.darkMode,
-      },
       'classes': <Map<String, Object?>>[
         for (final clazz in classesRepository.getAllClasses())
           if (clazz.id != null)
             <String, Object?>{
               'id': clazz.id,
-              'parentId': clazz.parentId,
+              if (clazz.parentId != Classe.rootId) 'parentId': clazz.parentId,
               'code': clazz.code,
               'name': clazz.name,
-              'metadata': clazz.metadata,
+              if (clazz.metadata.isNotEmpty) 'metadata': clazz.metadata,
             }
       ],
     });
@@ -38,60 +36,36 @@ abstract class BackupService {
       throw const BackupException();
     }
 
-    if (object['classes'] case final List<Object?> classesMaps?) {
-      final classesById = <int, Classe>{
-        for (final classMap in classesMaps)
-          if (_classFromJson(classMap) case final Classe classe)
-            classe.id!: classe,
-      };
+    if (object['classes'] case final List<Object?> maps?) {
+      try {
+        final classesById = <int, Classe>{};
 
-      await classesRepository.clear();
-      await classesRepository.insertAll(classesById);
+        for (final Object? map in maps) {
+          final clazz = _classFromMap(map as Map);
+          classesById[clazz.id!] = clazz;
+        }
+
+        await classesRepository.clear();
+        await classesRepository.insertAll(classesById);
+      } on TypeError {
+        throw const BackupException();
+      }
     } else {
       throw const BackupException();
     }
 
-    if (object['settings'] case final Map<Object?, Object?> settings?) {
-      if (settings['darkMode'] case bool darkMode?) {
-        settingsController.updateDarkMode(darkMode);
-      }
-
-      if (settings['institutionCode'] case String institutionCode?) {
-        settingsController.updateInstitutionCode(institutionCode);
-      }
+    if (object['institutionCode'] case String institutionCode?) {
+      settingsController.updateInstitutionCode(institutionCode);
     }
   }
 
-  static Classe _classFromJson(Object? value) {
-    if (value
-        case {
-          'id': int(),
-          'parentId': int(),
-          'name': String(),
-          'code': String(),
-        }) {
-      return Classe(
-        parentId: value['parentId'] as int,
-        name: value['name'] as String,
-        code: value['code'] as String,
-        metadata: _metadataFromJson(value['metadata']),
-      )..id = value['id'] as int;
-    }
-    throw const BackupException();
-  }
-
-  static Map<String, String> _metadataFromJson(Object? value) {
-    if (value is Map?) {
-      if (value == null) {
-        return <String, String>{};
-      }
-      try {
-        return Map<String, String>.from(value);
-      } on TypeError {
-        throw const BackupException();
-      }
-    }
-    throw const BackupException();
+  static Classe _classFromMap(Map<Object?, Object?> map) {
+    return Classe(
+      parentId: map['parentId'] as int? ?? Classe.rootId,
+      code: map['code'] as String? ?? '',
+      name: map['name'] as String? ?? '',
+      metadata: Map<String, String>.from(map['metadata'] as Map? ?? {}),
+    )..id = map['id'] as int;
   }
 }
 
