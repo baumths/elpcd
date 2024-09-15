@@ -35,7 +35,7 @@ class ClassesRepository {
 
   Future<void> insertAll(Map<int, Classe> classes) => _box.putAll(classes);
 
-  Future<void> upsert(Classe classe) async {
+  Future<void> save(Classe classe) async {
     final isUpdating = _box.containsKey(classe.id);
     if (!isUpdating) {
       final id = await _box.add(classe);

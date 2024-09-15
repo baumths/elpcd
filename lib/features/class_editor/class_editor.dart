@@ -59,7 +59,7 @@ class ClassEditor {
     clazz ??= Classe.fromParent(parentId);
     applyMetadata(clazz);
 
-    _repository.upsert(clazz);
+    _repository.save(clazz);
     return clazz;
   }
 

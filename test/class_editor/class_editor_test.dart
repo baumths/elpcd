@@ -152,7 +152,7 @@ void main() {
           .thenReturn(parentCode);
 
       registerFallbackValue(clazz);
-      when(() => repository.upsert(any())).thenAnswer((_) async {});
+      when(() => repository.save(any())).thenAnswer((_) async {});
     });
 
     test('creates new class when editingClassId is null', () {
@@ -188,14 +188,14 @@ void main() {
     test('inserts new class into repository', () {
       subject.save();
       verifyNever(() => repository.getClassById(any()));
-      verify(() => repository.upsert(any())).called(1);
+      verify(() => repository.save(any())).called(1);
     });
 
     test('updates existing class into repository', () {
       subject.edit(clazz.id!);
       subject.save();
       verify(() => repository.getClassById(clazz.id!)).called(2);
-      verify(() => repository.upsert(clazz)).called(1);
+      verify(() => repository.save(clazz)).called(1);
     });
   });
 
