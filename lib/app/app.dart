@@ -12,12 +12,18 @@ class ElPCDApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final darkMode = context.select<SettingsController, bool>(
+    final darkMode = context.select<SettingsController, bool?>(
       (controller) => controller.darkMode,
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.themeData(darkMode: darkMode),
+      theme: createAppThemeWithBrightness(Brightness.light),
+      darkTheme: createAppThemeWithBrightness(Brightness.dark),
+      themeMode: switch (darkMode) {
+        true => ThemeMode.dark,
+        false => ThemeMode.light,
+        null => ThemeMode.system,
+      },
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,

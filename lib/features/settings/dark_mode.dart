@@ -9,15 +9,20 @@ class DarkModeSwitchListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final darkMode = context.select<SettingsController, bool>(
+    final darkMode = context.select<SettingsController, bool?>(
       (controller) => controller.darkMode,
     );
-    return SwitchListTile(
-      title: Text(AppLocalizations.of(context).darkModeButtonText),
-      value: darkMode,
-      onChanged: (bool value) {
-        context.read<SettingsController>().updateDarkMode(value);
-      },
+
+    final (icon, nextValue) = switch (darkMode) {
+      null => (Icons.settings_brightness, true),
+      true => (Icons.dark_mode_outlined, false),
+      false => (Icons.light_mode_outlined, null),
+    };
+
+    return ListTile(
+      title: Text(AppLocalizations.of(context).themeModeButtonText),
+      trailing: Icon(icon),
+      onTap: () => context.read<SettingsController>().updateDarkMode(nextValue),
     );
   }
 }

@@ -12,7 +12,6 @@
   "confirmImportDialogContent": "Existing data will be lost.",
   "csvDownloadButtonText": "CSV Download",
   "csvExportFondsArchivistNote": "This Classification Scheme was created using the [ElPCD](https://elpcd.github.io) software.",
-  "darkModeButtonText": "Dark Mode",
   "deleteButtonText": "Delete",
   "earqBrasilAberturaDefinition": "Registers the opening of a class. Register informations such as: date/time and responsible. (e-ARQ Brasil 3.1.4)",
   "earqBrasilAberturaLabel": "Opening Registry",
@@ -69,6 +68,7 @@
   "temporalityTableHeaderNotes": "Notes",
   "temporalityTableHeaderRententionPeriod": "Retention Period",
   "temporalityTableTitle": "Retention And Disposal Table",
+  "themeModeButtonText": "Theme",
   "unableToSaveClassSnackbarText": "Unable to save the Class",
   "unnamedClass": "Unnamed Class",
   "wipFeatureTooltip": "This feature is a work in progress"

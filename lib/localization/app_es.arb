@@ -12,7 +12,6 @@
   "confirmImportDialogContent": "Los datos existentes se perderán.",
   "csvDownloadButtonText": "Download CSV",
   "csvExportFondsArchivistNote": "Este Quadro de Clasificación Documental fue creado en el software [ElPCD](https://elpcd.github.io).",
-  "darkModeButtonText": "Modo Oscuro",
   "deleteButtonText": "Borrar",
   "earqBrasilAberturaDefinition": "Registra a abertura de uma classe. Registrar informações tais como: data/hora e responsável. (e-ARQ Brasil 3.1.4)",
   "earqBrasilAberturaLabel": "Registro de Abertura",
@@ -69,6 +68,7 @@
   "temporalityTableHeaderNotes": "Observações",
   "temporalityTableHeaderRententionPeriod": "Prazo de Guarda",
   "temporalityTableTitle": "Tabela de Temporalidade",
+  "themeModeButtonText": "Tema",
   "unableToSaveClassSnackbarText": "No fue posible guardar la Clase",
   "unnamedClass": "Clase sin nombre",
   "wipFeatureTooltip": "Funcionalidad en desarollo"
