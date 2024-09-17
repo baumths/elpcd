@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart' show visibleForTesting;
+import 'package:flutter/foundation.dart' show ChangeNotifier, visibleForTesting;
 
 import '../../entities/classe.dart';
 import '../../repositories/classes_repository.dart';
 import 'earq_brasil_metadata.dart';
 
-class ClassEditor {
+class ClassEditor with ChangeNotifier {
   ClassEditor({
     required ClassesRepository repository,
     int? parentId,
@@ -47,6 +47,7 @@ class ClassEditor {
 
   void updateValueOf(EarqBrasilMetadata entry, String value) {
     metadata[entry.key] = value;
+    notifyListeners();
   }
 
   Classe save() {

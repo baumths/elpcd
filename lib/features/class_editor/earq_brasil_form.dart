@@ -16,25 +16,23 @@ class EarqBrasilForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: constraints.maxWidth >= 700
-              ? const Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(child: DescriptionSection()),
-                    _formFieldsGap,
-                    Expanded(child: TemporalitySection()),
-                  ],
-                )
-              : const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DescriptionSection(),
-                    _formFieldsGap,
-                    TemporalitySection(),
-                  ],
-                ),
+        if (constraints.maxWidth >= 700) {
+          return const Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: DescriptionSection()),
+              _formFieldsGap,
+              Expanded(child: TemporalitySection()),
+            ],
+          );
+        }
+        return const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DescriptionSection(),
+            _formFieldsGap,
+            TemporalitySection(),
+          ],
         );
       },
     );
