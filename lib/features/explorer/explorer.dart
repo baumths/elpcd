@@ -125,6 +125,11 @@ class ClassesTreeViewController {
     if (id == null) return;
     _expansionStates[id] = state;
   }
+
+  void ensureExpanded(int? id) {
+    if (id == null) return;
+    _expansionStates[id] = true;
+  }
 }
 
 class ClassesTreeView extends StatefulWidget {
@@ -276,7 +281,10 @@ class ClassActionsMenuButton extends StatelessWidget {
         },
         menuChildren: <Widget>[
           MenuItemButton(
-            onPressed: onAddSubordinateClassPressed,
+            onPressed: () {
+              ensureExpanded(context);
+              onAddSubordinateClassPressed();
+            },
             leadingIcon: const Icon(Icons.add),
             child: Text(l10n.newSubordinateClassButtonText),
           ),
@@ -301,6 +309,7 @@ class ClassActionsMenuButton extends StatelessWidget {
               children: [
                 MenuItemButton(
                   onPressed: () {
+                    ensureExpanded(context);
                     Navigator.pop(context);
                     onAddSubordinateClassPressed();
                   },
@@ -323,6 +332,10 @@ class ClassActionsMenuButton extends StatelessWidget {
         );
       },
     );
+  }
+
+  void ensureExpanded(BuildContext context) {
+    context.read<ClassesTreeViewController>().ensureExpanded(clazz.id);
   }
 
   void onAddSubordinateClassPressed() {
