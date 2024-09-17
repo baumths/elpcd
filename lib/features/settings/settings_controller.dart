@@ -5,11 +5,13 @@ const defaultInstitutionCode = 'ElPCD';
 
 class SettingsController with ChangeNotifier {
   SettingsController(this._box) {
-    _institutionCode = _box.get('codearq') as String? ?? defaultInstitutionCode;
-    _darkMode = _box.get('darkMode') as bool?;
+    _institutionCode = _get<String?>('codearq') ?? defaultInstitutionCode;
+    _darkMode = _get<bool?>('darkMode');
   }
 
   final Box<Object> _box;
+
+  T _get<T>(String key) => _box.get(key) as T;
 
   String get institutionCode => _institutionCode;
   String _institutionCode = defaultInstitutionCode;
