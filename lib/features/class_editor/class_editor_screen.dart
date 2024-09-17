@@ -6,6 +6,7 @@ import '../../app/navigator.dart' as navigator;
 import '../../localization.dart';
 import '../../repositories/classes_repository.dart';
 import '../../shared/snackbars.dart';
+import '../settings/settings_controller.dart';
 import 'breadcrumbs.dart';
 import 'class_editor.dart';
 import 'earq_brasil_form.dart';
@@ -38,21 +39,24 @@ class _ClassEditorScreenState extends State<ClassEditorScreen> {
 
     return ChangeNotifierProvider<ClassEditor>.value(
       value: editor,
-      child: Scaffold(
-        body: ClassEditorShortcuts(
-          onSave: onSavePressed,
-          child: const ClassEditorBody(),
+      child: ClassEditorConstraints(
+        child: Scaffold(
+          body: ClassEditorShortcuts(
+            onSave: onSavePressed,
+            child: const ClassEditorBody(),
+          ),
+          persistentFooterButtons: [
+            TextButton(
+              onPressed: navigator.closeClassEditor,
+              child: Text(l10n.cancelButtonText),
+            ),
+            FilledButton(
+              onPressed: onSavePressed,
+              child: Text(l10n.saveButtonText),
+            ),
+            const ClassEditorFullscreenToggleButton(),
+          ],
         ),
-        persistentFooterButtons: [
-          TextButton(
-            onPressed: navigator.closeClassEditor,
-            child: Text(l10n.cancelButtonText),
-          ),
-          FilledButton(
-            onPressed: onSavePressed,
-            child: Text(l10n.saveButtonText),
-          ),
-        ],
       ),
     );
   }
@@ -68,6 +72,26 @@ class _ClassEditorScreenState extends State<ClassEditorScreen> {
     } finally {
       navigator.closeClassEditor();
     }
+  }
+}
+
+class ClassEditorConstraints extends StatelessWidget {
+  const ClassEditorConstraints({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final isFullscreen = context.select<SettingsController, bool>(
+      (settings) => settings.classEditorFullscreen,
+    );
+    return Align(
+      alignment: AlignmentDirectional.centerEnd,
+      child: SizedBox(
+        width: isFullscreen ? double.infinity : 600,
+        child: child,
+      ),
+    );
   }
 }
 
@@ -112,5 +136,25 @@ class ClassEditorBody extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class ClassEditorFullscreenToggleButton extends StatelessWidget {
+  const ClassEditorFullscreenToggleButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    if (MediaQuery.sizeOf(context).width >= 600) {
+      final isFullscreen = context.select<SettingsController, bool>(
+        (settings) => settings.classEditorFullscreen,
+      );
+      return IconButton(
+        onPressed: () => context
+            .read<SettingsController>()
+            .updateClassEditorFullscreen(!isFullscreen),
+        icon: Icon(isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen),
+      );
+    }
+    return const SizedBox.shrink();
   }
 }

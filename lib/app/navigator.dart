@@ -15,9 +15,11 @@ void pop<T extends Object?>([T? result]) {
 void closeClassEditor() => pop();
 
 void showClassEditor({int? classId, int? parentId}) {
-  navigatorKey.currentState!.push(MaterialPageRoute<void>(
+  showDialog<void>(
+    context: navigatorKey.currentContext!,
+    barrierDismissible: false,
     builder: (_) => ClassEditorScreen(classId: classId, parentId: parentId),
-  ));
+  );
 }
 
 void showInstitutionCodeEditor(SettingsController settings) {

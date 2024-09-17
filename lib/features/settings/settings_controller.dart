@@ -7,6 +7,7 @@ class SettingsController with ChangeNotifier {
   SettingsController(this._box) {
     _institutionCode = _get<String?>('codearq') ?? defaultInstitutionCode;
     _darkMode = _get<bool?>('darkMode');
+    _classEditorFullscreen = _get<bool?>('ClassEditor.fullscreen');
   }
 
   final Box<Object> _box;
@@ -18,6 +19,9 @@ class SettingsController with ChangeNotifier {
 
   bool? get darkMode => _darkMode;
   bool? _darkMode;
+
+  bool get classEditorFullscreen => _classEditorFullscreen ?? true;
+  bool? _classEditorFullscreen;
 
   void updateInstitutionCode(String value) {
     value = value.trim();
@@ -34,5 +38,12 @@ class SettingsController with ChangeNotifier {
     _darkMode = value;
     notifyListeners();
     value == null ? _box.delete('darkMode') : _box.put('darkMode', value);
+  }
+
+  void updateClassEditorFullscreen(bool value) {
+    if (value == classEditorFullscreen) return;
+    _classEditorFullscreen = value;
+    notifyListeners();
+    _box.put('ClassEditor.fullscreen', value);
   }
 }
