@@ -108,7 +108,6 @@ class ClassEditorBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClassEditorBreadcrumbs(),
-          SizedBox(height: 16),
           EarqBrasilForm(),
         ],
       ),

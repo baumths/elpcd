@@ -32,25 +32,28 @@ class ClassEditorBreadcrumbs extends StatelessWidget {
 
     return DefaultTextStyle(
       style: theme.textTheme.titleSmall!,
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          Text(institutionCode),
-          separator,
-          for (int index = 0; index < breadcrumbs.length * 2 - 1; index++)
-            index.isEven ? Text(breadcrumbs[index ~/ 2]) : separator,
-          if (code != null && code.isNotEmpty) ...[
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            Text(institutionCode),
             separator,
-            Text(
-              code,
-              style: TextStyle(
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.bold,
+            for (int index = 0; index < breadcrumbs.length * 2 - 1; index++)
+              index.isEven ? Text(breadcrumbs[index ~/ 2]) : separator,
+            if (code != null && code.isNotEmpty) ...[
+              separator,
+              Text(
+                code,
+                style: TextStyle(
+                  color: theme.colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
