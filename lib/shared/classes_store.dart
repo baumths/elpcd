@@ -1,10 +1,14 @@
 import 'dart:async' show StreamSubscription;
 
-import 'package:flutter/foundation.dart' show ChangeNotifier;
+import 'package:flutter/foundation.dart' show ChangeNotifier, ValueNotifier;
 import 'package:stream_transform/stream_transform.dart' show RateLimit;
 
 import '../entities/classe.dart';
 import '../repositories/classes_repository.dart';
+
+class OpenClassNotifier extends ValueNotifier<int?> {
+  OpenClassNotifier() : super(null);
+}
 
 class ClassesStore with ChangeNotifier {
   ClassesStore({required ClassesRepository repository})

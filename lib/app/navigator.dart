@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../shared/dialogs.dart';
 import '../features/class_editor/class_editor_screen.dart';
 import '../features/settings/institution_code.dart';
 import '../features/settings/settings_controller.dart';
 import '../features/temporality_table/temporality_table.dart';
+import '../shared/classes_store.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -12,9 +14,13 @@ void pop<T extends Object?>([T? result]) {
   navigatorKey.currentState!.pop<T>(result);
 }
 
-void closeClassEditor() => pop();
+void closeClassEditor() {
+  pop();
+  navigatorKey.currentContext!.read<OpenClassNotifier>().value = null;
+}
 
 void showClassEditor({int? classId, int? parentId}) {
+  navigatorKey.currentContext!.read<OpenClassNotifier>().value = classId;
   showDialog<void>(
     context: navigatorKey.currentContext!,
     barrierDismissible: false,

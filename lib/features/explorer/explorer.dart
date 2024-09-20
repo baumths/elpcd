@@ -152,6 +152,7 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final controller = context.read<ClassesTreeViewController>();
+    final openClassId = context.watch<OpenClassNotifier>().value;
 
     return TreeView(
       tree: widget.tree,
@@ -166,12 +167,17 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
         return TreeRow(
           extent: const FixedSpanExtent(40),
           cursor: SystemMouseCursors.click,
-          onEnter: (_) => onCursorEnter(node.content.id),
-          onExit: (_) => onCursorExit(node.content.id),
+          onEnter: (_) => setState(() => hoveredClassId = node.content.id),
+          onExit: (_) => setState(() => hoveredClassId = null),
           recognizerFactories: gesturesOf(node.content.id),
-          backgroundDecoration: hoveredClassId == node.content.id
-              ? SpanDecoration(color: theme.hoverColor)
-              : null,
+          backgroundDecoration: SpanDecoration(
+            color: openClassId == node.content.id
+                ? theme.colorScheme.secondaryContainer
+                : null,
+          ),
+          foregroundDecoration: SpanDecoration(
+            color: hoveredClassId == node.content.id ? theme.hoverColor : null,
+          ),
         );
       },
       onNodeToggle: (TreeViewNode<Classe> node) {
@@ -191,21 +197,6 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
     return _gestureRecognizers[classId] ??= {
       TapGestureRecognizer: TreeViewTapGestureRecognizer(classId),
     };
-  }
-
-  void onCursorEnter(int? id) {
-    if (id == hoveredClassId) return;
-    setState(() {
-      hoveredClassId = id;
-    });
-  }
-
-  void onCursorExit(int? id) {
-    if (id == hoveredClassId) {
-      setState(() {
-        hoveredClassId = null;
-      });
-    }
   }
 }
 

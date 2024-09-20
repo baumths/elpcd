@@ -25,6 +25,7 @@ Future<void> main() async {
             repository: context.read<ClassesRepository>(),
           ),
         ),
+        ChangeNotifierProvider(create: (_) => OpenClassNotifier()),
         Provider(create: (_) => ClassesTreeViewController()),
         ChangeNotifierProvider(create: (_) => SettingsController(settingsBox)),
       ],
