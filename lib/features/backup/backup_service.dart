@@ -18,8 +18,8 @@ abstract class BackupService {
             <String, Object?>{
               'id': clazz.id,
               if (clazz.parentId != Classe.rootId) 'parentId': clazz.parentId,
-              'code': clazz.code,
-              'name': clazz.name,
+              if (clazz.code.isNotEmpty) 'code': clazz.code,
+              if (clazz.name.isNotEmpty) 'name': clazz.name,
               if (clazz.metadata.isNotEmpty) 'metadata': clazz.metadata,
             }
       ],
