@@ -3,7 +3,7 @@
 ### Features
 
 - Retention and Disposal table visualization
-- Implemented a basic Search feature that can find classes by code and name
+- Search for classes by code and name
 - I18n (Internationalization) setup. The app is now available in Portuguese,
   English and Spanish. The language is automatically detected based on the
   users' system configuration.
@@ -25,12 +25,12 @@
   _1_ instead of _-1_. This fixes a bug where a class whose _parentId_ is _0_
   would be imported by AtoM as a top level description, breaking the hierarchy.
 - Added a new app logo & loading screen
+- Updated the app theme to use Material 3
 
 ### Dependencies
 
-- Upgraded Dart & Flutter to the latest versions (Dart 3.5.2 & Flutter 3.24.2)
+- Upgraded Dart & Flutter to the latest versions (Dart 3.5 & Flutter 3.24)
 - Upgraded most dependencies to the latest versions available
-- Updated the app theme to use Material 3
 - Switched the library that provides the TreeView widget to a newer one
   maintained by the Flutter team.
 
