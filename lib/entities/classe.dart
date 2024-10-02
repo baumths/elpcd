@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'classe.g.dart';
 
 @HiveType(typeId: 0)
-class Classe extends HiveObject {
+class Classe extends HiveObject implements Comparable<Classe> {
   static const rootId = -1;
 
   Classe({
@@ -41,6 +41,13 @@ class Classe extends HiveObject {
 
   @HiveField(5)
   Map<String, String> metadata;
+
+  @override
+  int compareTo(Classe other) {
+    final value = code.compareTo(other.code);
+    if (value == 0) return name.compareTo(other.name);
+    return value;
+  }
 
   @override
   String toString() {

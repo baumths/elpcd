@@ -4,13 +4,15 @@ import '../entities/classe.dart';
 import '../localization.dart';
 
 class ClassTitle extends StatelessWidget {
-  const ClassTitle({super.key, required this.clazz});
+  const ClassTitle({super.key, required this.clazz, this.textStyle});
 
   final Classe clazz;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
     return Text.rich(
+      style: textStyle,
       TextSpan(
         children: <InlineSpan>[
           if (clazz.code.isNotEmpty) ...[

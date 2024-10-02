@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
@@ -57,6 +56,10 @@ class _ClassesExplorerState extends State<ClassesExplorer> {
   List<TreeViewNode<Classe>> buildTree() {
     final controller = context.read<ClassesTreeViewController>();
 
+    int compareNodes(TreeViewNode<Classe> a, TreeViewNode<Classe> b) {
+      return a.content.compareTo(b.content);
+    }
+
     List<TreeViewNode<Classe>>? traverse(int? id) {
       return widget.classesStore.getSubclasses(id)?.map((Classe clazz) {
         return TreeViewNode<Classe>(
@@ -69,11 +72,6 @@ class _ClassesExplorerState extends State<ClassesExplorer> {
     }
 
     return traverse(Classe.rootId) ?? <TreeViewNode<Classe>>[];
-  }
-
-  int compareNodes(TreeViewNode<Classe> a, TreeViewNode<Classe> b) {
-    return (a.content.code + a.content.name)
-        .compareTo(b.content.code + b.content.name);
   }
 }
 
@@ -132,30 +130,20 @@ class ClassesTreeViewController {
   }
 }
 
-class ClassesTreeView extends StatefulWidget {
+class ClassesTreeView extends StatelessWidget {
   const ClassesTreeView({super.key, required this.tree});
 
   final List<TreeViewNode<Classe>> tree;
 
   static const Curve defaultAnimationCurve = Easing.standard;
-  static const Duration defaultAnimationDuration = Durations.medium2;
-
-  @override
-  State<ClassesTreeView> createState() => _ClassesTreeViewState();
-}
-
-class _ClassesTreeViewState extends State<ClassesTreeView> {
-  final Map<int, Map<Type, GestureRecognizerFactory>> _gestureRecognizers = {};
-  int? hoveredClassId;
+  static const Duration defaultAnimationDuration = Durations.short4;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final controller = context.read<ClassesTreeViewController>();
-    final openClassId = context.watch<OpenClassNotifier>().value;
 
     return TreeView(
-      tree: widget.tree,
+      tree: tree,
       controller: controller.treeController,
       treeNodeBuilder: (_, TreeViewNode<Classe> node, __) {
         return ClassesTreeViewNode(
@@ -163,55 +151,17 @@ class _ClassesTreeViewState extends State<ClassesTreeView> {
           node: node,
         );
       },
-      treeRowBuilder: (TreeViewNode<Classe> node) {
-        return TreeRow(
-          extent: const FixedSpanExtent(40),
-          cursor: SystemMouseCursors.click,
-          onEnter: (_) => setState(() => hoveredClassId = node.content.id),
-          onExit: (_) => setState(() => hoveredClassId = null),
-          recognizerFactories: gesturesOf(node.content.id),
-          backgroundDecoration: SpanDecoration(
-            color: openClassId == node.content.id
-                ? theme.colorScheme.secondaryContainer
-                : null,
-          ),
-          foregroundDecoration: SpanDecoration(
-            color: hoveredClassId == node.content.id ? theme.hoverColor : null,
-          ),
-        );
-      },
+      treeRowBuilder: (_) => const TreeRow(extent: FixedSpanExtent(40)),
       onNodeToggle: (TreeViewNode<Classe> node) {
         controller.updateExpansionState(node.content.id, node.isExpanded);
       },
       indentation: TreeViewIndentationType.custom(20),
       toggleAnimationStyle: AnimationStyle(
-        curve: ClassesTreeView.defaultAnimationCurve,
-        duration: ClassesTreeView.defaultAnimationDuration,
+        curve: defaultAnimationCurve,
+        duration: defaultAnimationDuration,
       ),
     );
   }
-
-  Map<Type, GestureRecognizerFactory> gesturesOf(int? classId) {
-    if (classId == null) return const {};
-
-    return _gestureRecognizers[classId] ??= {
-      TapGestureRecognizer: TreeViewTapGestureRecognizer(classId),
-    };
-  }
-}
-
-class TreeViewTapGestureRecognizer
-    extends GestureRecognizerFactory<TapGestureRecognizer> {
-  const TreeViewTapGestureRecognizer(this.classId);
-
-  final int? classId;
-
-  @override
-  TapGestureRecognizer constructor() => TapGestureRecognizer();
-
-  @override
-  void initializer(TapGestureRecognizer instance) =>
-      instance..onTap = () => navigator.showClassEditor(classId: classId);
 }
 
 class ClassesTreeViewNode extends StatelessWidget {
@@ -240,9 +190,43 @@ class ClassesTreeViewNode extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: ClassTitle(clazz: node.content),
+          child: ClassesTreeViewNodeTitle(clazz: node.content),
         ),
       ],
+    );
+  }
+}
+
+class ClassesTreeViewNodeTitle extends StatefulWidget {
+  const ClassesTreeViewNodeTitle({super.key, required this.clazz});
+
+  final Classe clazz;
+
+  @override
+  State<ClassesTreeViewNodeTitle> createState() =>
+      _ClassesTreeViewNodeTitleState();
+}
+
+class _ClassesTreeViewNodeTitleState extends State<ClassesTreeViewNodeTitle> {
+  bool isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final isOpen = context.watch<OpenClassNotifier>().value == widget.clazz.id;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => isHovered = true),
+      onExit: (_) => setState(() => isHovered = false),
+      child: GestureDetector(
+        onTap: () => navigator.showClassEditor(classId: widget.clazz.id),
+        child: ClassTitle(
+          clazz: widget.clazz,
+          textStyle: isHovered || isOpen
+              ? const TextStyle(decoration: TextDecoration.underline)
+              : null,
+        ),
+      ),
     );
   }
 }
