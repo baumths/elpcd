@@ -1,3 +1,0 @@
-arb-dir: lib/localization
-template-arb-file: app_pt.arb
-nullable-getter: false
