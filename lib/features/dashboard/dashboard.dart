@@ -7,75 +7,119 @@ import '../../shared/classes_store.dart';
 import '../explorer/explorer.dart';
 import '../explorer/search_classes_button.dart';
 import '../temporality_table/temporality_table.dart';
-import 'drawer.dart';
+import 'controller.dart';
+import 'sidebar.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).appTitle),
-        leading: const OpenDashboardDrawerButton(),
-        actions: const [DashboardActionButtons(), SizedBox(width: 8)],
-        titleSpacing: 0,
-      ),
-      floatingActionButton: const CreateClassFloatingActionButton(),
-      drawer: const DashboardDrawer(),
-      body: ClassesExplorer(
-        classesStore: context.read<ClassesStore>(),
-      ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth >= 1200) {
+          return const Scaffold(
+            body: Row(
+              children: [
+                DashboardSidebar(),
+                Expanded(
+                  child: Column(
+                    children: [
+                      DashboardTopBar(),
+                      Expanded(
+                        child: DashboardBody(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        return Scaffold(
+          body: const DashboardBody(),
+          drawer: const Drawer(child: DashboardSidebarContent()),
+          bottomNavigationBar: const DashboardBottomBar(),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => navigator.showClassEditor(),
+            tooltip: AppLocalizations.of(context).newClassButtonText,
+            child: const Icon(Icons.add),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.endContained,
+        );
+      },
     );
   }
 }
 
-class OpenDashboardDrawerButton extends StatelessWidget {
-  const OpenDashboardDrawerButton({super.key});
+class DashboardTopBar extends StatelessWidget {
+  const DashboardTopBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.segment),
-      tooltip: AppLocalizations.of(context).settingsButtonText,
-      onPressed: () => Scaffold.of(context).openDrawer(),
-    );
-  }
-}
-
-class CreateClassFloatingActionButton extends StatelessWidget {
-  const CreateClassFloatingActionButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton.extended(
-      onPressed: () => navigator.showClassEditor(),
-      icon: const Icon(Icons.add),
-      label: Text(
-        AppLocalizations.of(context).newClassButtonText.toUpperCase(),
-      ),
-    );
-  }
-}
-
-class DashboardActionButtons extends StatelessWidget {
-  const DashboardActionButtons({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final bool hasClasses = context.select<ClassesStore, bool>(
-      (ClassesStore store) => !store.isEmpty,
-    );
-
-    if (hasClasses) {
-      return const Row(
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        spacing: 8,
         children: [
-          ShowTemporalityTableIconButton(),
+          IconButton(
+            icon: const RotatedBox(
+              quarterTurns: 2,
+              child: Icon(Icons.view_sidebar_outlined),
+            ),
+            onPressed: () {
+              context.read<DashboardController>().toggleSidebar();
+            },
+          ),
+          const Spacer(),
+          const SearchClassesButton(),
+          IconButton.filledTonal(
+            onPressed: () => navigator.showClassEditor(),
+            tooltip: AppLocalizations.of(context).newClassButtonText,
+            icon: const Icon(Icons.add),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DashboardBody extends StatelessWidget {
+  const DashboardBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: context.read<DashboardController>().selectedTabNotifier,
+      builder: (BuildContext context, DashboardTab selectedTab, _) {
+        return switch (selectedTab) {
+          DashboardTab.classification => ClassesExplorer(
+              classesStore: context.read<ClassesStore>(),
+            ),
+          DashboardTab.temporality => TemporalityTable(
+              classesStore: context.read<ClassesStore>(),
+            ),
+        };
+      },
+    );
+  }
+}
+
+class DashboardBottomBar extends StatelessWidget {
+  const DashboardBottomBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const BottomAppBar(
+      padding: EdgeInsetsDirectional.only(start: 16, end: 8),
+      child: Row(
+        spacing: 8,
+        children: [
+          DrawerButton(),
           SearchClassesButton(),
         ],
-      );
-    }
-
-    return const SizedBox.shrink();
+      ),
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'app/app.dart';
 import 'entities/classe.dart';
+import 'features/dashboard/controller.dart';
 import 'features/explorer/explorer.dart';
 import 'features/settings/settings_controller.dart';
 import 'repositories/classes_repository.dart';
@@ -27,6 +28,10 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(create: (_) => OpenClassNotifier()),
         Provider(create: (_) => ClassesTreeViewController()),
+        Provider(
+          create: (_) => DashboardController(),
+          dispose: (_, controller) => controller.dispose(),
+        ),
         ChangeNotifierProvider(create: (_) => SettingsController(settingsBox)),
       ],
       child: const ElPCDApp(),
