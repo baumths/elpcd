@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
-import 'package:vector_graphics/vector_graphics.dart';
 
 import '../../../app/navigator.dart' as navigator;
 import '../../../entities/classe.dart';
@@ -89,13 +89,11 @@ class EmptyExplorer extends StatelessWidget {
           children: [
             SizedBox.square(
               dimension: 128,
-              child: VectorGraphic(
+              child: Image.asset(
+                'assets/create-new-folder.png',
                 width: 128,
-                loader: const AssetBytesLoader('assets/create-new-folder.svg'),
-                colorFilter: ColorFilter.mode(
-                  theme.colorScheme.onSurface,
-                  BlendMode.srcIn,
-                ),
+                color: theme.colorScheme.onSurface,
+                colorBlendMode: BlendMode.srcIn,
               ),
             ),
             const SizedBox(height: 24),
@@ -249,7 +247,7 @@ class ClassActionsMenuButton extends StatelessWidget {
       return MenuAnchor(
         builder: (BuildContext context, MenuController menu, _) {
           return IconButton(
-            icon: const Icon(Icons.more_vert),
+            icon: const Icon(LucideIcons.ellipsisVertical),
             onPressed: () => menu.isOpen ? menu.close() : menu.open(),
           );
         },
@@ -259,12 +257,12 @@ class ClassActionsMenuButton extends StatelessWidget {
               ensureExpanded(context);
               onAddSubordinateClassPressed();
             },
-            leadingIcon: const Icon(Icons.add),
+            leadingIcon: const Icon(LucideIcons.plus),
             child: Text(l10n.newSubordinateClassButtonText),
           ),
           MenuItemButton(
             onPressed: canDelete ? () => onDeletePressed(l10n, store) : null,
-            leadingIcon: const Icon(Icons.delete),
+            leadingIcon: const Icon(LucideIcons.trash2),
             child: Text(l10n.deleteButtonText),
           ),
         ],
@@ -272,7 +270,7 @@ class ClassActionsMenuButton extends StatelessWidget {
     }
 
     return IconButton(
-      icon: const Icon(Icons.more_vert),
+      icon: const Icon(LucideIcons.ellipsisVertical),
       onPressed: () {
         showModalBottomSheet<void>(
           context: context,
@@ -287,7 +285,7 @@ class ClassActionsMenuButton extends StatelessWidget {
                     Navigator.pop(context);
                     onAddSubordinateClassPressed();
                   },
-                  leadingIcon: const Icon(Icons.add),
+                  leadingIcon: const Icon(LucideIcons.plus),
                   child: Text(l10n.newSubordinateClassButtonText),
                 ),
                 MenuItemButton(
@@ -297,7 +295,7 @@ class ClassActionsMenuButton extends StatelessWidget {
                           onDeletePressed(l10n, store);
                         }
                       : null,
-                  leadingIcon: const Icon(Icons.delete),
+                  leadingIcon: const Icon(LucideIcons.trash2),
                   child: Text(l10n.deleteButtonText),
                 ),
               ],

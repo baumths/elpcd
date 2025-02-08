@@ -65,8 +65,7 @@ class _TemporalityTableState extends State<TemporalityTable> {
         extent: columnExtends[index],
         backgroundDecoration: SpanDecoration(
           border: SpanBorder(
-            leading: index == 0 ? borderSide : BorderSide.none,
-            trailing: borderSide,
+            trailing: index < 4 ? borderSide : BorderSide.none,
           ),
         ),
       ),
@@ -74,10 +73,7 @@ class _TemporalityTableState extends State<TemporalityTable> {
         extent: const FixedSpanExtent(48),
         backgroundDecoration: SpanDecoration(
           color: index < 2 ? theme.colorScheme.surfaceContainer : null,
-          border: SpanBorder(
-            leading: index == 0 ? borderSide : BorderSide.none,
-            trailing: borderSide,
-          ),
+          border: SpanBorder(trailing: borderSide),
         ),
       ),
       cellBuilder: (BuildContext context, TableVicinity vicinity) {

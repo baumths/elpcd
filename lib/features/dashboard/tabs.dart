@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../localization.dart';
@@ -27,14 +28,14 @@ class DashboardTabList extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             DashboardTabTile(
-              icon: Icons.segment,
+              icon: LucideIcons.listTree,
               label: l10n.dashboardTabClassificationSchemeLabel,
               isSelected: selectedTab == DashboardTab.classification,
               onPressed: () => selectTab(DashboardTab.classification),
             ),
             const SizedBox(height: 4),
             DashboardTabTile(
-              icon: Icons.table_chart_outlined,
+              icon: LucideIcons.table2,
               label: l10n.dashboardTabTemporalityTableLabel,
               isSelected: selectedTab == DashboardTab.temporality,
               onPressed: () => selectTab(DashboardTab.temporality),

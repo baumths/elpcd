@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/navigator.dart' as navigator;
@@ -152,7 +153,7 @@ class ClassEditorFullscreenToggleButton extends StatelessWidget {
         onPressed: () => context
             .read<SettingsController>()
             .updateClassEditorFullscreen(!isFullscreen),
-        icon: Icon(isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen),
+        icon: Icon(isFullscreen ? LucideIcons.minimize : LucideIcons.maximize),
       );
     }
     return const SizedBox.shrink();

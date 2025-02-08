@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../localization.dart';
@@ -14,9 +15,9 @@ class DarkModeSwitchIconButton extends StatelessWidget {
     );
 
     final (icon, nextValue) = switch (darkMode) {
-      null => (Icons.settings_brightness, true),
-      true => (Icons.dark_mode_outlined, false),
-      false => (Icons.light_mode_outlined, null),
+      null => (LucideIcons.sunMoon, true),
+      true => (LucideIcons.moon, false),
+      false => (LucideIcons.sun, null),
     };
 
     return IconButton(

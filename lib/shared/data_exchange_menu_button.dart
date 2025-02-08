@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../localization.dart';
 import 'data_exchange_handlers.dart';
@@ -14,18 +15,17 @@ class DataExchangeMenuButton extends StatelessWidget {
       menuChildren: [
         MenuItemButton(
           onPressed: () => handleAtomIsadCsvExport(context),
-          leadingIcon: const Icon(Icons.north_east),
+          leadingIcon: const Icon(LucideIcons.arrowUpRight),
           child: Text(l10n.exportAtomIsadCsvButtonText),
         ),
-        const Divider(),
         MenuItemButton(
           onPressed: () => handleJsonBackupExport(context),
-          leadingIcon: const Icon(Icons.cloud_upload_outlined),
+          leadingIcon: const Icon(LucideIcons.cloudUpload),
           child: Text(l10n.exportBackupButtonText),
         ),
         MenuItemButton(
           onPressed: () => handleJsonBackupImport(context),
-          leadingIcon: const Icon(Icons.cloud_download_outlined),
+          leadingIcon: const Icon(LucideIcons.cloudDownload),
           child: Text(l10n.importBackupButtonText),
         ),
       ],
@@ -36,7 +36,7 @@ class DataExchangeMenuButton extends StatelessWidget {
           tooltip: l10n.backupSectionTitle,
           icon: const Row(
             children: [
-              Icon(Icons.cloud_sync),
+              Icon(LucideIcons.database, size: 20),
               Icon(Icons.arrow_drop_down_rounded),
             ],
           ),

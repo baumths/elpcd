@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/navigator.dart' as navigator;
@@ -17,12 +18,17 @@ class SearchClassesButton extends StatelessWidget {
       suggestionsBuilder: buildSuggestions,
       builder: (BuildContext context, SearchController controller) {
         return IconButton(
-          icon: const Icon(Icons.search),
+          icon: const Icon(LucideIcons.search),
           onPressed: controller.openView,
           tooltip: AppLocalizations.of(context).searchClassesButtonText,
           style: style,
         );
       },
+      viewLeading: IconButton(
+        onPressed: () => Navigator.of(context).pop(),
+        icon: const Icon(LucideIcons.arrowLeft),
+        tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+      ),
       viewConstraints: const BoxConstraints(minWidth: 600, minHeight: 400),
       viewShape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(6)),
@@ -47,7 +53,7 @@ class SearchClassesButton extends StatelessWidget {
     return classes.map((clazz) {
       return ListTile(
         title: ClassTitle(clazz: clazz),
-        trailing: const Icon(Icons.arrow_forward),
+        trailing: const Icon(LucideIcons.arrowRight),
         onTap: () {
           controller.closeView(null);
           navigator.showClassEditor(classId: clazz.id);

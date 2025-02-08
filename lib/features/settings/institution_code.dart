@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/navigator.dart' as navigator;
@@ -19,7 +20,7 @@ class InstitutionCodeListTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 4),
         child: Text(code),
       ),
-      trailing: const Icon(Icons.edit),
+      trailing: const Icon(LucideIcons.pencil, size: 20),
       onTap: () => navigator.showInstitutionCodeEditor(
         context.read<SettingsController>(),
       ),
@@ -66,7 +67,7 @@ class _InstitutionCodeEditorState extends State<InstitutionCodeEditor> {
       child: Row(
         children: [
           IconButton(
-            icon: const Icon(Icons.close),
+            icon: const Icon(LucideIcons.x),
             tooltip: l10n.cancelButtonText,
             onPressed: widget.onDismissed,
           ),

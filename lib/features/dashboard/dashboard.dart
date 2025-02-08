@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../../app/navigator.dart' as navigator;
@@ -26,6 +27,7 @@ class Dashboard extends StatelessWidget {
                   child: Column(
                     children: [
                       DashboardTopBar(),
+                      Divider(height: 0),
                       Expanded(
                         child: DashboardBody(),
                       ),
@@ -40,10 +42,10 @@ class Dashboard extends StatelessWidget {
           body: const DashboardBody(),
           drawer: const Drawer(child: DashboardSidebarContent()),
           bottomNavigationBar: const DashboardBottomBar(),
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: IconButton.filledTonal(
             onPressed: () => navigator.showClassEditor(),
             tooltip: AppLocalizations.of(context).newClassButtonText,
-            child: const Icon(Icons.add),
+            icon: const Icon(LucideIcons.plus),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.endContained,
@@ -58,28 +60,28 @@ class DashboardTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Row(
-        spacing: 8,
-        children: [
-          IconButton(
-            icon: const RotatedBox(
-              quarterTurns: 2,
-              child: Icon(Icons.view_sidebar_outlined),
+    return ColoredBox(
+      color: Theme.of(context).colorScheme.surfaceContainer,
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          spacing: 8,
+          children: [
+            IconButton(
+              icon: const Icon(LucideIcons.panelLeft),
+              onPressed: () {
+                context.read<DashboardController>().toggleSidebar();
+              },
             ),
-            onPressed: () {
-              context.read<DashboardController>().toggleSidebar();
-            },
-          ),
-          const Spacer(),
-          const SearchClassesButton(),
-          IconButton.filledTonal(
-            onPressed: () => navigator.showClassEditor(),
-            tooltip: AppLocalizations.of(context).newClassButtonText,
-            icon: const Icon(Icons.add),
-          ),
-        ],
+            const Spacer(),
+            const SearchClassesButton(),
+            IconButton.filledTonal(
+              onPressed: () => navigator.showClassEditor(),
+              tooltip: AppLocalizations.of(context).newClassButtonText,
+              icon: const Icon(LucideIcons.plus),
+            ),
+          ],
+        ),
       ),
     );
   }

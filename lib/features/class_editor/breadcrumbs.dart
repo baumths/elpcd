@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:provider/provider.dart';
 
 import '../settings/settings_controller.dart';
@@ -8,7 +9,7 @@ import 'earq_brasil_metadata.dart';
 class ClassEditorBreadcrumbs extends StatelessWidget {
   const ClassEditorBreadcrumbs({super.key});
 
-  static const Widget separator = Icon(Icons.chevron_right, size: 20);
+  static const Widget separator = Icon(LucideIcons.chevronRight, size: 20);
 
   @override
   Widget build(BuildContext context) {

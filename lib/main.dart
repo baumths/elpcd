@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'app/app.dart';
+import 'app/app_info.dart';
 import 'entities/classe.dart';
 import 'features/dashboard/controller.dart';
 import 'features/explorer/explorer.dart';
@@ -11,9 +12,11 @@ import 'repositories/classes_repository.dart';
 import 'shared/classes_store.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupAppInfo();
+
   await Hive.initFlutter('.elpcd_database');
   Hive.registerAdapter<Classe>(ClasseAdapter());
-
   final classesBox = await Hive.openBox<Classe>('classes');
   final settingsBox = await Hive.openBox<Object>('settings');
 
