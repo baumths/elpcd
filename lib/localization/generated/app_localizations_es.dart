@@ -10,7 +10,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get actionCannotBeUndoneWarning => 'Esta acción no podrá ser deshecha';
 
   @override
-  String get appTitle => 'El PCD';
+  String get appTitle => 'ElPCD';
 
   @override
   String get areYouSureDialogTitle => '¿Está seguro?';

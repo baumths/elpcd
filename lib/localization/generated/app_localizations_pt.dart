@@ -10,7 +10,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionCannotBeUndoneWarning => 'Essa ação não poderá ser desfeita';
 
   @override
-  String get appTitle => 'El PCD';
+  String get appTitle => 'ElPCD';
 
   @override
   String get areYouSureDialogTitle => 'Tem certeza?';

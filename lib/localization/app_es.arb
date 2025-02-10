@@ -1,6 +1,6 @@
 {
   "actionCannotBeUndoneWarning": "Esta acción no podrá ser deshecha",
-  "appTitle": "El PCD",
+  "appTitle": "ElPCD",
   "areYouSureDialogTitle": "¿Está seguro?",
   "backupImportFailureText": "No fue posible realizar la importación",
   "backupImportFormatExceptionText": "Formato inválido",

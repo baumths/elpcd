@@ -20,7 +20,7 @@
   away.
 - The CSV export file now includes an _archivistNote_ column with an entry for
   the Fonds row which states that the classification scheme was created on the
-  El PCD software.
+  ElPCD software.
 - The columns _legacyId_ and _parentId_ of the CSV export file now start from
   _1_ instead of _-1_. This fixes a bug where a class whose _parentId_ is _0_
   would be imported by AtoM as a top level description, breaking the hierarchy.

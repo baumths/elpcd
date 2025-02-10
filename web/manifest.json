@@ -1,6 +1,6 @@
 {
     "name": "Elaborador de PCDs",
-    "short_name": "El PCD",
+    "short_name": "ElPCD",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0E1830",

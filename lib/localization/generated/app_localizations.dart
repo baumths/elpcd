@@ -106,7 +106,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In pt, this message translates to:
-  /// **'El PCD'**
+  /// **'ElPCD'**
   String get appTitle;
 
   /// No description provided for @areYouSureDialogTitle.

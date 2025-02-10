@@ -1,6 +1,6 @@
-<p align="center"><a href="https://elpcd.github.io"><img src="assets/elpcd-icon.png" alt="El PCD Logo" width="128px" height="128px"></img></a></p><br/>
+<p align="center"><a href="https://elpcd.github.io"><img src="assets/elpcd-icon.png" alt="ElPCD Logo" width="128px" height="128px"></img></a></p><br/>
 
-**_El_ PCD** - _Elaborador_ de Planos de Classificação de Documentos
+**_El_PCD** - _Elaborador_ de Planos de Classificação de Documentos
 
 O objetivo é que além de um software para a elaboração e gerenciamento de PCDs
 e TTDs, tenhamos a possibilidade de interoperabilizar estes instrumentos
