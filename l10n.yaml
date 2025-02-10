@@ -1,3 +1,6 @@
 arb-dir: lib/localization
 template-arb-file: app_pt.arb
 nullable-getter: false
+synthetic-package: false
+output-dir: lib/localization/generated
+untranslated-messages-file: lib/localization/generated/app_unstranslated.json

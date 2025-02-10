@@ -1,1 +1,1 @@
-export 'package:flutter_gen/gen_l10n/app_localizations.dart';
+export 'localization/generated/app_localizations.dart';
