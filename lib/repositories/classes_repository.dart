@@ -1,12 +1,8 @@
-import 'package:hive/hive.dart';
+import 'dart:async' show StreamController;
 
 import '../entities/classe.dart';
 
-class ClassesRepository {
-  ClassesRepository(this._box);
-
-  final Box<Classe> _box;
-
+abstract class ClassesRepository {
   String buildReferenceCode(int classId) {
     Classe? current = getClassById(classId);
 
@@ -22,29 +18,58 @@ class ClassesRepository {
     return (StringBuffer()..writeAll(codes.reversed, '-')).toString();
   }
 
-  Future<void> delete(Classe classe) async => classe.delete();
+  Future<void> delete(Classe classe);
 
+  Future<void> clear();
+
+  Classe? getClassById(int id);
+
+  Iterable<Classe> getAllClasses();
+
+  Future<void> insertAll(Map<int, Classe> classes);
+
+  Future<void> save(Classe classe);
+
+  Stream<Iterable<Classe>> watchAllClasses();
+}
+
+class InMemoryClassesRepository extends ClassesRepository {
+  final Map<int, Classe> memory = {};
+  int _autoIncrement = 0;
+
+  final _streamController = StreamController<List<Classe>>.broadcast();
+
+  @override
   Future<void> clear() async {
-    await _box.clear();
-    await _box.compact();
+    memory.clear();
+    _streamController.add(memory.values.toList());
   }
 
-  Classe? getClassById(int id) => _box.get(id);
+  @override
+  Future<void> delete(Classe classe) async {
+    memory.remove(classe.id);
+    _streamController.add(memory.values.toList());
+  }
 
-  Iterable<Classe> getAllClasses() => _box.values;
+  @override
+  Iterable<Classe> getAllClasses() => memory.values;
 
-  Future<void> insertAll(Map<int, Classe> classes) => _box.putAll(classes);
+  @override
+  Classe? getClassById(int id) => memory[id];
 
+  @override
+  Future<void> insertAll(Map<int, Classe> classes) async {
+    memory.addAll(classes);
+    _streamController.add(memory.values.toList());
+  }
+
+  @override
   Future<void> save(Classe classe) async {
-    final isUpdating = _box.containsKey(classe.id);
-    if (!isUpdating) {
-      final id = await _box.add(classe);
-      classe.id = id;
-    }
-    await classe.save();
+    classe.id ??= _autoIncrement++;
+    memory[classe.id!] = classe;
+    _streamController.add(memory.values.toList());
   }
 
-  Stream<Iterable<Classe>> watchAllClasses() {
-    return _box.watch().map((_) => _box.values);
-  }
+  @override
+  Stream<List<Classe>> watchAllClasses() => _streamController.stream;
 }

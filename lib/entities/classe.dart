@@ -1,9 +1,4 @@
-import 'package:hive/hive.dart';
-
-part 'classe.g.dart';
-
-@HiveType(typeId: 0)
-class Classe extends HiveObject implements Comparable<Classe> {
+class Classe implements Comparable<Classe> {
   static const rootId = -1;
 
   Classe({
@@ -27,19 +22,10 @@ class Classe extends HiveObject implements Comparable<Classe> {
         metadata: <String, String>{},
       );
 
-  @HiveField(0)
   int? id;
-
-  @HiveField(1)
   int parentId;
-
-  @HiveField(2)
   String name;
-
-  @HiveField(3)
   String code;
-
-  @HiveField(5)
   Map<String, String> metadata;
 
   @override

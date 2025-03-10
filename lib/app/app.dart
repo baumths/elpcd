@@ -1,34 +1,93 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../localization.dart';
-import '../features/dashboard/dashboard.dart';
+import '../data/hive/hive_database.dart';
+import '../data/key_value_store.dart';
+import '../entities/classe.dart';
+import '../features/dashboard/controller.dart';
+import '../features/explorer/explorer.dart';
 import '../features/settings/settings_controller.dart';
-import 'app_theme.dart';
-import 'navigator.dart';
+import '../repositories/classes_repository.dart';
+import '../shared/classes_store.dart';
+import 'app_info.dart';
+import 'app_view.dart';
 
-class ElPCDApp extends StatelessWidget {
-  const ElPCDApp({super.key});
+class ElpcdApp extends StatefulWidget {
+  const ElpcdApp({super.key});
+
+  @override
+  State<ElpcdApp> createState() => _ElpcdAppState();
+}
+
+class _ElpcdAppState extends State<ElpcdApp> {
+  late final ClassesRepository classesRepository;
+  late final KeyValueStore settingsStore;
+
+  bool isBootstrapping = true;
+
+  @override
+  void initState() {
+    super.initState();
+    bootstrap();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final darkMode = context.select<SettingsController, bool?>(
-      (controller) => controller.darkMode,
+    if (isBootstrapping) return const SizedBox();
+
+    return MultiProvider(
+      providers: [
+        Provider<ClassesRepository>.value(value: classesRepository),
+        ChangeNotifierProvider(
+          create: (_) => ClassesStore(repository: classesRepository),
+        ),
+        ChangeNotifierProvider(create: (_) => OpenClassNotifier()),
+        Provider(create: (_) => ClassesTreeViewController()),
+        Provider(
+          create: (_) => DashboardController(),
+          dispose: (_, controller) => controller.dispose(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SettingsController(settingsStore),
+        ),
+      ],
+      child: const ElpcdAppView(),
     );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: createAppThemeWithBrightness(Brightness.light),
-      darkTheme: createAppThemeWithBrightness(Brightness.dark),
-      themeMode: switch (darkMode) {
-        true => ThemeMode.dark,
-        false => ThemeMode.light,
-        null => ThemeMode.system,
-      },
-      supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      navigatorKey: navigatorKey,
-      home: const Dashboard(),
-    );
+  }
+
+  Future<void> bootstrap() async {
+    await setupDependencies();
+
+    await migrateDataFromLegacyHiveDatabase();
+
+    setupAppInfo();
+
+    setState(() {
+      isBootstrapping = false;
+    });
+  }
+
+  Future<void> setupDependencies() async {
+    classesRepository = InMemoryClassesRepository();
+    settingsStore = InMemoryKeyValueStore();
+  }
+
+  Future<void> migrateDataFromLegacyHiveDatabase() async {
+    final classes = await HiveDatabase.extractClasses();
+
+    if (classes == null || classes.isEmpty) {
+      return;
+    }
+
+    classesRepository.insertAll({
+      for (final clazz in classes)
+        if (clazz.id case final int classId?)
+          classId: Classe(
+            parentId: clazz.parentId,
+            name: clazz.name,
+            code: clazz.code,
+            metadata: clazz.metadata,
+          )..id = classId,
+    });
   }
 }

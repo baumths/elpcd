@@ -1,18 +1,18 @@
-import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
+import 'package:flutter/foundation.dart' show ChangeNotifier;
+
+import '../../data/key_value_store.dart';
 
 const defaultInstitutionCode = 'ElPCD';
 
 class SettingsController with ChangeNotifier {
-  SettingsController(this._box) {
-    _institutionCode = _get<String?>('codearq') ?? defaultInstitutionCode;
-    _darkMode = _get<bool?>('darkMode');
-    _classEditorFullscreen = _get<bool?>('ClassEditor.fullscreen');
+  SettingsController(this._store) {
+    _institutionCode =
+        _store.read<String?>('codearq') ?? defaultInstitutionCode;
+    _darkMode = _store.read<bool?>('darkMode');
+    _classEditorFullscreen = _store.read<bool?>('ClassEditor.fullscreen');
   }
 
-  final Box<Object> _box;
-
-  T _get<T>(String key) => _box.get(key) as T;
+  final KeyValueStore _store;
 
   String get institutionCode => _institutionCode;
   String _institutionCode = defaultInstitutionCode;
@@ -30,20 +30,20 @@ class SettingsController with ChangeNotifier {
     }
     _institutionCode = value.isEmpty ? defaultInstitutionCode : value;
     notifyListeners();
-    _box.put('codearq', institutionCode);
+    _store.write('codearq', institutionCode);
   }
 
   void updateDarkMode(bool? value) {
     if (value == darkMode) return;
     _darkMode = value;
     notifyListeners();
-    value == null ? _box.delete('darkMode') : _box.put('darkMode', value);
+    value == null ? _store.delete('darkMode') : _store.write('darkMode', value);
   }
 
   void updateClassEditorFullscreen(bool value) {
     if (value == classEditorFullscreen) return;
     _classEditorFullscreen = value;
     notifyListeners();
-    _box.put('ClassEditor.fullscreen', value);
+    _store.write('ClassEditor.fullscreen', value);
   }
 }
