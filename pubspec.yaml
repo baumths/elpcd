@@ -23,6 +23,7 @@ dependencies:
   stream_transform: ^2.1.0
   two_dimensional_scrollables: ^0.3.3
   url_launcher: ^6.3.0
+  web: ^1.1.1
 
 dev_dependencies:
   flutter_lints: ^4.0.0
