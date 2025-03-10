@@ -16,7 +16,11 @@ Future<List<ClassFromHive>?> extractClassesFromHive() async {
   } on Object {
     return null;
   } finally {
-    await idb.deleteDatabase('classes');
-    await idb.deleteDatabase('settings');
+    try {
+      await idb.deleteDatabase('classes');
+      await idb.deleteDatabase('settings');
+    } on Object {
+      return null;
+    }
   }
 }
