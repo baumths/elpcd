@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../data/hive/hive_database.dart';
+import '../data/hive/classes_extractor.dart' show extractClassesFromHive;
 import '../data/key_value_store.dart';
 import '../entities/classe.dart';
 import '../features/dashboard/controller.dart';
@@ -73,7 +73,7 @@ class _ElpcdAppState extends State<ElpcdApp> {
   }
 
   Future<void> migrateDataFromLegacyHiveDatabase() async {
-    final classes = await HiveDatabase.extractClasses();
+    final classes = await extractClassesFromHive();
 
     if (classes == null || classes.isEmpty) {
       return;
