@@ -1,3 +1,7 @@
+## [2.1.0]
+
+No functionality changes, UI/UX improvements only.
+
 ## [2.0.0]
 
 ### Features
